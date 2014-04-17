@@ -9,12 +9,14 @@
 #ifndef BOOST_ALIGN_DETAIL_IS_ALIGNMENT_HPP
 #define BOOST_ALIGN_DETAIL_IS_ALIGNMENT_HPP
 
+#include <boost/config.hpp>
 #include <cstddef>
 
 namespace boost {
     namespace alignment {
         namespace detail {
-            inline bool is_alignment(std::size_t value)
+            BOOST_CONSTEXPR inline bool is_alignment(std::size_t
+                value) BOOST_NOEXCEPT
             {
                 return (value > 0) && ((value & (value - 1)) == 0);
             }

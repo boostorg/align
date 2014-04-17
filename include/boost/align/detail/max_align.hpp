@@ -6,18 +6,18 @@
  Version 1.0. (See accompanying file LICENSE_1_0.txt
  or copy at http://boost.org/LICENSE_1_0.txt)
 */
-#ifndef BOOST_ALIGN_DETAIL_IS_POWER_OF_2_HPP
-#define BOOST_ALIGN_DETAIL_IS_POWER_OF_2_HPP
+#ifndef BOOST_ALIGN_DETAIL_MAX_ALIGN_HPP
+#define BOOST_ALIGN_DETAIL_MAX_ALIGN_HPP
 
 #include <cstddef>
 
 namespace boost {
     namespace alignment {
         namespace detail {
-            template<std::size_t N>
-            struct is_power_of_2 {
+            template<std::size_t A, std::size_t B>
+            struct max_align {
                 enum {
-                    value = (N > 0) && ((N & (N - 1)) == 0)
+                    value = (A > B) ? A : B
                 };
             };
         }

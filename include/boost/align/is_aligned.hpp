@@ -11,12 +11,4 @@
 
 #include <boost/align/detail/is_aligned.hpp>
 
-namespace boost {
-    namespace alignment {
-        using detail::is_aligned;
-    }
-
-    using alignment::is_aligned;
-}
-
 #endif

@@ -10,33 +10,33 @@
 #define BOOST_ALIGN_DETAIL_ALIGNED_ALLOC_POSIX_HPP
 
 #include <boost/assert.hpp>
+#include <boost/config.hpp>
 #include <boost/align/detail/is_alignment.hpp>
+#include <cstddef>
 #include <stdlib.h>
 
 namespace boost {
     namespace alignment {
-        namespace detail {
-            inline void* aligned_alloc(std::size_t alignment,
-                std::size_t size)
-            {
-                BOOST_ASSERT(is_alignment(alignment));
-                enum {
-                    VoidSize = sizeof(void*)
-                };
-                if (alignment < VoidSize) {
-                    alignment = VoidSize;
-                }
-                void* p1;
-                if (posix_memalign(&p1, alignment, size) != 0) {
-                    p1 = 0;
-                }
-                return p1;
+        inline void* aligned_alloc(std::size_t alignment,
+            std::size_t size) BOOST_NOEXCEPT
+        {
+            BOOST_ASSERT(detail::is_alignment(alignment));
+            enum {
+                void_size = sizeof(void*)
+            };
+            if (alignment < void_size) {
+                alignment = void_size;
             }
+            void* p;
+            if (::posix_memalign(&p, alignment, size) != 0) {
+                p = 0;
+            }
+            return p;
+        }
 
-            inline void aligned_free(void* ptr)
-            {
-                free(ptr);
-            }
+        inline void aligned_free(void* ptr) BOOST_NOEXCEPT
+        {
+            ::free(ptr);
         }
     }
 }

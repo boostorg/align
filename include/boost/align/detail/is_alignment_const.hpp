@@ -6,18 +6,18 @@
  Version 1.0. (See accompanying file LICENSE_1_0.txt
  or copy at http://boost.org/LICENSE_1_0.txt)
 */
-#ifndef BOOST_ALIGN_DETAIL_MAX_COUNT_OF_HPP
-#define BOOST_ALIGN_DETAIL_MAX_COUNT_OF_HPP
+#ifndef BOOST_ALIGN_DETAIL_IS_ALIGNMENT_CONST_HPP
+#define BOOST_ALIGN_DETAIL_IS_ALIGNMENT_CONST_HPP
 
 #include <cstddef>
 
 namespace boost {
     namespace alignment {
         namespace detail {
-            template<class T>
-            struct max_count_of {
+            template<std::size_t N>
+            struct is_alignment_const {
                 enum {
-                    value = ~static_cast<std::size_t>(0) / sizeof(T)
+                    value = (N > 0) && ((N & (N - 1)) == 0)
                 };
             };
         }

@@ -13,9 +13,7 @@
 
 namespace boost {
     namespace alignment {
-        namespace detail {
-            using std::align;
-        }
+        using std::align;
     }
 }
 

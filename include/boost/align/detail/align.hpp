@@ -12,26 +12,25 @@
 #include <boost/assert.hpp>
 #include <boost/align/detail/address.hpp>
 #include <boost/align/detail/is_alignment.hpp>
+#include <cstddef>
 
 namespace boost {
     namespace alignment {
-        namespace detail {
-            inline void* align(std::size_t alignment, std::size_t size,
-                void*& ptr, std::size_t& space)
-            {
-                BOOST_ASSERT(is_alignment(alignment));
-                std::size_t n1 = address_t(ptr) & (alignment - 1);
-                if (n1 != 0) {
-                    n1 = alignment - n1;
-                }
-                void* p1 = 0;
-                if (n1 <= space && size <= space - n1) {
-                    p1 = static_cast<char*>(ptr) + n1;
-                    ptr = p1;
-                    space -= n1;
-                }
-                return p1;
+        inline void* align(std::size_t alignment, std::size_t size,
+            void*& ptr, std::size_t& space)
+        {
+            BOOST_ASSERT(detail::is_alignment(alignment));
+            std::size_t n = detail::address_t(ptr) & (alignment - 1);
+            if (n != 0) {
+                n = alignment - n;
             }
+            void* p = 0;
+            if (n <= space && size <= space - n) {
+                p = static_cast<char*>(ptr) + n;
+                ptr = p;
+                space -= n;
+            }
+            return p;
         }
     }
 }

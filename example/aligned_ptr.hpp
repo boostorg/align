@@ -13,15 +13,7 @@
 #include <memory>
 
 template<class T>
-struct aligned_delete {
-    void operator()(T* ptr) {
-        ptr->~T();
-        boost::aligned_free(ptr);
-    }
-};
-
-template<class T>
 using aligned_ptr = std::unique_ptr<T,
-    aligned_delete<T> >;
+    boost::aligned_delete>;
 
 #endif

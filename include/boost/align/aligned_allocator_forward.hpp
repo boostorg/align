@@ -6,21 +6,15 @@
  Version 1.0. (See accompanying file LICENSE_1_0.txt
  or copy at http://boost.org/LICENSE_1_0.txt)
 */
-#ifndef BOOST_ALIGN_DETAIL_MAX_SIZE_HPP
-#define BOOST_ALIGN_DETAIL_MAX_SIZE_HPP
+#ifndef BOOST_ALIGN_ALIGNED_ALLOCATOR_FORWARD_HPP
+#define BOOST_ALIGN_ALIGNED_ALLOCATOR_FORWARD_HPP
 
 #include <cstddef>
 
 namespace boost {
     namespace alignment {
-        namespace detail {
-            template<std::size_t A, std::size_t B>
-            struct max_size {
-                enum {
-                    value = (A > B) ? A : B
-                };
-            };
-        }
+        template<class T, std::size_t Alignment = 1>
+        class aligned_allocator;
     }
 }
 

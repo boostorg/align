@@ -37,14 +37,4 @@
 #include <boost/align/detail/aligned_alloc.hpp>
 #endif
 
-namespace boost {
-    namespace alignment {
-        using detail::aligned_alloc;
-        using detail::aligned_free;
-    }
-
-    using alignment::aligned_alloc;
-    using alignment::aligned_free;
-}
-
 #endif
