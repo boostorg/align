@@ -13,6 +13,17 @@
 #include <boost/align/aligned_alloc.hpp>
 #include <boost/align/aligned_allocator.hpp>
 #include <boost/align/aligned_allocator_adaptor.hpp>
+#include <boost/align/aligned_delete.hpp>
 #include <boost/align/is_aligned.hpp>
+
+namespace boost {
+    using alignment::align;
+    using alignment::aligned_alloc;
+    using alignment::aligned_free;
+    using alignment::aligned_allocator;
+    using alignment::aligned_allocator_adaptor;
+    using alignment::aligned_delete;
+    using alignment::is_aligned;
+}
 
 #endif

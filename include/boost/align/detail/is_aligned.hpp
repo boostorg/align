@@ -10,18 +10,18 @@
 #define BOOST_ALIGN_DETAIL_IS_ALIGNED_HPP
 
 #include <boost/assert.hpp>
+#include <boost/config.hpp>
 #include <boost/align/detail/address.hpp>
 #include <boost/align/detail/is_alignment.hpp>
+#include <cstddef>
 
 namespace boost {
     namespace alignment {
-        namespace detail {
-            inline bool is_aligned(std::size_t alignment,
-                const void* ptr)
-            {
-                BOOST_ASSERT(is_alignment(alignment));
-                return (address_t(ptr) & (alignment - 1)) == 0;
-            }
+        inline bool is_aligned(std::size_t alignment, const void*
+            ptr) BOOST_NOEXCEPT
+        {
+            BOOST_ASSERT(detail::is_alignment(alignment));
+            return (detail::address_t(ptr) & (alignment - 1)) == 0;
         }
     }
 }

@@ -45,6 +45,7 @@
     <li><a href="#aligned_free">aligned_free</a></li>
     <li><a href="#aligned_allocator">aligned_allocator</a></li>
     <li><a href="#aligned_allocator_adaptor">aligned_allocator_adaptor</a></li>
+    <li><a href="#aligned_delete">aligned_delete</a></li>
     <li><a href="#is_aligned">is_aligned</a></li>
     <li><a href="#examples">Examples</a></li>
     <li><a href="#testing">Testing</a></li>
@@ -57,17 +58,20 @@
     provides function <code>align</code> for implementations which do
     not have the C++11 standard library <code>std::align</code>
     function available.</p>
-  <p>It provides allocation functions <code>aligned_alloc</code> and
-    <code>aligned_free</code> as their functionality is not yet
-    available in the C++ standard library. They use platform specific
-    functions, if available, or use  standard library functions in
-    conjunction with <code>align</code>.</p>
+  <p>It provides allocation and deallocation functions,
+    <code>aligned_alloc</code> and <code>aligned_free</code>, as
+    their functionality is not yet available in the C++ standard
+    library. They use platform specific functions, if available,
+    or use standard library functions in conjunction with
+    <code>align</code>.</p>
   <p>It provides C++ allocators, class templates
     <code>aligned_allocator</code> and
     <code>aligned_allocator_adaptor</code>, which respect alignment.
     The first uses <code>aligned_alloc</code> and
     <code>aligned_free</code> while the second uses the allocator in
     conjunction with <code>align</code>.</p>
+  <p>It provides a deleter, class <code>aligned_delete</code>, which
+    makes use of <code>aligned_free</code>.</p>
   <p>It also provides function <code>is_aligned</code> to test the
     alignment of a pointer.</p>
   <h2 id="rationale">Rationale</h2>
@@ -85,6 +89,9 @@
     allocator.</p>
   <p>The <code>aligned_allocator_adaptor</code> class template can be
     used to adapt any allocator into an alignment-aware allocator.</p>
+  <p>The <code>aligned_delete</code> class can be used in place of the
+    default deleter, <code>std::default_delete</code>, for any objects
+    allocated with <code>aligned_alloc</code>.</p>
   <h2 id="vocabulary">Vocabulary</h2>
   <h3>N3485 3.11 [basic.align]</h3>
   <blockquote>
@@ -146,9 +153,9 @@ struct D : virtual B { char c; };</code></pre>
         void*&amp; ptr, std::size_t&amp; space);
 
     void* <a href="#aligned_alloc">aligned_alloc</a>(std::size_t alignment,
-        std::size_t size);
+        std::size_t size) noexcept;
 
-    void <a href="#aligned_free">aligned_free</a>(void* ptr);
+    void <a href="#aligned_free">aligned_free</a>(void* ptr) noexcept;
 
     template&lt;class T, std::size_t Alignment = 1&gt;
     class <a href="#aligned_allocator">aligned_allocator</a>;
@@ -159,12 +166,12 @@ struct D : virtual B { char c; };</code></pre>
     template&lt;class T1, class T2, std::size_t Alignment&gt;
     bool operator==(const aligned_allocator&lt;T1,
         Alignment&gt;&amp;, const aligned_allocator&lt;T2,
-        Alignment&gt;&amp;);
+        Alignment&gt;&amp;) noexcept;
 
     template&lt;class T1, class T2, std::size_t Alignment&gt;
     bool operator!=(const aligned_allocator&lt;T1,
         Alignment&gt;&amp;, const aligned_allocator&lt;T2,
-        Alignment&gt;&amp;);
+        Alignment&gt;&amp;) noexcept;
 
     template&lt;class Allocator, std::size_t Alignment = 1&gt;
     class <a href="#aligned_allocator_adaptor">aligned_allocator_adaptor</a>;
@@ -172,15 +179,17 @@ struct D : virtual B { char c; };</code></pre>
     template&lt;class A1, class A2, std::size_t Alignment&gt;
     bool operator==(const aligned_allocator_adaptor&lt;A1,
         Alignment&gt;&amp; a, const aligned_allocator_adaptor&lt;A2,
-        Alignment&gt;&amp; b);
+        Alignment&gt;&amp; b) noexcept;
 
     template&lt;class A1, class A2, std::size_t Alignment&gt;
     bool operator!=(const aligned_allocator_adaptor&lt;A1,
         Alignment&gt;&amp; a, const aligned_allocator_adaptor&lt;A2,
-        Alignment&gt;&amp; b);
+        Alignment&gt;&amp; b) noexcept;
+
+    class <a href="#aligned_delete">aligned_delete</a>;
 
     bool <a href="#is_aligned">is_aligned</a>(std::size_t alignment,
-        const void* ptr);
+        const void* ptr) noexcept;
 }</code></pre>
   <h2 id="align">align</h2>
   <pre><code>void* align(std::size_t alignment, std::size_t size,
@@ -217,7 +226,7 @@ struct D : virtual B { char c; };</code></pre>
   </blockquote>
   <h2 id="aligned_alloc">aligned_alloc</h2>
   <pre><code>void* aligned_alloc(std::size_t alignment,
-    std::size_t size);</code></pre>
+    std::size_t size) noexcept;</code></pre>
   <blockquote>
     <b>Description:</b> The <code>aligned_alloc</code>
     function allocates space for an object whose alignment is
@@ -230,13 +239,13 @@ struct D : virtual B { char c; };</code></pre>
     either a null pointer or a pointer to the allocated space.
   </blockquote>
   <blockquote>
-    <b>Note:</b> On certain platforms the space allocated may be
-    slightly larger than <code>size</code> bytes, for alignment
-    purposes, by an additional <code>sizeof(void*)</code> and
-    <code>alignment</code> bytes.
+    <b>Note:</b> On certain platforms, the alignment may be rounded
+    up to <code>alignof(void*)</code> and the space allocated may be
+    slightly larger than <code>size</code> bytes, by an additional
+    <code>sizeof(void*)</code> and <code>alignment - 1</code> bytes.
   </blockquote>
   <h2 id="aligned_free">aligned_free</h2>
-  <pre><code>void aligned_free(void* ptr);</code></pre>
+  <pre><code>void aligned_free(void* ptr) noexcept;</code></pre>
   <blockquote>
     <b>Description:</b> The <code>aligned_free</code>
     function causes the space pointed to by <code>ptr</code> to be
@@ -274,6 +283,8 @@ public:
     typedef T value_type;
     typedef T* pointer;
     typedef const T* const_pointer;
+    typedef void* void_pointer;
+    typedef const void* const_void_pointer;
     typedef std::size_t size_type;
     typedef std::ptrdiff_t difference_type;
     typedef T&amp; reference;
@@ -284,24 +295,34 @@ public:
         typedef aligned_allocator&lt;U, Alignment&gt; other;
     };
 
-    aligned_allocator();
+    aligned_allocator() noexcept = default;
 
     template&lt;class U&gt;
-    aligned_allocator(const aligned_allocator&lt;U, Alignment&gt;&amp;);
+    aligned_allocator(const aligned_allocator&lt;U,
+        Alignment&gt;&amp;) noexcept;
 
-    pointer address(reference x) const;
+    pointer address(reference x) const noexcept;
 
-    const_pointer address(const_reference x) const;
+    const_pointer address(const_reference x) const noexcept;
 
     pointer allocate(size_type n,
-        aligned_allocator&lt;void, Alignment&gt;::const_pointer = 0);
+        const_void_pointer = nullptr);
 
     void deallocate(pointer p, size_type);
 
-    size_type max_size() const;
+    constexpr size_type max_size() const noexcept;
 
     template&lt;class U, class... Args&gt;
     void construct(U* memory, Args&amp;&amp;... args);
+
+    template&lt;class U, class V&gt;
+    void construct(U* memory, V&amp;&amp; value);
+
+    template&lt;class U, class V&gt;
+    void construct(U* memory, const V&amp; value);
+
+    template&lt;class U&gt;
+    void construct(U* memory);
 
     template&lt;class U&gt;
     void destroy(U* memory);
@@ -310,12 +331,12 @@ public:
 template&lt;class T1, class T2, std::size_t Alignment&gt;
 bool operator==(const aligned_allocator&lt;T1,
     Alignment&gt;&amp;, const aligned_allocator&lt;T2,
-    Alignment&gt;&amp;);
+    Alignment&gt;&amp;) noexcept;
 
 template&lt;class T1, class T2, std::size_t Alignment&gt;
 bool operator!=(const aligned_allocator&lt;T1,
     Alignment&gt;&amp;, const aligned_allocator&lt;T2,
-    Alignment&gt;&amp;);</code></pre>
+    Alignment&gt;&amp;) noexcept;</code></pre>
   <h3>aligned_allocator requirements</h3>
   <p>The <code>Alignment</code> template parameter is the minimum
     alignment to specify for allocations, if it is larger than the
@@ -329,20 +350,20 @@ bool operator!=(const aligned_allocator&lt;T1,
     storage shall occur in a single total order, and each such
     deallocation call shall happen before the next allocation (if any)
     in this order.</p>
-  <pre><code>pointer address(reference x) const;</code></pre>
+  <pre><code>pointer address(reference x) const noexcept;</code></pre>
   <blockquote>
     <b>Returns:</b> The actual address of the object
     referenced by <code>x</code>, even in the presence of an
     overloaded operator&amp;.
   </blockquote>
-  <pre><code>const_pointer address(const_reference x) const;</code></pre>
+  <pre><code>const_pointer address(const_reference x) const noexcept;</code></pre>
   <blockquote>
     <b>Returns:</b> The actual address of the object
     referenced by <code>x</code>, even in the presence of an
     overloaded operator&amp;.
   </blockquote>
   <pre><code>pointer allocate(size_type n,
-    aligned_allocator&lt;void, Alignment&gt;::const_pointer = 0);</code></pre>
+    const_void_pointer = nullptr);</code></pre>
   <blockquote>
     <b>Returns:</b> A pointer to the initial element of an array of
     storage of size <code>n * sizeof(T)</code>, aligned on the
@@ -369,7 +390,7 @@ bool operator!=(const aligned_allocator&lt;T1,
   <blockquote>
     <b>Remarks:</b> Uses <code>aligned_free(void*)</code>.
   </blockquote>
-  <pre><code>size_type max_size() const;</code></pre>
+  <pre><code>constexpr size_type max_size() const noexcept;</code></pre>
   <blockquote>
     <b>Returns:</b> The largest value <em>N</em> for which the call
     <code>allocate(N)</code> might succeed.
@@ -389,14 +410,14 @@ void destroy(U* p);</code></pre>
   <pre><code>template&lt;class T1, class T2, std::size_t Alignment&gt;
 bool operator==(const aligned_allocator&lt;T1,
     Alignment&gt;&amp;, const aligned_allocator&lt;T2,
-    Alignment&gt;&amp;);</code></pre>
+    Alignment&gt;&amp;) noexcept;</code></pre>
   <blockquote>
     <b>Returns:</b> <code>true</code>.
   </blockquote>
   <pre><code>template&lt;class T1, class T2, std::size_t Alignment&gt;
 bool operator!=(const aligned_allocator&lt;T1,
     Alignment&gt;&amp;, const aligned_allocator&lt;T2,
-    Alignment&gt;&amp;);</code></pre>
+    Alignment&gt;&amp;) noexcept;</code></pre>
   <blockquote>
     <b>Returns:</b> <code>false</code>.
   </blockquote>
@@ -414,8 +435,6 @@ private:
     typedef std::allocator_traits&lt;Allocator&gt; Traits;
 
 public:
-    typedef Allocator allocator_type;
-
     typedef typename Traits::value_type value_type;
     typedef typename Traits::size_type size_type;
 
@@ -431,18 +450,21 @@ public:
             template rebind_alloc&lt;U&gt;, Alignment&gt; other;
     };
 
-    aligned_allocator_adaptor();
+    aligned_allocator_adaptor() = default;
 
     template&lt;class A&gt;
-    explicit aligned_allocator_adaptor(A&amp;&amp; alloc);
+    explicit aligned_allocator_adaptor(A&amp;&amp; alloc) noexcept;
+
+    template&lt;class A&gt;
+    explicit aligned_allocator_adaptor(const A&amp; alloc) noexcept;
 
     template&lt;class U&gt;
-    aligned_allocator_adaptor(const
-        aligned_allocator_adaptor&lt;U, Alignment&gt;&amp; other);
+    aligned_allocator_adaptor(const aligned_allocator_adaptor&lt;U,
+        Alignment&gt;&amp; other) noexcept;
 
-    allocator_type&amp; allocator();
+    Allocator&amp; base() noexcept;
 
-    const allocator_type&amp; allocator() const;
+    const Allocator&amp; base() const noexcept;
 
     pointer allocate(size_type n);
 
@@ -454,12 +476,12 @@ public:
 template&lt;class A1, class A2, std::size_t Alignment&gt;
 bool operator==(const aligned_allocator_adaptor&lt;A1,
     Alignment&gt;&amp; a, const aligned_allocator_adaptor&lt;A2,
-    Alignment&gt;&amp; b);
+    Alignment&gt;&amp; b) noexcept;
 
 template&lt;class A1, class A2, std::size_t Alignment&gt;
 bool operator!=(const aligned_allocator_adaptor&lt;A1,
     Alignment&gt;&amp; a, const aligned_allocator_adaptor&lt;A2,
-    Alignment&gt;&amp; b);</code></pre>
+    Alignment&gt;&amp; b) noexcept;</code></pre>
   <h3>aligned_allocator_adaptor requirements</h3>
   <p>The <code>Alignment</code> template parameter is the minimum
     alignment to specify for allocations, if it is larger than the
@@ -467,13 +489,13 @@ bool operator!=(const aligned_allocator_adaptor&lt;A1,
     shall be a fundamental alignment value or an extended alignment
     value, and shall be a power of two.</p>
   <h3>aligned_allocator_adaptor constructors</h3>
-  <pre><code>aligned_allocator_adaptor();</code></pre>
+  <pre><code>aligned_allocator_adaptor() = default;</code></pre>
   <blockquote>
     <b>Effects:</b> value-initializes the
     <code>Allocator</code> base class.
   </blockquote>
   <pre><code>template&lt;class A&gt;
-explicit aligned_allocator_adaptor(A&amp;&amp; alloc);</code></pre>
+explicit aligned_allocator_adaptor(A&amp;&amp; alloc) noexcept;</code></pre>
   <blockquote>
     <b>Requires:</b> <code>Allocator</code> shall be
     constructible from <code>A</code>.
@@ -483,19 +505,19 @@ explicit aligned_allocator_adaptor(A&amp;&amp; alloc);</code></pre>
     base class with <code>std::forward&lt;A&gt;(alloc)</code>.
   </blockquote>
   <pre><code>template&lt;class U&gt;
-aligned_allocator_adaptor(const
-    aligned_allocator_adaptor&lt;U, Alignment&gt;&amp; other);</code></pre>
+aligned_allocator_adaptor(const aligned_allocator_adaptor&lt;U,
+    Alignment&gt;&amp; other) noexcept;</code></pre>
   <blockquote>
     <b>Effects:</b> initializes the <code>Allocator</code>
     base class with the allocator from <code>other</code>.
   </blockquote>
   <h3>aligned_allocator_adaptor members</h3>
-  <pre><code>allocator_type&amp; allocator();</code></pre>
+  <pre><code>Allocator&amp; base() noexcept;</code></pre>
   <blockquote>
     <b>Returns:</b>
     <code>static_cast&lt;Allocator&amp;&gt;(*this)</code>.
   </blockquote>
-  <pre><code>const allocator_type&amp; allocator() const;</code></pre>
+  <pre><code>const Allocator&amp; base() const noexcept;</code></pre>
   <blockquote>
     <b>Returns:</b>
     <code>static_cast&lt;const Allocator&amp;&gt;(*this)</code>.
@@ -511,7 +533,7 @@ aligned_allocator_adaptor(const
     <b>Remarks:</b> The storage is obtained by calling
     <code>A2::allocate</code> on an object <code>a2</code>, where
     <code>a2</code> of type <code>A2</code> is a rebound copy of
-    <code>allocator()</code> where its <code>value_type</code> is
+    <code>base()</code> where its <code>value_type</code> is
     unspecified.
   </blockquote>
   <blockquote>
@@ -535,7 +557,7 @@ aligned_allocator_adaptor(const
     <b>Remarks:</b> The storage is obtained by calling
     <code>A2::allocate</code> on an object <code>a2</code>, where
     <code>a2</code> of type <code>A2</code> is a rebound copy of
-    <code>allocator()</code> where its <code>value_type</code> is
+    <code>base()</code> where its <code>value_type</code> is
     unspecified.
   </blockquote>
   <blockquote>
@@ -556,21 +578,21 @@ aligned_allocator_adaptor(const
   <blockquote>
     <b>Remarks:</b> Uses <code>A2::deallocate</code> on an object
     <code>a2</code>, where <code>a2</code> of type <code>A2</code>
-    is a rebound copy of <code>allocator()</code> where its
+    is a rebound copy of <code>base()</code> where its
     <code>value_type</code> is unspecified.
   </blockquote>
   <h3>aligned_allocator_adaptor operators</h3>
   <pre><code>template&lt;class A1, class A2, std::size_t Alignment&gt;
 bool operator==(const aligned_allocator_adaptor&lt;A1,
     Alignment&gt;&amp; a, const aligned_allocator_adaptor&lt;A2,
-    Alignment&gt;&amp; b);</code></pre>
+    Alignment&gt;&amp; b) noexcept;</code></pre>
   <blockquote>
-    <b>Returns:</b> <code>a.allocator() == b.allocator()</code>.
+    <b>Returns:</b> <code>a.base() == b.base()</code>.
   </blockquote>
   <pre><code>template&lt;class A1, class A2, std::size_t Alignment&gt;
 bool operator!=(const aligned_allocator_adaptor&lt;A1,
     Alignment&gt;&amp; a, const aligned_allocator_adaptor&lt;A2,
-    Alignment&gt;&amp; b);</code></pre>
+    Alignment&gt;&amp; b) noexcept;</code></pre>
   <blockquote>
     <b>Returns:</b> <code>!(a == b)</code>.
   </blockquote>
@@ -578,9 +600,29 @@ bool operator!=(const aligned_allocator_adaptor&lt;A1,
   <p>This adaptor can be used with a C++11 allocator whose
     <code>pointer</code> type is a smart pointer but the adaptor will
     expose only raw pointers.</p>
+  <h2 id="aligned_delete">aligned_delete</h2>
+  <pre><code>class aligned_delete {
+public:
+    template&lt;class T&gt;
+    void operator()(T* ptr) const
+        noexcept(noexcept(ptr->~T()));
+};</code></pre>
+  <h3>aligned_delete members</h3>
+  <pre><code>template&lt;class T&gt;
+void operator()(T* ptr) const
+    noexcept(noexcept(ptr->~T()));</code></pre>
+  <blockquote>
+    <b>Effects:</b> Calls <code>~T()</code> on <code>ptr</code>
+    to destroy the object and then calls <code>aligned_free</code>
+    on <code>ptr</code> to free the allocated memory.
+  </blockquote>
+  <blockquote>
+    <b>Remarks:</b> If <code>T</code> is an incomplete type, the
+    program is ill-formed.
+  </blockquote>
   <h2 id="is_aligned">is_aligned</h2>
   <pre><code>bool is_aligned(std::size_t alignment,
-    const void* ptr);</code></pre>
+    const void* ptr) noexcept;</code></pre>
   <blockquote>
     <b>Description:</b> The <code>is_aligned</code> function
     determines whether the space pointed to by <code>ptr</code> has
@@ -597,16 +639,8 @@ bool operator!=(const aligned_allocator_adaptor&lt;A1,
 #include &lt;memory&gt;
 
 template&lt;class T&gt;
-struct aligned_delete {
-    void operator()(T* ptr) {
-        ptr->~T();
-        boost::aligned_free(ptr);
-    }
-};
-
-template&lt;class T&gt;
 using aligned_ptr = std::unique_ptr&lt;T,
-    aligned_delete&lt;T&gt; &gt;;
+    boost::aligned_delete&gt;;
 
 template&lt;class T, class... Args&gt;
 inline aligned_ptr&lt;T&gt;
@@ -656,18 +690,22 @@ int main()
   <h2 id="testing">Testing</h2>
   <p>The following compilers and platforms have been tested.</p>
   <ul>
-    <li>clang 3.0, 3.1, 3.2, 3.4, linux</li>
-    <li>gcc 4.6.3, 4.7.2, 4.8.1, linux</li>
-    <li>visual c++ 11.0, 12.0, windows</li>
+    <li>clang 3.0, 3.1, 3.2, 3.4, 3.5, linux</li>
+    <li>gcc 4.6, 4.7, 4.8, linux</li>
+    <li>msvc 10.0, 11.0, 12.0, windows</li>
   </ul>
   <h2 id="acknowledgments">Acknowledgments</h2>
-  <p>Thank you to everyone who helped me improve this library.</p>
+  <p>Thank you to everyone who helped review this library.</p>
   <ul>
     <li>Peter Dimov</li>
     <li>Andrey Semashev</li>
+    <li>Bjorn Reese</li>
     <li>Steven Watanabe</li>
+    <li>Anthony Polukhin</li>
+    <li>Lars Viklund</li>
+    <li>Michael Spencer</li>
   </ul>
-  <p>Thank you to Ahmed Charles for being the review manager.</p>
+  <p>Thank you to Ahmed Charles for managing the review.</p>
   <h2 id="history">History</h2>
   <p><b>2014.02.19.</b> Glen Fernandes first implemented
     Boost.Align.</p>

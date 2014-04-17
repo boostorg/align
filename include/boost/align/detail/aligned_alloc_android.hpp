@@ -10,23 +10,23 @@
 #define BOOST_ALIGN_DETAIL_ALIGNED_ALLOC_ANDROID_HPP
 
 #include <boost/assert.hpp>
+#include <boost/config.hpp>
 #include <boost/align/detail/is_alignment.hpp>
+#include <cstddef>
 #include <malloc.h>
 
 namespace boost {
     namespace alignment {
-        namespace detail {
-            inline void* aligned_alloc(std::size_t alignment,
-                std::size_t size)
-            {
-                BOOST_ASSERT(is_alignment(alignment));
-                return memalign(alignment, size);
-            }
+        inline void* aligned_alloc(std::size_t alignment,
+            std::size_t size) BOOST_NOEXCEPT
+        {
+            BOOST_ASSERT(detail::is_alignment(alignment));
+            return ::memalign(alignment, size);
+        }
 
-            inline void aligned_free(void* ptr)
-            {
-                free(ptr);
-            }
+        inline void aligned_free(void* ptr) BOOST_NOEXCEPT
+        {
+            ::free(ptr);
         }
     }
 }

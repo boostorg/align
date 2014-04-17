@@ -9,12 +9,15 @@
 #ifndef BOOST_ALIGN_ALIGNED_ALLOCATOR_ADAPTOR_HPP
 #define BOOST_ALIGN_ALIGNED_ALLOCATOR_ADAPTOR_HPP
 
+#include <boost/config.hpp>
 #include <boost/static_assert.hpp>
+#include <boost/throw_exception.hpp>
 #include <boost/align/align.hpp>
+#include <boost/align/aligned_allocator_adaptor_forward.hpp>
 #include <boost/align/detail/addressof.hpp>
 #include <boost/align/detail/alignment_of.hpp>
-#include <boost/align/detail/is_power_of_2.hpp>
-#include <boost/align/detail/max_size.hpp>
+#include <boost/align/detail/is_alignment_const.hpp>
+#include <boost/align/detail/max_align.hpp>
 #include <new>
 
 #if !defined(BOOST_NO_CXX11_ALLOCATOR)
@@ -27,11 +30,11 @@
 
 namespace boost {
     namespace alignment {
-        template<class Allocator, std::size_t Alignment = 1>
+        template<class Allocator, std::size_t Alignment>
         class aligned_allocator_adaptor
             : public Allocator {
             BOOST_STATIC_ASSERT(detail::
-                is_power_of_2<Alignment>::value);
+                is_alignment_const<Alignment>::value);
 
 #if !defined(BOOST_NO_CXX11_ALLOCATOR)
             typedef std::allocator_traits<Allocator> Traits;
@@ -47,8 +50,6 @@ namespace boost {
 #endif
 
         public:
-            typedef Allocator allocator_type;
-
 #if !defined(BOOST_NO_CXX11_ALLOCATOR)
             typedef typename Traits::value_type value_type;
             typedef typename Traits::size_type size_type;
@@ -70,9 +71,9 @@ namespace boost {
                 PtrAlign = detail::
                     alignment_of<CharPtr>::value,
                 BlockAlign = detail::
-                    max_size<PtrAlign, TypeAlign>::value,
+                    max_align<PtrAlign, TypeAlign>::value,
                 MaxAlign = detail::
-                    max_size<Alignment, BlockAlign>::value
+                    max_align<Alignment, BlockAlign>::value
             };
 
         public:
@@ -87,18 +88,24 @@ namespace boost {
 #endif
             };
 
+#if !defined(BOOST_NO_CXX11_DEFAULTED_FUNCTIONS)
+            aligned_allocator_adaptor() = default;
+#else
             aligned_allocator_adaptor()
                 : Allocator() {
             }
+#endif
 
 #if !defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
             template<class A>
             explicit aligned_allocator_adaptor(A&& alloc)
+                BOOST_NOEXCEPT
                 : Allocator(std::forward<A>(alloc)) {
             }
 #else
             template<class A>
             explicit aligned_allocator_adaptor(const A& alloc)
+                BOOST_NOEXCEPT
                 : Allocator(alloc) {
             }
 #endif
@@ -106,24 +113,25 @@ namespace boost {
             template<class U>
             aligned_allocator_adaptor(const
                 aligned_allocator_adaptor<U, Alignment>& other)
-                : Allocator(other.allocator()) {
+                BOOST_NOEXCEPT
+                : Allocator(other.base()) {
             }
 
-            allocator_type& allocator() {
+            Allocator& base() BOOST_NOEXCEPT {
                 return static_cast<Allocator&>(*this);
             }
 
-            const allocator_type& allocator() const {
+            const Allocator& base() const BOOST_NOEXCEPT {
                 return static_cast<const Allocator&>(*this);
             }
 
             pointer allocate(size_type size) {
                 std::size_t n1 = size * sizeof(value_type);
-                std::size_t n2 = n1 + MaxAlign;
-                CharAlloc a1(allocator());
-                CharPtr p1 = a1.allocate(sizeof(p1) + n2);
+                std::size_t n2 = n1 + MaxAlign - 1;
+                CharAlloc a(base());
+                CharPtr p1 = a.allocate(sizeof p1 + n2);
                 void* p2 = detail::addressof(*p1) + sizeof p1;
-                align(MaxAlign, n1, p2, n2);
+                (void)align(MaxAlign, n1, p2, n2);
                 void* p3 = static_cast<CharPtr*>(p2) - 1;
                 ::new(p3) CharPtr(p1);
                 return static_cast<pointer>(p2);
@@ -131,20 +139,20 @@ namespace boost {
 
             pointer allocate(size_type size, const_void_pointer hint) {
                 std::size_t n1 = size * sizeof(value_type);
-                std::size_t n2 = n1 + MaxAlign;
-                CharPtr h1 = CharPtr();
+                std::size_t n2 = n1 + MaxAlign - 1;
+                CharPtr h = CharPtr();
                 if (hint) {
-                    h1 = *(static_cast<const CharPtr*>(hint) - 1);
+                    h = *(static_cast<const CharPtr*>(hint) - 1);
                 }
-                CharAlloc a1(allocator());
+                CharAlloc a(base());
 #if !defined(BOOST_NO_CXX11_ALLOCATOR)
-                CharPtr p1 = CharTraits::allocate(a1, sizeof(p1) +
-                    n2, h1);
+                CharPtr p1 = CharTraits::allocate(a, sizeof p1 +
+                    n2, h);
 #else
-                CharPtr p1 = a1.allocate(sizeof(p1) + n2, h1);
+                CharPtr p1 = a.allocate(sizeof p1 + n2, h);
 #endif
                 void* p2 = detail::addressof(*p1) + sizeof p1;
-                align(MaxAlign, n1, p2, n2);
+                (void)align(MaxAlign, n1, p2, n2);
                 void* p3 = static_cast<CharPtr*>(p2) - 1;
                 ::new(p3) CharPtr(p1);
                 return static_cast<pointer>(p2);
@@ -154,8 +162,8 @@ namespace boost {
                 CharPtr* p1 = reinterpret_cast<CharPtr*>(memory) - 1;
                 CharPtr p2 = *p1;
                 p1->~CharPtr();
-                CharAlloc a1(allocator());
-                a1.deallocate(p2, size * sizeof(value_type) +
+                CharAlloc a(base());
+                a.deallocate(p2, size * sizeof(value_type) +
                     MaxAlign + sizeof p2);
             }
         };
@@ -163,21 +171,19 @@ namespace boost {
         template<class A1, class A2, std::size_t Alignment>
         inline bool operator==(const aligned_allocator_adaptor<A1,
             Alignment>& a, const aligned_allocator_adaptor<A2,
-            Alignment>& b)
+            Alignment>& b) BOOST_NOEXCEPT
         {
-            return a.allocator() == b.allocator();
+            return a.base() == b.base();
         }
 
         template<class A1, class A2, std::size_t Alignment>
         inline bool operator!=(const aligned_allocator_adaptor<A1,
             Alignment>& a, const aligned_allocator_adaptor<A2,
-            Alignment>& b)
+            Alignment>& b) BOOST_NOEXCEPT
         {
             return !(a == b);
         }
     }
-
-    using alignment::aligned_allocator_adaptor;
 }
 
 #endif

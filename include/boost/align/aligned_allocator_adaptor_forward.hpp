@@ -6,21 +6,15 @@
  Version 1.0. (See accompanying file LICENSE_1_0.txt
  or copy at http://boost.org/LICENSE_1_0.txt)
 */
-#ifndef BOOST_ALIGN_DETAIL_ADDRESS_HPP
-#define BOOST_ALIGN_DETAIL_ADDRESS_HPP
+#ifndef BOOST_ALIGN_ALIGNED_ALLOCATOR_ADAPTOR_FORWARD_HPP
+#define BOOST_ALIGN_ALIGNED_ALLOCATOR_ADAPTOR_FORWARD_HPP
 
-#include <boost/cstdint.hpp>
 #include <cstddef>
 
 namespace boost {
     namespace alignment {
-        namespace detail {
-#if defined(BOOST_HAS_INTPTR_T)
-            typedef boost::uintptr_t address_t;
-#else
-            typedef std::size_t address_t;
-#endif
-        }
+        template<class Allocator, std::size_t Alignment = 1>
+        class aligned_allocator_adaptor;
     }
 }
 
