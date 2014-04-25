@@ -24,7 +24,8 @@ namespace boost {
             return ::_aligned_malloc(size, alignment);
         }
 
-        inline void aligned_free(void* ptr) BOOST_NOEXCEPT
+        inline void aligned_free(void* ptr)
+            BOOST_NOEXCEPT
         {
             ::_aligned_free(ptr);
         }

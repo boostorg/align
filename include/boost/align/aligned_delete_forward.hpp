@@ -9,10 +9,43 @@
 #ifndef BOOST_ALIGN_ALIGNED_DELETE_FORWARD_HPP
 #define BOOST_ALIGN_ALIGNED_DELETE_FORWARD_HPP
 
+/**
+ Class aligned_delete
+ forward declaration.
+
+ @file
+ @author Glen Fernandes
+*/
+
+/**
+ Boost namespace.
+*/
 namespace boost {
+    /**
+     Alignment namespace.
+    */
     namespace alignment {
+        /**
+         @cond
+        */
         class aligned_delete;
+        /**
+         @endcond
+        */
     }
 }
+
+/**
+ @file
+ @code{.cpp}
+
+ namespace boost {
+   namespace alignment {
+     class aligned_delete;
+   }
+ }
+
+ @endcode
+*/
 
 #endif

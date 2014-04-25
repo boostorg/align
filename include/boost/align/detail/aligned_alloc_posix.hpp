@@ -34,7 +34,8 @@ namespace boost {
             return p;
         }
 
-        inline void aligned_free(void* ptr) BOOST_NOEXCEPT
+        inline void aligned_free(void* ptr)
+            BOOST_NOEXCEPT
         {
             ::free(ptr);
         }

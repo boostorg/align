@@ -8,6 +8,12 @@
 */
 #include "aligned_vector.hpp"
 
+//[aligned_vector_cpp
+/*`
+ Here `aligned_vector` is used to create
+ a `vector` of integers where each integer
+ object has extended cache alignment.
+*/
 enum {
     cache_line = 64
 };
@@ -17,3 +23,4 @@ int main()
     aligned_vector<int, cache_line> v(32);
     v[0] = 1;
 }
+//]
