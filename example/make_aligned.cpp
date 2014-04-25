@@ -8,6 +8,12 @@
 */
 #include "make_aligned.hpp"
 
+//[make_aligned_cpp
+/*`
+ Here `make_aligned` is used to create an
+ `aligned_ptr` object for a type which has
+ extended alignment specified.
+*/
 struct alignas(16) type {
     float data[4];
 };
@@ -17,3 +23,4 @@ int main()
     auto p = make_aligned<type>();
     p->data[0] = 1.0f;
 }
+//]

@@ -39,7 +39,8 @@ namespace boost {
             return p1;
         }
 
-        inline void aligned_free(void* ptr) BOOST_NOEXCEPT
+        inline void aligned_free(void* ptr)
+            BOOST_NOEXCEPT
         {
             if (ptr) {
                 void* p = *(static_cast<void**>(ptr) - 1);

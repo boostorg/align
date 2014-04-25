@@ -9,11 +9,22 @@
 #ifndef ALIGNED_PTR_HPP
 #define ALIGNED_PTR_HPP
 
+//[aligned_ptr_hpp
+/*`
+ The `aligned_ptr` alias template is a
+ `unique_ptr` that uses `aligned_delete`
+ as the deleter, for destruction and
+ deallocation. This smart pointer type is
+ suitable for managing objects that are
+ allocated with `aligned_alloc`.
+*/
+
 #include <boost/align.hpp>
 #include <memory>
 
 template<class T>
 using aligned_ptr = std::unique_ptr<T,
     boost::aligned_delete>;
+//]
 
 #endif
