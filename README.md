@@ -8,8 +8,9 @@ Boost.Align provides memory alignment functions, allocators, and adaptors.
 * **example** - Boost.Align examples
 * **include** - Source code of Boost.Align
 * **logo** - Boost.Align logo
+* **meta** - Boost.Align metadata
 * **test** - Boost.Align unit tests
 
 ### more information
 
-* [Documentation](http://glenfe.github.io/align)
+* [Documentation](http://boostorg.github.io/align)
