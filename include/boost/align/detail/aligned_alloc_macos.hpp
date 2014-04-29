@@ -6,8 +6,8 @@
  Version 1.0. (See accompanying file LICENSE_1_0.txt
  or copy at http://boost.org/LICENSE_1_0.txt)
 */
-#ifndef BOOST_ALIGN_DETAIL_ALIGNED_ALLOC_POSIX_HPP
-#define BOOST_ALIGN_DETAIL_ALIGNED_ALLOC_POSIX_HPP
+#ifndef BOOST_ALIGN_DETAIL_ALIGNED_ALLOC_MACOS_HPP
+#define BOOST_ALIGN_DETAIL_ALIGNED_ALLOC_MACOS_HPP
 
 #include <boost/assert.hpp>
 #include <boost/config.hpp>
