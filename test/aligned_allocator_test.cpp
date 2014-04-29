@@ -22,13 +22,11 @@ void test_allocate()
         std::memset(p, 0, 1);
         a.deallocate(p, 1);
     }
-#if MAC_OS_X_VERSION_MIN_REQUIRED < 1060
     {
         boost::alignment::aligned_allocator<int, Alignment> a;
         int* p = a.allocate(0);
         a.deallocate(p, 0);
     }
-#endif
 }
 
 template<std::size_t Alignment>

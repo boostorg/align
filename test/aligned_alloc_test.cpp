@@ -37,12 +37,10 @@ void test(std::size_t alignment)
         std::memset(p, 0, 1);
         boost::alignment::aligned_free(p);
     }
-#if MAC_OS_X_VERSION_MIN_REQUIRED < 1060
     {
         void* p = boost::alignment::aligned_alloc(alignment, 0);
         boost::alignment::aligned_free(p);
     }
-#endif
 }
 
 int main()
