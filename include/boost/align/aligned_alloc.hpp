@@ -29,7 +29,7 @@
 #include <AvailabilityMacros.h>
 #endif
 
-#if defined(BOOST_MSVC)
+#if defined(_MSC_VER)
 #include <boost/align/detail/aligned_alloc_msvc.hpp>
 #elif defined(__MINGW32__) && (__MSVCRT_VERSION__ >= 0x0700)
 #include <boost/align/detail/aligned_alloc_msvc.hpp>
