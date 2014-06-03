@@ -8,7 +8,7 @@
 */
 #include <boost/align/align.hpp>
 #include <boost/align/is_aligned.hpp>
-#include <boost/detail/lightweight_test.hpp>
+#include <boost/core/lightweight_test.hpp>
 
 template<std::size_t Alignment>
 void test()

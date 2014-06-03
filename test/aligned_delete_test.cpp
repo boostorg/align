@@ -8,7 +8,7 @@
 */
 #include <boost/align/aligned_alloc.hpp>
 #include <boost/align/aligned_delete.hpp>
-#include <boost/detail/lightweight_test.hpp>
+#include <boost/core/lightweight_test.hpp>
 #include <boost/type_traits/alignment_of.hpp>
 #include <new>
 
