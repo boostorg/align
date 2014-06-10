@@ -42,6 +42,10 @@ It provides a deleter, class `aligned_delete`, which
 makes use of `aligned_free`. It is suitable for use
 with constructed objects allocated with `aligned_alloc`.
 
+It provides the class template `alignment_of` for
+implementations which do not have the C++11 standard
+library `std::alignment_of` template available.
+
 It also provides function `is_aligned` to test the
 alignment of a pointer.
 
@@ -74,6 +78,10 @@ allocator.
 The `aligned_delete` class can be used in place of the
 default deleter, `std::default_delete`, to destroy and
 free any objects allocated with `aligned_alloc`.
+
+The `alignment_of` class template can be used to get the
+alignment of a type, and is provided for implementations
+which do not have `std::alignment_of`.
 
 The `is_aligned` function can be used for verification
 or to branch to a faster code path which requires
@@ -275,6 +283,27 @@ template parameter.
 ``
 std::unique_ptr<T,
     boost::alignment::aligned_delete> u(q);
+``
+
+[endsect]
+
+[section Using alignment_of]
+
+We want to assert at compile time that the alignment
+of a type, `T`, is at least as large as the alignment
+of a type, `U`.
+
+``
+#include <boost/align/alignment_of.hpp>
+``
+
+Use the `alignment_of` class template to determine
+the alignment of the type.
+
+``
+static_assert(boost::alignment::alignment_of<T>::
+    value >= boost::alignment::alignment_of<U>::
+    value, "");
 ``
 
 [endsect]

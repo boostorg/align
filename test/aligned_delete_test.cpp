@@ -8,8 +8,8 @@
 */
 #include <boost/align/aligned_alloc.hpp>
 #include <boost/align/aligned_delete.hpp>
+#include <boost/align/alignment_of.hpp>
 #include <boost/core/lightweight_test.hpp>
-#include <boost/type_traits/alignment_of.hpp>
 #include <new>
 
 class type {
@@ -31,7 +31,7 @@ int main()
 {
     {
         void* p = boost::alignment::aligned_alloc(boost::
-            alignment_of<type>::value, sizeof(type));
+            alignment::alignment_of<type>::value, sizeof(type));
         if (!p) {
             throw std::bad_alloc();
         }
@@ -43,7 +43,7 @@ int main()
     }
     {
         void* p = boost::alignment::aligned_alloc(boost::
-            alignment_of<int>::value, sizeof(int));
+            alignment::alignment_of<int>::value, sizeof(int));
         if (!p) {
             throw std::bad_alloc();
         }

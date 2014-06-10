@@ -21,8 +21,8 @@
 #include <boost/throw_exception.hpp>
 #include <boost/align/aligned_alloc.hpp>
 #include <boost/align/aligned_allocator_forward.hpp>
+#include <boost/align/alignment_of.hpp>
 #include <boost/align/detail/addressof.hpp>
-#include <boost/align/detail/alignment_of.hpp>
 #include <boost/align/detail/is_alignment_const.hpp>
 #include <boost/align/detail/max_align.hpp>
 #include <boost/align/detail/max_count_of.hpp>
@@ -88,8 +88,7 @@ namespace boost {
 
         private:
             enum {
-                TypeAlign = detail::
-                    alignment_of<value_type>::value,
+                TypeAlign = alignment_of<value_type>::value,
 
                 MaxAlign = detail::
                     max_align<Alignment, TypeAlign>::value

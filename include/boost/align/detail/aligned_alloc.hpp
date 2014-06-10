@@ -12,7 +12,7 @@
 #include <boost/assert.hpp>
 #include <boost/config.hpp>
 #include <boost/align/align.hpp>
-#include <boost/align/detail/alignment_of.hpp>
+#include <boost/align/alignment_of.hpp>
 #include <boost/align/detail/is_alignment.hpp>
 #include <cstdlib>
 
@@ -23,7 +23,7 @@ namespace boost {
         {
             BOOST_ASSERT(detail::is_alignment(alignment));
             enum {
-                void_align = detail::alignment_of<void*>::value,
+                void_align = alignment_of<void*>::value,
             };
             if (alignment < void_align) {
                 alignment = void_align;

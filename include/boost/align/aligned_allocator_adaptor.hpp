@@ -20,8 +20,8 @@
 #include <boost/static_assert.hpp>
 #include <boost/align/align.hpp>
 #include <boost/align/aligned_allocator_adaptor_forward.hpp>
+#include <boost/align/alignment_of.hpp>
 #include <boost/align/detail/addressof.hpp>
-#include <boost/align/detail/alignment_of.hpp>
 #include <boost/align/detail/is_alignment_const.hpp>
 #include <boost/align/detail/max_align.hpp>
 #include <new>
@@ -104,11 +104,9 @@ namespace boost {
 
         private:
             enum {
-                TypeAlign = detail::
-                    alignment_of<value_type>::value,
+                TypeAlign = alignment_of<value_type>::value,
 
-                PtrAlign = detail::
-                    alignment_of<CharPtr>::value,
+                PtrAlign = alignment_of<CharPtr>::value,
 
                 BlockAlign = detail::
                     max_align<PtrAlign, TypeAlign>::value,
