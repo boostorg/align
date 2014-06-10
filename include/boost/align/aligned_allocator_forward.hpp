@@ -13,6 +13,9 @@
  Class template aligned_allocator
  forward declaration.
 
+ @note This header provides a forward declaration
+   for the `aligned_allocator` class template.
+
  @file
  @author Glen Fernandes
 */
@@ -20,36 +23,16 @@
 #include <cstddef>
 
 /**
- Boost namespace.
+ @cond
 */
 namespace boost {
-    /**
-     Alignment namespace.
-    */
     namespace alignment {
-        /**
-         @cond
-        */
         template<class T, std::size_t Alignment = 1>
         class aligned_allocator;
-        /**
-         @endcond
-        */
     }
 }
-
 /**
- @file
- @code{.cpp}
-
- namespace boost {
-   namespace alignment {
-     template<class T, std::size_t Alignment = 1>
-     class aligned_allocator;
-   }
- }
-
- @endcode
+ @endcond
 */
 
 #endif

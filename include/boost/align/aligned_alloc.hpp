@@ -73,11 +73,11 @@ namespace boost {
          @return A null pointer or a pointer to the
            allocated space.
 
-         @remark On certain platforms, the alignment may
-           be rounded up to `alignof(void*)` and the
-           space allocated may be slightly larger than
-           `size` bytes, by an additional `sizeof(void*)`
-           and `alignment - 1` bytes.
+         @remark **Note:** On certain platforms, the
+           alignment may be rounded up to `alignof(void*)`
+           and the space allocated may be slightly larger
+           than `size` bytes, by an additional
+           `sizeof(void*)` and `alignment - 1` bytes.
         */
         inline void* aligned_alloc(std::size_t alignment,
             std::size_t size) BOOST_NOEXCEPT;

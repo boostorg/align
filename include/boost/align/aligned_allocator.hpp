@@ -47,14 +47,15 @@ namespace boost {
            for allocations, if it is larger than the alignment
            of the value type. It shall be a power of two.
 
-         @remark Except for the destructor, member functions of
-           the aligned allocator shall not introduce data races
-           as a result of concurrent calls to those member
-           functions from different threads. Calls to these
-           functions that allocate or deallocate a particular
-           unit of storage shall occur in a single total order,
-           and each such deallocation call shall happen before
-           the next allocation (if any) in this order.
+         @remark **Note:** Except for the destructor, member
+           functions of the aligned allocator shall not
+           introduce data races as a result of concurrent calls
+           to those member functions from different threads.
+           Calls to these functions that allocate or deallocate
+           a particular unit of storage shall occur in a single
+           total order, and each such deallocation call shall
+           happen before the next allocation (if any) in this
+           order.
 
          @note Specifying minimum alignment is generally only
            suitable for containers such as vector and undesirable
@@ -143,10 +144,10 @@ namespace boost {
                maximum of the minimum alignment specified and the
                alignment of objects of type `T`.
 
-             @remark Throws `std::bad_alloc` if the storage cannot
-               be obtained.
+             @remark **Throw:** Throws `std::bad_alloc` if the
+               storage cannot be obtained.
 
-             @remark The storage is obtained by calling
+             @remark **Note:** The storage is obtained by calling
                `aligned_alloc(std::size_t, std::size_t)`.
             */
             pointer allocate(size_type size, const_void_pointer = 0) {
@@ -163,7 +164,8 @@ namespace boost {
              @param ptr Shall be a pointer value obtained from
                `allocate()`.
 
-             @remark Uses `alignment::aligned_free(void*)`.
+             @remark **Note:** Uses
+               `alignment::aligned_free(void*)`.
             */
             void deallocate(pointer ptr, size_type) {
                 alignment::aligned_free(ptr);

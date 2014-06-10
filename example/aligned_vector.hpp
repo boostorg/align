@@ -19,12 +19,12 @@
  to specify an minimum extended alignment
  when used with any type.
 */
-#include <boost/align.hpp>
+#include <boost/align/aligned_allocator.hpp>
 #include <vector>
 
 template<class T, std::size_t Alignment = 1>
 using aligned_vector = std::vector<T,
-    boost::aligned_allocator<T, Alignment> >;
+    boost::alignment::aligned_allocator<T, Alignment> >;
 //]
 
 #endif

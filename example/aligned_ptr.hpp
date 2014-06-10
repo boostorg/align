@@ -19,12 +19,12 @@
  allocated with `aligned_alloc`.
 */
 
-#include <boost/align.hpp>
+#include <boost/align/aligned_delete.hpp>
 #include <memory>
 
 template<class T>
 using aligned_ptr = std::unique_ptr<T,
-    boost::aligned_delete>;
+    boost::alignment::aligned_delete>;
 //]
 
 #endif

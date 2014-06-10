@@ -38,8 +38,8 @@ namespace boost {
              calls `aligned_free` on `ptr` to free the allocated
              memory.
 
-             @remark If `T` is an incomplete type, the program is
-               ill-formed.
+             @remark **Note:** If `T` is an incomplete type, the
+               program is ill-formed.
             */
             template<class T>
             void operator()(T* ptr) const

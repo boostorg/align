@@ -65,10 +65,10 @@ namespace boost {
            buffer would not fit into the available space,
            otherwise the adjusted value of `ptr`.
 
-         @remark The function updates its `ptr` and space
-           arguments so that it can be called repeatedly with
-           possibly different `alignment` and `size` arguments
-           for the same buffer.
+         @remark **Note:** The function updates its `ptr` and
+           space arguments so that it can be called repeatedly
+           with possibly different `alignment` and `size`
+           arguments for the same buffer.
         */
         inline void* align(std::size_t alignment, std::size_t size,
             void*& ptr, std::size_t& space);

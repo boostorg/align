@@ -13,39 +13,23 @@
  Class aligned_delete
  forward declaration.
 
+ @note This header provides a forward declaration
+   for the `aligned_delete` class.
+
  @file
  @author Glen Fernandes
 */
 
 /**
- Boost namespace.
+ @cond
 */
 namespace boost {
-    /**
-     Alignment namespace.
-    */
     namespace alignment {
-        /**
-         @cond
-        */
         class aligned_delete;
-        /**
-         @endcond
-        */
     }
 }
-
 /**
- @file
- @code{.cpp}
-
- namespace boost {
-   namespace alignment {
-     class aligned_delete;
-   }
- }
-
- @endcode
+ @endcond
 */
 
 #endif

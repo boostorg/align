@@ -153,8 +153,8 @@ namespace boost {
              Initializes the `Allocator` base class with
              `std::forward<A>(alloc)`.
 
-             @remark `Allocator` shall be constructible
-               from `A`.
+             @remark **Require:** `Allocator` shall be
+               constructible from `A`.
             */
             template<class A>
             explicit aligned_allocator_adaptor(A&& alloc)
@@ -166,8 +166,8 @@ namespace boost {
              Initializes the `Allocator` base class with
              `alloc`.
 
-             @remark `Allocator` shall be constructible
-               from `A`.
+             @remark **Require:** `Allocator` shall be
+               constructible from `A`.
             */
             template<class A>
             explicit aligned_allocator_adaptor(const A& alloc)
@@ -213,10 +213,10 @@ namespace boost {
                specified and the alignment of objects of type
                `value_type`.
 
-             @remark Throws an exception thrown from
+             @remark **Throw:** Throws an exception thrown from
                `A2::allocate` if the storage cannot be obtained.
 
-             @remark The storage is obtained by calling
+             @remark **Note:** The storage is obtained by calling
                `A2::allocate` on an object `a2`, where `a2` of
                type `A2` is a rebound copy of `base()` where its
                `value_type` is unspecified.
@@ -247,10 +247,10 @@ namespace boost {
                specified and the alignment of objects of type
                `value_type`.
 
-             @remark Throws an exception thrown from
+             @remark **Throw:** Throws an exception thrown from
                `A2::allocate` if the storage cannot be obtained.
 
-             @remark The storage is obtained by calling
+             @remark **Note:** The storage is obtained by calling
                `A2::allocate` on an object `a2`, where `a2` of
                type `A2` is a rebound copy of `base()` where its
                `value_type` is unspecified.
@@ -286,8 +286,8 @@ namespace boost {
                first argument to the invocation of `allocate`
                which returned `ptr`.
 
-             @remark Uses `A2::deallocate` on an object `a2`,
-               where `a2` of type `A2` is a rebound copy of
+             @remark **Note:** Uses `A2::deallocate` on an object
+               `a2`, where `a2` of type `A2` is a rebound copy of
                `base()` where its `value_type` is unspecified.
             */
             void deallocate(pointer ptr, size_type size) {

@@ -11,7 +11,10 @@
 
 /**
  Boost.Align
- in Boost namespace.
+ all headers.
+
+ @note This header includes all public headers
+   of the Boost.Align library.
 
  @file
  @author Glen Fernandes
@@ -23,41 +26,5 @@
 #include <boost/align/aligned_allocator_adaptor.hpp>
 #include <boost/align/aligned_delete.hpp>
 #include <boost/align/is_aligned.hpp>
-
-/**
- Boost namespace.
-*/
-namespace boost {
-    /**
-     @cond
-    */
-    using alignment::align;
-    using alignment::aligned_alloc;
-    using alignment::aligned_free;
-    using alignment::aligned_allocator;
-    using alignment::aligned_allocator_adaptor;
-    using alignment::aligned_delete;
-    using alignment::is_aligned;
-    /**
-     @endcond
-    */
-}
-
-/**
- @file
- @code{.cpp}
-
- namespace boost {
-   using alignment::align;
-   using alignment::aligned_alloc;
-   using alignment::aligned_free;
-   using alignment::aligned_allocator;
-   using alignment::aligned_allocator_adaptor;
-   using alignment::aligned_delete;
-   using alignment::is_aligned;
- }
-
- @endcode
-*/
 
 #endif

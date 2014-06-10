@@ -9,6 +9,7 @@
 #ifndef MAKE_ALIGNED_HPP
 #define MAKE_ALIGNED_HPP
 
+#include <boost/align/aligned_alloc.hpp>
 #include "aligned_ptr.hpp"
 
 //[make_aligned_hpp
@@ -23,20 +24,18 @@
  and will rethrow the exception.
 */
 template<class T, class... Args>
-inline aligned_ptr<T>
-    make_aligned(Args&&... args)
+inline aligned_ptr<T> make_aligned(Args&&... args)
 {
-    auto p = boost::aligned_alloc(alignof(T),
+    auto p = boost::alignment::aligned_alloc(alignof(T),
         sizeof(T));
     if (!p) {
         throw std::bad_alloc();
     }
     try {
-        auto q = ::new(p)
-            T(std::forward<Args>(args)...);
+        auto q = ::new(p) T(std::forward<Args>(args)...);
         return aligned_ptr<T>(q);
     } catch (...) {
-        boost::aligned_free(p);
+        boost::alignment::aligned_free(p);
         throw;
     }
 }
