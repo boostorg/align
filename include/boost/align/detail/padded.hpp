@@ -15,7 +15,7 @@ namespace boost {
             template<class T>
             struct padded {
                 char unit;
-                typename no_ref<T>::type object;
+                T object;
             };
         }
     }

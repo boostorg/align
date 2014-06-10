@@ -21,32 +21,32 @@
 
 [section Introduction]
 
-This library provides function `align` for
+This library provides function *align* for
 implementations which do not have the C++11 standard
 library `std::align` function available.
 
 It provides allocation and deallocation functions,
-`aligned_alloc` and `aligned_free`, as their
+*aligned_alloc* and *aligned_free*, as their
 functionality is not yet available in the C++ standard
 library. They use platform specific functions, if
 available, or use standard library functions in
 conjunction with `align`.
 
 It provides C++ allocators, class templates
-`aligned_allocator` and `aligned_allocator_adaptor`,
+*aligned_allocator* and *aligned_allocator_adaptor*,
 which respect alignment. The first uses `aligned_alloc`
 and `aligned_free` while the second uses the allocator
 in conjunction with `align`.
 
-It provides a deleter, class `aligned_delete`, which
+It provides a deleter, class *aligned_delete*, which
 makes use of `aligned_free`. It is suitable for use
 with constructed objects allocated with `aligned_alloc`.
 
-It provides the class template `alignment_of` for
+It provides the class template *alignment_of* for
 implementations which do not have the C++11 standard
 library `std::alignment_of` template available.
 
-It also provides function `is_aligned` to test the
+It also provides function *is_aligned* to test the
 alignment of a pointer.
 
 [endsect]
@@ -59,31 +59,31 @@ C++11 added the ability to specify increased alignment
 and the default allocator, `std::allocator`, do not
 support dynamic memory allocation of over-aligned data.
 
-The `align` function can be used to align a pointer to
+The *align* function can be used to align a pointer to
 storage and is provided for standard library
 implementations which do not yet provide `std::align`.
 
-The `aligned_alloc` function can be used in place of
+The *aligned_alloc* function can be used in place of
 `::operator new` to specify the alignment of the memory
 allocated.
 
-The `aligned_allocator` class template can be used in
+The *aligned_allocator* class template can be used in
 place of `std::allocator` as an alignment-aware
 default allocator.
 
-The `aligned_allocator_adaptor` class template can be
+The *aligned_allocator_adaptor* class template can be
 used to adapt any allocator into an alignment-aware
 allocator.
 
-The `aligned_delete` class can be used in place of the
+The *aligned_delete* class can be used in place of the
 default deleter, `std::default_delete`, to destroy and
 free any objects allocated with `aligned_alloc`.
 
-The `alignment_of` class template can be used to get the
+The *alignment_of* class template can be used to get the
 alignment of a type, and is provided for implementations
 which do not have `std::alignment_of`.
 
-The `is_aligned` function can be used for verification
+The *is_aligned* function can be used for verification
 or to branch to a faster code path which requires
 that objects have a specified extended alignment.
 

@@ -10,18 +10,19 @@
 #define BOOST_ALIGN_DETAIL_ALIGNMENT_OF_HPP
 
 #include <boost/align/detail/min_size.hpp>
-#include <boost/align/detail/no_ref.hpp>
 #include <boost/align/detail/padded.hpp>
 
 namespace boost {
     namespace alignment {
-        template<class T>
-        struct alignment_of {
-            enum {
-                value = detail::min_size<sizeof(T),
-                    sizeof(detail::padded<T>) - sizeof(T)>::value
+        namespace detail {
+            template<class T>
+            struct alignment_of {
+                enum {
+                    value = detail::min_size<sizeof(T),
+                        sizeof(detail::padded<T>) - sizeof(T)>::value
+                };
             };
-        };
+        }
     }
 }
 

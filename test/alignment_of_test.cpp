@@ -6,63 +6,83 @@
  Version 1.0. (See accompanying file LICENSE_1_0.txt
  or copy at http://boost.org/LICENSE_1_0.txt)
 */
+#include <boost/config.hpp>
 #include <boost/align/alignment_of.hpp>
 #include <boost/core/lightweight_test.hpp>
 #include <cstddef>
 
-// remove_reference
-
-template<class T> struct remove_reference
-{
+template<class T>
+struct no_ref {
     typedef T type;
 };
 
-template<class T> struct remove_reference< T& >: remove_reference< T > {};
-#if !defined( BOOST_NO_CXX11_RVALUE_REFERENCES )
-template<class T> struct remove_reference< T&& >: remove_reference< T > {};
+template<class T>
+struct no_ref<T&> {
+    typedef T type;
+};
+
+#if !defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
+template<class T>
+struct no_ref<T&&> {
+    typedef T type;
+};
 #endif
 
-// remove_extents
-
-template<class T> struct remove_extents
-{
+template<class T>
+struct no_extents {
     typedef T type;
 };
 
-template<class T> struct remove_extents< T[] >: remove_extents< T > {};
-template<class T, std::size_t N> struct remove_extents< T[N] >: remove_extents< T > {};
+template<class T>
+struct no_extents<T[]> {
+    typedef typename no_extents<T>::type type;
+};
 
-// remove_cv
+template<class T, std::size_t N>
+struct no_extents<T[N]> {
+    typedef typename no_extents<T>::type type;
+};
 
-template<class T> struct remove_cv
-{
+template<class T>
+struct no_const {
     typedef T type;
 };
 
-template<class T> struct remove_cv< T const >: remove_cv< T > {};
-template<class T> struct remove_cv< T volatile >: remove_cv< T > {};
-template<class T> struct remove_cv< T const volatile >: remove_cv< T > {};
+template<class T>
+struct no_const<const T> {
+    typedef T type;
+};
 
-// remove_cv_array_ref
+template<class T>
+struct no_volatile {
+    typedef T type;
+};
 
-template<class T> struct remove_cv_array_ref
-{
-    typedef typename remove_reference<T>::type noref;
-    typedef typename remove_extents<noref>::type noarray;
-    typedef typename remove_cv<noarray>::type type;
+template<class T>
+struct no_volatile<volatile T> {
+    typedef T type;
+};
+
+template<class T>
+struct no_cv {
+    typedef typename no_volatile<typename
+        no_const<T>::type>::type type;
 };
 
 template<class T>
 struct padded {
     char unit;
-    typename remove_cv_array_ref< T >::type object;
+    typename no_cv<typename no_extents<typename
+        no_ref<T>::type>::type>::type object;
 };
 
 template<class T>
 void test_impl()
 {
-    BOOST_TEST(boost::alignment::
-        alignment_of<T>::value == offsetof(padded<T>, object));
+    std::size_t result = boost::
+        alignment::alignment_of<T>::value;
+    BOOST_TEST_EQ(result,
+        offsetof(padded<T>, object));
 }
 
 template<class T>
@@ -70,7 +90,8 @@ void test_reference()
 {
     test_impl<T>();
     test_impl<T&>();
-#if !defined( BOOST_NO_CXX11_RVALUE_REFERENCES )
+
+#if !defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
     test_impl<T&&>();
 #endif
 }
@@ -79,31 +100,34 @@ template<class T>
 void test_array()
 {
     test_reference<T>();
-    test_impl<T[]>(); // T (&) [] is illegal
     test_reference<T[2]>();
+    test_impl<T[]>();
 }
 
 template<class T>
 void test_cv()
 {
     test_array<T>();
-    test_array<T const>();
-    test_array<T volatile>();
-    test_array<T const volatile>();
+    test_array<const T>();
+    test_array<volatile T>();
+    test_array<const volatile T>();
 }
 
-template<class T> struct W1
-{
+template<class T>
+struct W1 {
     T t;
 };
 
-template<class T> class W2
-{
+template<class T>
+class W2 {
+#if defined(BOOST_CLANG) && __cplusplus < 201103L
+public:
+#endif
     T t;
 };
 
-template<class T> union W3
-{
+template<class T>
+union W3 {
     T t;
 };
 
@@ -111,43 +135,24 @@ template<class T>
 void test()
 {
     test_cv<T>();
-    test_cv< W1<T> >();
-    test_cv< W2<T> >();
-    test_cv< W3<T> >();
+    test_cv<W1<T> >();
+    test_cv<W2<T> >();
+    test_cv<W3<T> >();
 }
 
-class X;
-
-enum E
+void test_integral()
 {
-    v = 1
-};
-
-struct S
-{
-};
-
-class C
-{
-};
-
-union U
-{
-};
-
-int main()
-{
-    // integral
     test<bool>();
-
     test<char>();
     test<signed char>();
     test<unsigned char>();
     test<wchar_t>();
-#if !defined( BOOST_NO_CXX11_CHAR16_T  )
+
+#if !defined(BOOST_NO_CXX11_CHAR16_T)
     test<char16_t>();
 #endif
-#if !defined( BOOST_NO_CXX11_CHAR32_T  )
+
+#if !defined(BOOST_NO_CXX11_CHAR32_T)
     test<char32_t>();
 #endif
 
@@ -157,39 +162,74 @@ int main()
     test<unsigned int>();
     test<long>();
     test<unsigned long>();
-#if !defined( BOOST_NO_LONG_LONG )
+
+#if !defined(BOOST_NO_LONG_LONG)
     test<long long>();
     test<unsigned long long>();
 #endif
+}
 
-    // floating point
+void test_floating_point()
+{
     test<float>();
     test<double>();
     test<long double>();
+}
 
-    // nullptr_t
-#if !defined( BOOST_NO_CXX11_NULLPTR ) && !defined( BOOST_NO_CXX11_DECLTYPE )
+void test_nullptr_t()
+{
+#if !defined(BOOST_NO_CXX11_NULLPTR) && \
+    !defined(BOOST_NO_CXX11_DECLTYPE)
     test<decltype(nullptr)>();
 #endif
+}
 
-    // pointer
+class X;
+
+void test_pointer()
+{
     test<void*>();
     test<char*>();
     test<int*>();
     test<X*>();
     test<void(*)()>();
+}
 
-    // member pointer
+void test_member_pointer()
+{
     test<int X::*>();
     test<int (X::*)()>();
+}
 
-    // enum
+enum E {
+    v = 1
+};
+
+void test_enum()
+{
     test<E>();
+}
 
-    // class
+struct S { };
+class  C { };
+union  U { };
+
+void test_class()
+{
     test<S>();
     test<C>();
     test<U>();
+}
+
+int main()
+{
+    test_integral();
+    test_floating_point();
+    test_nullptr_t();
+    test_pointer();
+    test_member_pointer();
+    test_enum();
+    test_class();
 
     return boost::report_errors();
 }

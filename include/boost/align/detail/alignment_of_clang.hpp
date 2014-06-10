@@ -11,12 +11,14 @@
 
 namespace boost {
     namespace alignment {
-        template<class T>
-        struct alignment_of {
-            enum {
-                value = __alignof(T)
+        namespace detail {
+            template<class T>
+            struct alignment_of {
+                enum {
+                    value = __alignof(T)
+                };
             };
-        };
+        }
     }
 }
 

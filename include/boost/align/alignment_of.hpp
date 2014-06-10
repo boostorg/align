@@ -17,13 +17,11 @@
 */
 
 #include <boost/config.hpp>
+#include <boost/align/detail/align_type.hpp>
 
-/**
- @cond
-*/
 #if !defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS)
 #include <boost/align/detail/alignment_of_cxx11.hpp>
-#elif BOOST_MSVC >= 1400
+#elif defined(BOOST_MSVC)
 #include <boost/align/detail/alignment_of_msvc.hpp>
 #elif defined(BOOST_CLANG)
 #include <boost/align/detail/alignment_of_clang.hpp>
@@ -36,9 +34,6 @@
 #else
 #include <boost/align/detail/alignment_of.hpp>
 #endif
-/**
- @endcond
-*/
 
 /**
  Boost namespace.
@@ -51,13 +46,24 @@ namespace boost {
         /**
          Class template alignment_of.
 
-         @note This trait type has one member, `value`,
-           which is the alignment value of the type.
-
          @remark **Value:** `alignof(T)`.
         */
         template<class T>
-        struct alignment_of;
+        struct alignment_of {
+            /**
+             @enum
+            */
+            enum {
+                /**
+                 @cond
+                */
+                value = detail::alignment_of<typename
+                    detail::align_type<T>::type>::value
+                /**
+                 @endcond
+                */
+            };
+        };
     }
 }
 

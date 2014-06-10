@@ -13,7 +13,9 @@
 
 namespace boost {
     namespace alignment {
-        using std::alignment_of;
+        namespace detail {
+            using std::alignment_of;
+        }
     }
 }
 
