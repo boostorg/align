@@ -177,6 +177,7 @@ int main()
     test<char*>();
     test<int*>();
     test<X*>();
+    test<void(*)()>();
 
     // member pointer
     test<int X::*>();
