@@ -6,78 +6,83 @@
  Version 1.0. (See accompanying file LICENSE_1_0.txt
  or copy at http://boost.org/LICENSE_1_0.txt)
 */
-#ifndef BOOST_ALIGN_DETAIL_ALIGN_TYPE_HPP
-#define BOOST_ALIGN_DETAIL_ALIGN_TYPE_HPP
+#ifndef BOOST_ALIGN_DETAIL_TYPE_TRAITS_HPP
+#define BOOST_ALIGN_DETAIL_TYPE_TRAITS_HPP
 
 #include <boost/config.hpp>
+
+#if !defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS)
+#include <type_traits>
+#else
 #include <cstddef>
+#endif
 
 namespace boost {
     namespace alignment {
         namespace detail {
+#if !defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS)
+            using std::remove_reference;
+            using std::remove_all_extents;
+            using std::remove_cv;
+#else
             template<class T>
-            struct no_ref {
+            struct remove_reference {
                 typedef T type;
             };
 
             template<class T>
-            struct no_ref<T&> {
+            struct remove_reference<T&> {
                 typedef T type;
             };
 
 #if !defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
             template<class T>
-            struct no_ref<T&&> {
+            struct remove_reference<T&&> {
                 typedef T type;
             };
 #endif
 
             template<class T>
-            struct no_extents {
+            struct remove_all_extents {
                 typedef T type;
             };
 
             template<class T>
-            struct no_extents<T[]> {
-                typedef typename no_extents<T>::type type;
+            struct remove_all_extents<T[]> {
+                typedef typename remove_all_extents<T>::type type;
             };
 
             template<class T, std::size_t N>
-            struct no_extents<T[N]> {
-                typedef typename no_extents<T>::type type;
+            struct remove_all_extents<T[N]> {
+                typedef typename remove_all_extents<T>::type type;
             };
 
             template<class T>
-            struct no_const {
+            struct remove_const {
                 typedef T type;
             };
 
             template<class T>
-            struct no_const<const T> {
+            struct remove_const<const T> {
                 typedef T type;
             };
 
             template<class T>
-            struct no_volatile {
+            struct remove_volatile {
                 typedef T type;
             };
 
             template<class T>
-            struct no_volatile<volatile T> {
+            struct remove_volatile<volatile T> {
                 typedef T type;
             };
 
             template<class T>
-            struct no_cv {
-                typedef typename no_volatile<typename
-                    no_const<T>::type>::type type;
+            struct remove_cv {
+                typedef typename remove_volatile<typename
+                    remove_const<T>::type>::type type;
             };
-
-            template<class T>
-            struct align_type {
-                typedef typename no_cv<typename no_extents<typename
-                    no_ref<T>::type>::type>::type type;
-            };
+#endif
         }
     }
 }

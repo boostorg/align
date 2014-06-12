@@ -17,7 +17,6 @@
 */
 
 #include <boost/config.hpp>
-#include <boost/align/detail/align_type.hpp>
 
 #if !defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS)
 #include <boost/align/detail/alignment_of_cxx11.hpp>
@@ -34,6 +33,8 @@
 #else
 #include <boost/align/detail/alignment_of.hpp>
 #endif
+
+#include <boost/align/detail/type_traits.hpp>
 
 /**
  Boost namespace.
@@ -58,7 +59,10 @@ namespace boost {
                  @cond
                 */
                 value = detail::alignment_of<typename
-                    detail::align_type<T>::type>::value
+                    detail::remove_cv<typename
+                    detail::remove_all_extents<typename
+                    detail::remove_reference<T>::
+                    type>::type>::type>::value
                 /**
                  @endcond
                 */
