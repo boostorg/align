@@ -77,12 +77,20 @@ struct padded {
 };
 
 template<class T>
+std::ptrdiff_t offset()
+{
+    static padded<T> p = padded<T>();
+    return (const
+        char*)&p.object - (const
+        char*)&p.unit;
+}
+
+template<class T>
 void test_impl()
 {
-    std::size_t result = boost::
-        alignment::alignment_of<T>::value;
-    BOOST_TEST_EQ(result,
-        offsetof(padded<T>, object));
+    std::size_t result = boost::alignment::
+        alignment_of<T>::value;
+    BOOST_TEST_EQ(result, offset<T>());
 }
 
 template<class T>
@@ -120,9 +128,7 @@ struct W1 {
 
 template<class T>
 class W2 {
-#if defined(BOOST_CLANG) && __cplusplus < 201103L
 public:
-#endif
     T t;
 };
 
