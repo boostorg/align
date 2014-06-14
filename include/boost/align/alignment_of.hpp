@@ -24,12 +24,16 @@
 #include <boost/align/detail/alignment_of_msvc.hpp>
 #elif defined(BOOST_CLANG)
 #include <boost/align/detail/alignment_of_clang.hpp>
-#elif (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 3))
-#include <boost/align/detail/alignment_of_gcc.hpp>
 #elif defined(__ghs__) && (__GHS_VERSION_NUMBER >= 600)
 #include <boost/align/detail/alignment_of_gcc.hpp>
 #elif defined(__CODEGEARC__)
 #include <boost/align/detail/alignment_of_codegear.hpp>
+#elif defined(__GNUC__) && defined(__unix__) && !defined(__LP64__)
+#include <boost/align/detail/alignment_of.hpp>
+#elif __GNUC__ > 4
+#include <boost/align/detail/alignment_of_gcc.hpp>
+#elif (__GNUC__ == 4) && (__GNUC_MINOR__ >= 3)
+#include <boost/align/detail/alignment_of_gcc.hpp>
 #else
 #include <boost/align/detail/alignment_of.hpp>
 #endif
