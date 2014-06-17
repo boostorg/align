@@ -80,9 +80,7 @@ template<class T>
 std::ptrdiff_t offset()
 {
     static padded<T> p = padded<T>();
-    return (const
-        char*)&p.object - (const
-        char*)&p.unit;
+    return (char*)&p.object - &p.unit;
 }
 
 template<class T>
