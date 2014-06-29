@@ -17,6 +17,8 @@
 */
 
 #include <boost/config.hpp>
+#include <boost/align/alignment_of_forward.hpp>
+#include <boost/align/detail/type_traits.hpp>
 
 #if !defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS)
 #include <boost/align/detail/alignment_of_cxx11.hpp>
@@ -37,8 +39,6 @@
 #else
 #include <boost/align/detail/alignment_of.hpp>
 #endif
-
-#include <boost/align/detail/type_traits.hpp>
 
 /**
  Boost namespace.

@@ -9,6 +9,7 @@
 #include <boost/align/aligned_alloc.hpp>
 #include <boost/align/is_aligned.hpp>
 #include <boost/core/lightweight_test.hpp>
+#include <cstddef>
 #include <cstring>
 
 void test(std::size_t alignment)

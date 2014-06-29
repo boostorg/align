@@ -11,6 +11,7 @@
 #include <boost/align/alignment_of.hpp>
 #include <boost/core/lightweight_test.hpp>
 #include <new>
+#include <cstddef>
 
 class type {
 public:
