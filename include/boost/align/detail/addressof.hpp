@@ -14,7 +14,7 @@
 #if !defined(BOOST_NO_CXX11_ADDRESSOF)
 #include <memory>
 #else
-#include <boost/core/addressof.hpp>
+#include <boost/utility/addressof.hpp>
 #endif
 
 namespace boost {
