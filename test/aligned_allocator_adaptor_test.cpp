@@ -31,6 +31,10 @@ public:
         typedef Allocator<U> other;
     };
 
+    Allocator()
+        : state() {
+    }
+
     Allocator(int value)
         : state(value) {
     }
