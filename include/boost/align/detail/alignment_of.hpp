@@ -18,8 +18,8 @@ namespace boost {
             template<class T>
             struct alignment_of {
                 enum {
-                    value = detail::min_size<sizeof(T),
-                        sizeof(detail::padded<T>) - sizeof(T)>::value
+                    value = min_size<sizeof(T),
+                        sizeof(padded<T>) - sizeof(T)>::value
                 };
             };
         }
