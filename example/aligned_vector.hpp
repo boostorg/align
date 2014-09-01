@@ -9,22 +9,11 @@
 #ifndef ALIGNED_VECTOR_HPP
 #define ALIGNED_VECTOR_HPP
 
-//[aligned_vector_hpp
-/*`
- The `aligned_vector` alias template is a
- `vector` that uses `aligned_allocator` as
- the allocator type, with a configurable
- minimum alignment. It can be used with
- types that have an extended alignment or
- to specify an minimum extended alignment
- when used with any type.
-*/
 #include <boost/align/aligned_allocator.hpp>
 #include <vector>
 
 template<class T, std::size_t Alignment = 1>
 using aligned_vector = std::vector<T,
     boost::alignment::aligned_allocator<T, Alignment> >;
-//]
 
 #endif

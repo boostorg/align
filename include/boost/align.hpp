@@ -9,17 +9,6 @@
 #ifndef BOOST_ALIGN_HPP
 #define BOOST_ALIGN_HPP
 
-/**
- Boost.Align
- all headers.
-
- @note This header includes all public headers
-   of the Boost.Align library.
-
- @file
- @author Glen Fernandes
-*/
-
 #include <boost/align/align.hpp>
 #include <boost/align/aligned_alloc.hpp>
 #include <boost/align/aligned_allocator.hpp>

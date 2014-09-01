@@ -9,13 +9,6 @@
 #ifndef BOOST_ALIGN_ALIGNMENT_OF_HPP
 #define BOOST_ALIGN_ALIGNMENT_OF_HPP
 
-/**
- Class template alignment_of.
-
- @file
- @author Glen Fernandes
-*/
-
 #include <boost/config.hpp>
 #include <boost/align/alignment_of_forward.hpp>
 #include <boost/align/detail/type_traits.hpp>
@@ -40,36 +33,16 @@
 #include <boost/align/detail/alignment_of.hpp>
 #endif
 
-/**
- Boost namespace.
-*/
 namespace boost {
-    /**
-     Alignment namespace.
-    */
     namespace alignment {
-        /**
-         Class template alignment_of.
-
-         @remark **Value:** `alignof(T)`.
-        */
         template<class T>
         struct alignment_of {
-            /**
-             @enum
-            */
             enum {
-                /**
-                 @cond
-                */
                 value = detail::alignment_of<typename
                     detail::remove_cv<typename
                     detail::remove_all_extents<typename
                     detail::remove_reference<T>::
                     type>::type>::type>::value
-                /**
-                 @endcond
-                */
             };
         };
     }
