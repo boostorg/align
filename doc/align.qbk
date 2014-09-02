@@ -614,8 +614,14 @@ Any conforming C++11 or C++03 compiler is supported.
 
 [section Acknowledgments]
 
+[section Author]
+
 Glen Fernandes authored the library and contributed it
 to the Boost C++ library collection.
+
+[endsect]
+
+[section Review]
 
 The following developers reviewed the design, code,
 examples, tests, and documentation.
@@ -631,6 +637,8 @@ examples, tests, and documentation.
 
 Ahmed Charles generously served as review manager for
 the formal review of the library.
+
+[endsect]
 
 [endsect]
 
