@@ -14,5 +14,6 @@ boostbook standalone
     align
   :
     <xsl:param>boost.root=../../../..
-    <xsl:param>generate.section.toc.level=1
+    <xsl:param>chunk.first.sections=1
+    <xsl:param>chunk.section.depth=2
   ;
