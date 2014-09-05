@@ -11,7 +11,7 @@
 
 #include <boost/config.hpp>
 #include <boost/align/alignment_of_forward.hpp>
-#include <boost/align/detail/type_traits.hpp>
+#include <boost/align/detail/alignment_type.hpp>
 
 #if !defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS)
 #include <boost/align/detail/alignment_of_cxx11.hpp>
@@ -33,17 +33,14 @@
 #include <boost/align/detail/alignment_of.hpp>
 #endif
 
+#include <cstddef>
+
 namespace boost {
     namespace alignment {
         template<class T>
-        struct alignment_of {
-            enum {
-                value = detail::alignment_of<typename
-                    detail::remove_cv<typename
-                    detail::remove_all_extents<typename
-                    detail::remove_reference<T>::
-                    type>::type>::type>::value
-            };
+        struct alignment_of
+            : detail::alignment_of<typename
+                detail::alignment_type<T>::type> {
         };
     }
 }

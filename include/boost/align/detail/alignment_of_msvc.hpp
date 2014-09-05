@@ -11,17 +11,14 @@
 
 #include <boost/align/detail/min_size.hpp>
 #include <boost/align/detail/padded.hpp>
-#include <cstddef>
 
 namespace boost {
     namespace alignment {
         namespace detail {
             template<class T>
-            struct alignment_of {
-                enum {
-                    value = min_size<sizeof(T),
-                        offsetof(padded<T>, object)>::value
-                };
+            struct alignment_of
+                : min_size<sizeof(T),
+                    offsetof(padded<T>, object)> {
             };
         }
     }

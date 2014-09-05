@@ -9,16 +9,16 @@
 #ifndef BOOST_ALIGN_DETAIL_MAX_COUNT_OF_HPP
 #define BOOST_ALIGN_DETAIL_MAX_COUNT_OF_HPP
 
+#include <boost/align/detail/integral_constant.hpp>
 #include <cstddef>
 
 namespace boost {
     namespace alignment {
         namespace detail {
             template<class T>
-            struct max_count_of {
-                enum {
-                    value = ~static_cast<std::size_t>(0) / sizeof(T)
-                };
+            struct max_count_of
+                : integral_constant<std::size_t,
+                    ~static_cast<std::size_t>(0) / sizeof(T)> {
             };
         }
     }

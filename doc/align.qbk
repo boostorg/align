@@ -348,7 +348,7 @@ in static assertions to validate type alignment.
 template<class T>
 class utility {
   static_assert(boost::alignment::
-    alignment_of(T) == 16, "");
+    alignment_of<T>::value == 16, "");
 public:
   utility()
     : object() {
@@ -1123,8 +1123,8 @@ namespace boost {
 
 ``
 template<class T>
-struct alignment_of {
-  static constexpr std::size_t value = unspecified;
+struct alignment_of
+  : std::integral_constant<std::size_t, unspecified> {
 };
 ``
 

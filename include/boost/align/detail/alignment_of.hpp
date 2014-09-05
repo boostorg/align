@@ -16,11 +16,9 @@ namespace boost {
     namespace alignment {
         namespace detail {
             template<class T>
-            struct alignment_of {
-                enum {
-                    value = min_size<sizeof(T),
-                        sizeof(padded<T>) - sizeof(T)>::value
-                };
+            struct alignment_of
+                : min_size<sizeof(T),
+                    sizeof(padded<T>) - sizeof(T)> {
             };
         }
     }

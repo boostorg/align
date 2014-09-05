@@ -9,14 +9,15 @@
 #ifndef BOOST_ALIGN_DETAIL_ALIGNMENT_OF_CODEGEAR_HPP
 #define BOOST_ALIGN_DETAIL_ALIGNMENT_OF_CODEGEAR_HPP
 
+#include <boost/align/detail/integral_constant.hpp>
+#include <cstddef>
+
 namespace boost {
     namespace alignment {
         namespace detail {
             template<class T>
-            struct alignment_of {
-                enum {
-                    value = alignof(T)
-                };
+            struct alignment_of
+                : integral_constant<std::size_t, alignof(T)> {
             };
         }
     }

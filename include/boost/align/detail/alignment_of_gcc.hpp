@@ -9,14 +9,15 @@
 #ifndef BOOST_ALIGN_DETAIL_ALIGNMENT_OF_GCC_HPP
 #define BOOST_ALIGN_DETAIL_ALIGNMENT_OF_GCC_HPP
 
+#include <boost/align/detail/integral_constant.hpp>
+#include <cstddef>
+
 namespace boost {
     namespace alignment {
         namespace detail {
             template<class T>
-            struct alignment_of {
-                enum {
-                    value = __alignof__(T)
-                };
+            struct alignment_of
+                : integral_constant<std::size_t, __alignof__(T)> {
             };
         }
     }

@@ -9,16 +9,16 @@
 #ifndef BOOST_ALIGN_DETAIL_MAX_ALIGN_HPP
 #define BOOST_ALIGN_DETAIL_MAX_ALIGN_HPP
 
+#include <boost/align/detail/integral_constant.hpp>
 #include <cstddef>
 
 namespace boost {
     namespace alignment {
         namespace detail {
             template<std::size_t A, std::size_t B>
-            struct max_align {
-                enum {
-                    value = (A > B) ? A : B
-                };
+            struct max_align
+                : integral_constant<std::size_t,
+                    (A > B) ? A : B> {
             };
         }
     }
