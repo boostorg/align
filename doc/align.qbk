@@ -132,20 +132,28 @@ indicate failure due to insufficient space.
 ``
 #include <boost/align/align.hpp>
 
-void use(void* ptr, std::size_t size)
+template<class T>
+inline T* make(void* ptr, std::size_t space)
 {
-  (void)ptr;
-  (void)size;
+  void* p = boost::alignment::
+    align(alignof(T), sizeof(T), ptr, space);
+  if (p) {
+    return ::new(p) T();
+  } else {
+    return nullptr;
+  }
 }
+
+struct alignas(16) type {
+  float data[4];
+};
 
 int main()
 {
-  char c[110];
-  std::size_t n = sizeof c;
-  void* p = c;
-  void* q = boost::alignment::align(16, 100, p, n);
-  if (q) {
-    use(q, 100);
+  char c[48];
+  type* p = make<type>(c, sizeof c);
+  if (p) {
+    p->~type();
   }
 }
 ``
@@ -394,7 +402,7 @@ int main()
 [section:aligned_ptr aligned_ptr and make_aligned]
 
 This example presents an alternative to `std::unique_ptr`
-that for objects allocated with the aligned allocation
+for objects allocated with the aligned allocation
 function. It is defined simply by providing an alias
 template which uses `std::unique_ptr` with our aligned
 deleter in place of the default `std::default_delete`
@@ -406,6 +414,7 @@ aligned allocation function.
 [heading Implementation]
 
 ``
+#include <boost/align/aligned_alloc.hpp>
 #include <boost/align/aligned_delete.hpp>
 #include <memory>
 
@@ -416,8 +425,8 @@ using aligned_ptr = std::unique_ptr<T,
 template<class T, class... Args>
 inline aligned_ptr<T> make_aligned(Args&&... args)
 {
-  auto p = boost::alignment::aligned_alloc(alignof(T),
-    sizeof(T));
+  auto p = boost::alignment::
+    aligned_alloc(alignof(T), sizeof(T));
   if (!p) {
     throw std::bad_alloc();
   }
