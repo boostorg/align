@@ -667,22 +667,6 @@ namespace boost {
 
 ``
 template<class T, std::size_t Alignment = 1>
-class aligned_allocator;
-
-template<std::size_t Alignment>
-class aligned_allocator<void, Alignment> {
-public:
-  typedef void value_type;
-  typedef void* pointer;
-  typedef const void* const_pointer;
-
-  template<class U>
-  struct rebind {
-    typedef aligned_allocator<U, Alignment> other;
-  };
-};
-
-template<class T, std::size_t Alignment>
 class aligned_allocator {
 public:
   typedef T value_type;
@@ -723,6 +707,19 @@ public:
 
   template<class U>
   void destroy(U* ptr);
+};
+
+template<std::size_t Alignment>
+class aligned_allocator<void, Alignment> {
+public:
+  typedef void value_type;
+  typedef void* pointer;
+  typedef const void* const_pointer;
+
+  template<class U>
+  struct rebind {
+    typedef aligned_allocator<U, Alignment> other;
+  };
 };
 ``
 
