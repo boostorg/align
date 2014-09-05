@@ -10,7 +10,7 @@
 #define BOOST_ALIGN_DETAIL_ALIGNMENT_OF_HPP
 
 #include <boost/align/detail/min_size.hpp>
-#include <boost/align/detail/padded.hpp>
+#include <boost/align/detail/offset_object.hpp>
 
 namespace boost {
     namespace alignment {
@@ -18,7 +18,7 @@ namespace boost {
             template<class T>
             struct alignment_of
                 : min_size<sizeof(T),
-                    sizeof(padded<T>) - sizeof(T)> {
+                    sizeof(offset_object<T>) - sizeof(T)> {
             };
         }
     }

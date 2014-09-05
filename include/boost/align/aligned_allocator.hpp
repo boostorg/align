@@ -16,7 +16,7 @@
 #include <boost/align/aligned_allocator_forward.hpp>
 #include <boost/align/alignment_of.hpp>
 #include <boost/align/detail/addressof.hpp>
-#include <boost/align/detail/is_alignment_const.hpp>
+#include <boost/align/detail/is_alignment_constant.hpp>
 #include <boost/align/detail/max_align.hpp>
 #include <boost/align/detail/max_count_of.hpp>
 #include <new>
@@ -30,7 +30,7 @@ namespace boost {
         template<class T, std::size_t Alignment>
         class aligned_allocator {
             BOOST_STATIC_ASSERT(detail::
-                is_alignment_const<Alignment>::value);
+                is_alignment_constant<Alignment>::value);
 
         public:
             typedef T value_type;
@@ -134,7 +134,7 @@ namespace boost {
         template<std::size_t Alignment>
         class aligned_allocator<void, Alignment> {
             BOOST_STATIC_ASSERT(detail::
-                is_alignment_const<Alignment>::value);
+                is_alignment_constant<Alignment>::value);
 
         public:
             typedef void value_type;

@@ -6,15 +6,15 @@
  License, Version 1.0.
  http://boost.org/LICENSE_1_0.txt
 */
-#ifndef BOOST_ALIGN_DETAIL_PADDED_HPP
-#define BOOST_ALIGN_DETAIL_PADDED_HPP
+#ifndef BOOST_ALIGN_DETAIL_OFFSET_OBJECT_HPP
+#define BOOST_ALIGN_DETAIL_OFFSET_OBJECT_HPP
 
 namespace boost {
     namespace alignment {
         namespace detail {
             template<class T>
-            struct padded {
-                char unit;
+            struct offset_object {
+                char offset;
                 T object;
             };
         }

@@ -22,9 +22,8 @@ namespace boost {
             std::size_t size) BOOST_NOEXCEPT
         {
             BOOST_ASSERT(detail::is_alignment(alignment));
-            typedef alignment_of<void*> min_align;
-            if (alignment < min_align::value) {
-                alignment = min_align::value;
+            if (alignment < alignment_of<void*>::value) {
+                alignment = alignment_of<void*>::value;
             }
             std::size_t n = size + alignment - 1;
             void* p1 = 0;

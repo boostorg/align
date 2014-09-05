@@ -33,8 +33,6 @@
 #include <boost/align/detail/alignment_of.hpp>
 #endif
 
-#include <cstddef>
-
 namespace boost {
     namespace alignment {
         template<class T>

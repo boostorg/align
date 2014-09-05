@@ -15,7 +15,7 @@
 #include <boost/align/aligned_allocator_adaptor_forward.hpp>
 #include <boost/align/alignment_of.hpp>
 #include <boost/align/detail/addressof.hpp>
-#include <boost/align/detail/is_alignment_const.hpp>
+#include <boost/align/detail/is_alignment_constant.hpp>
 #include <boost/align/detail/max_align.hpp>
 #include <new>
 
@@ -33,7 +33,7 @@ namespace boost {
         class aligned_allocator_adaptor
             : public Allocator {
             BOOST_STATIC_ASSERT(detail::
-                is_alignment_const<Alignment>::value);
+                is_alignment_constant<Alignment>::value);
 
 #if !defined(BOOST_NO_CXX11_ALLOCATOR)
             typedef std::allocator_traits<Allocator> Traits;
