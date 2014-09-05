@@ -27,7 +27,7 @@ namespace boost {
                 typedef integral_constant<T, Value> type;
 
 #if !defined(BOOST_NO_CXX11_CONSTEXPR)
-                constexpr operator value_type() {
+                constexpr operator value_type() const {
                     return Value;
                 }
 

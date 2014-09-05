@@ -68,17 +68,9 @@ namespace boost {
             typedef std::ptrdiff_t difference_type;
 
         private:
-            enum {
-                TypeAlign = alignment_of<value_type>::value,
-
-                PtrAlign = alignment_of<CharPtr>::value,
-
-                BlockAlign = detail::
-                    max_align<PtrAlign, TypeAlign>::value,
-
-                MaxAlign = detail::
-                    max_align<Alignment, BlockAlign>::value
-            };
+            typedef detail::max_align<Alignment,
+                detail::max_align<alignment_of<value_type>::value,
+                    alignment_of<CharPtr>::value>::value> MaxAlign;
 
         public:
             template<class U>
@@ -133,11 +125,11 @@ namespace boost {
 
             pointer allocate(size_type size) {
                 std::size_t n1 = size * sizeof(value_type);
-                std::size_t n2 = n1 + MaxAlign - 1;
+                std::size_t n2 = n1 + MaxAlign::value - 1;
                 CharAlloc a(base());
                 CharPtr p1 = a.allocate(sizeof p1 + n2);
                 void* p2 = detail::addressof(*p1) + sizeof p1;
-                (void)align(MaxAlign, n1, p2, n2);
+                (void)align(MaxAlign::value, n1, p2, n2);
                 void* p3 = static_cast<CharPtr*>(p2) - 1;
                 ::new(p3) CharPtr(p1);
                 return static_cast<pointer>(p2);
@@ -145,7 +137,7 @@ namespace boost {
 
             pointer allocate(size_type size, const_void_pointer hint) {
                 std::size_t n1 = size * sizeof(value_type);
-                std::size_t n2 = n1 + MaxAlign - 1;
+                std::size_t n2 = n1 + MaxAlign::value - 1;
                 CharPtr h = CharPtr();
                 if (hint) {
                     h = *(static_cast<const CharPtr*>(hint) - 1);
@@ -158,7 +150,7 @@ namespace boost {
                 CharPtr p1 = a.allocate(sizeof p1 + n2, h);
 #endif
                 void* p2 = detail::addressof(*p1) + sizeof p1;
-                (void)align(MaxAlign, n1, p2, n2);
+                (void)align(MaxAlign::value, n1, p2, n2);
                 void* p3 = static_cast<CharPtr*>(p2) - 1;
                 ::new(p3) CharPtr(p1);
                 return static_cast<pointer>(p2);
@@ -170,7 +162,7 @@ namespace boost {
                 p1->~CharPtr();
                 CharAlloc a(base());
                 a.deallocate(p2, size * sizeof(value_type) +
-                    MaxAlign + sizeof p2);
+                    MaxAlign::value + sizeof p2);
             }
         };
 

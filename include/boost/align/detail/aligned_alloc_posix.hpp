@@ -21,11 +21,8 @@ namespace boost {
             std::size_t size) BOOST_NOEXCEPT
         {
             BOOST_ASSERT(detail::is_alignment(alignment));
-            enum {
-                void_size = sizeof(void*)
-            };
-            if (alignment < void_size) {
-                alignment = void_size;
+            if (alignment < sizeof(void*)) {
+                alignment = sizeof(void*);
             }
             void* p;
             if (::posix_memalign(&p, alignment, size) != 0) {

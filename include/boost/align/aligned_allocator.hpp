@@ -44,12 +44,8 @@ namespace boost {
             typedef const T& const_reference;
 
         private:
-            enum {
-                TypeAlign = alignment_of<value_type>::value,
-
-                MaxAlign = detail::
-                    max_align<Alignment, TypeAlign>::value
-            };
+            typedef detail::max_align<Alignment,
+                alignment_of<value_type>::value> MaxAlign;
 
         public:
             template<class U>
@@ -81,8 +77,10 @@ namespace boost {
                 return detail::addressof(value);
             }
 
-            pointer allocate(size_type size, const_void_pointer = 0) {
-                void* p = aligned_alloc(MaxAlign, sizeof(T) * size);
+            pointer allocate(size_type size,
+                const_void_pointer = 0) {
+                void* p = aligned_alloc(MaxAlign::value,
+                    sizeof(T) * size);
                 if (!p && size > 0) {
                     boost::throw_exception(std::bad_alloc());
                 }
