@@ -77,7 +77,7 @@ struct padded {
 };
 
 template<class T>
-std::ptrdiff_t offset()
+std::size_t offset()
 {
     static padded<T> p = padded<T>();
     return (char*)&p.object - &p.unit;

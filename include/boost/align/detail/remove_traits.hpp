@@ -6,8 +6,8 @@
  License, Version 1.0.
  http://boost.org/LICENSE_1_0.txt
 */
-#ifndef BOOST_ALIGN_DETAIL_ALIGNMENT_TYPE_HPP
-#define BOOST_ALIGN_DETAIL_ALIGNMENT_TYPE_HPP
+#ifndef BOOST_ALIGN_DETAIL_REMOVE_TRAITS_HPP
+#define BOOST_ALIGN_DETAIL_REMOVE_TRAITS_HPP
 
 #include <boost/config.hpp>
 
@@ -83,15 +83,6 @@ namespace boost {
                     remove_const<T>::type>::type type;
             };
 #endif
-
-            template<class T>
-            struct alignment_type {
-                typedef typename
-                    detail::remove_reference<typename
-                    detail::remove_all_extents<typename
-                    detail::remove_cv<T>::
-                    type>::type>::type type;
-            };
         }
     }
 }
