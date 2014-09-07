@@ -18,7 +18,7 @@ namespace boost {
             template<class T>
             struct alignment_of
                 : min_size<sizeof(T),
-                    sizeof(offset_object<T>) - sizeof(T)> {
+                    sizeof(offset_object<T>) - sizeof(T)>::type {
             };
         }
     }
