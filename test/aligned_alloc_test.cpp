@@ -46,9 +46,14 @@ void test(std::size_t alignment)
 
 int main()
 {
-    for (std::size_t i = 1; i <= 128; i <<= 1) {
-        test(i);
-    }
+    test(1);
+    test(2);
+    test(4);
+    test(8);
+    test(16);
+    test(32);
+    test(64);
+    test(128);
 
     return boost::report_errors();
 }

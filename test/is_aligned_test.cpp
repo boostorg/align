@@ -18,22 +18,20 @@ void test()
     while (!boost::alignment::is_aligned(Alignment, b)) {
         b++;
     }
+    std::size_t n = Alignment;
     {
+        void* p = &b[n];
+        BOOST_TEST(boost::alignment::is_aligned(n, p));
+    }
+    if (n > 1) {
         void* p = &b[1];
-        BOOST_TEST(!boost::alignment::is_aligned(Alignment, p));
-    }
-    {
-        void* p = &b[Alignment];
-        BOOST_TEST(boost::alignment::is_aligned(Alignment, p));
-    }
-    {
-        void* p = b;
-        BOOST_TEST(boost::alignment::is_aligned(1, p));
+        BOOST_TEST(!boost::alignment::is_aligned(n, p));
     }
 }
 
 int main()
 {
+    test<1>();
     test<2>();
     test<4>();
     test<8>();
