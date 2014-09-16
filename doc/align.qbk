@@ -96,7 +96,7 @@ align a pointer value. Unfortunately some C++ standard
 library implementations do not support it yet (libstdc++
 as far as gcc 4.8.0) and other standard library
 implementations implement it incorrectly (dinkumware in
-msvc 12.0). This library provides it for those
+msvc 11.0). This library provides it for those
 implementations and also for C++03 compilers where it is
 equally useful.
 

@@ -70,7 +70,7 @@ int main()
     test<void*>();
     test<void(*)()>();
     test<C>();
-    test<int (C::*)>();
+    test<int C::*>();
     test<int (C::*)()>();
 
     return boost::report_errors();
