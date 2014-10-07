@@ -66,7 +66,7 @@ C++11 added the ability to specify increased alignment
 and the default allocator, `std::allocator`, do not
 support dynamic memory allocation of over-aligned data.
 This library provides allocation functions, allocators,
-allocator adaptors, and deleters, that are are alignment
+allocator adaptors, and deleters, that are alignment
 aware.
 
 [table Boost.Align solutions
@@ -1117,7 +1117,7 @@ namespace boost {
 }
 ``
 
-[heading:aligment_of Type trait alignment_of]
+[heading:alignment_of Type trait alignment_of]
 
 ``
 template<class T>
@@ -1129,7 +1129,7 @@ struct alignment_of
 [: [*Value:] The alignment requirement of the type `T`
   as an integral constant of type `std::size_t`. When `T`
   is a reference array type, the value shall be the
-  alignment of the referenced type. When `T` is is an
+  alignment of the referenced type. When `T` is an
   array type, the value shall be the alignment of the
   element type.
 
@@ -1209,7 +1209,7 @@ subobject.
   subobject of another object that also has `B` as a
   virtual base class, the `B` subobject might be part of
   a different subobject, reducing the alignment
-  requirementson the `D` subobject. ]
+  requirements on the `D` subobject. ]
 
 The result of the `alignof` operator reflects
 the alignment requirement of the type in the
