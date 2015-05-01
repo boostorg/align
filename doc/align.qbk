@@ -49,6 +49,9 @@ and a function to verify pointer value alignment.
     [Type trait to query alignment requirement of a
       type at compile time]
   ]
+  [ [`assume_aligned`]
+    [Macros for static pointer alignment hints]
+  ]
   [ [`is_aligned`]
     [Pointer alignment verification function]
   ]
@@ -115,6 +118,12 @@ and also for C++03 compilers where it is equally useful.
 This library provides a function to test the alignment
 of a pointer value. It is generally useful in assertions
 to validate that memory is correctly aligned.
+
+[heading Alignment hints]
+
+Allocating aligned memory is sometimes not enough to ensure the optimal code
+generation. Developers may use specific intrinsics to notify the compiler of
+a given alignment properties of a memory block.
 
 [endsect]
 
@@ -391,6 +400,25 @@ int main()
 {
   alignas(16) char c[100];
   use(c, sizeof c);
+}
+``
+
+[endsect]
+
+[section assume_aligned]
+
+This macro is used to notify the compiler of a given pointer
+variable static alignment of a. It is useful to guide optimizing
+compilers into vectorizing or applying other compiler specific,
+alignment related optimizations.
+
+``
+void myfunc( double* p )
+{
+  BOOST_ALIGN_ASSUME_ALIGNED(p, 64);
+
+  for (int i=0; i<n; i++)
+    p[i]++;
 }
 ``
 
@@ -1170,6 +1198,30 @@ bool is_aligned(std::size_t alignment,
   [*Returns:] `true` if the value of `ptr` is aligned
   on the boundary specified by `alignment`, otherwise
   `false`.
+]
+
+[endsect]
+
+
+[section BOOST_ALIGN_ASSUME_ALIGNED]
+
+
+[heading:synopsis Header <boost/align/assume_aligned.hpp>]
+
+``
+#define BOOST_ALIGN_ASSUME_ALIGNED(PTR,ALIGN)
+``
+
+[heading:BOOST_ALIGN_ASSUME_ALIGNED Macro BOOST_ALIGN_ASSUME_ALIGNED]
+
+``
+BOOST_ALIGN_ASSUME_ALIGNED(PTR,ALIGN);
+``
+
+[: [*Requires:] `ALIGN` shall be a power of two. `PTR` shall be mutable.
+
+  [*Effect:] the `PTR` variable is modified in a compiler-specific
+  way to notify its alignment to the compiler.
 ]
 
 [endsect]
