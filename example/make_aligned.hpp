@@ -15,8 +15,7 @@
 template<class T, class... Args>
 inline aligned_ptr<T> make_aligned(Args&&... args)
 {
-    auto p = boost::alignment::
-        aligned_alloc(alignof(T), sizeof(T));
+    auto p = boost::alignment::aligned_alloc(alignof(T), sizeof(T));
     if (!p) {
         throw std::bad_alloc();
     }
