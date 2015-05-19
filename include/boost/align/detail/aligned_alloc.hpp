@@ -22,10 +22,13 @@ namespace boost {
             std::size_t size) BOOST_NOEXCEPT
         {
             BOOST_ASSERT(detail::is_alignment(alignment));
-            if (alignment < alignment_of<void*>::value) {
-                alignment = alignment_of<void*>::value;
+            enum {
+                N = alignment_of<void*>::value
+            };
+            if (alignment < N) {
+                alignment = N;
             }
-            std::size_t n = size + alignment - 1;
+            std::size_t n = size + alignment - N;
             void* p1 = 0;
             void* p2 = std::malloc(n + sizeof p1);
             if (p2) {
@@ -36,8 +39,7 @@ namespace boost {
             return p1;
         }
 
-        inline void aligned_free(void* ptr)
-            BOOST_NOEXCEPT
+        inline void aligned_free(void* ptr) BOOST_NOEXCEPT
         {
             if (ptr) {
                 void* p = *(static_cast<void**>(ptr) - 1);

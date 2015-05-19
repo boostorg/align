@@ -36,26 +36,30 @@ namespace boost {
                 is_alignment_constant<Alignment>::value);
 
 #if !defined(BOOST_NO_CXX11_ALLOCATOR)
-            typedef std::allocator_traits<Allocator> Traits;
+            typedef std::allocator_traits<Allocator> traits;
 
-            typedef typename Traits::
-                template rebind_alloc<char> CharAlloc;
+            typedef typename traits::
+                template rebind_alloc<char> char_alloc;
 
-            typedef typename Traits::
-                template rebind_traits<char> CharTraits;
+            typedef typename traits::
+                template rebind_traits<char> char_traits;
 
-            typedef typename CharTraits::pointer CharPtr;
+            typedef typename char_traits::pointer char_ptr;
 #else
             typedef typename Allocator::
-                template rebind<char>::other CharAlloc;
+                template rebind<char>::other char_alloc;
 
-            typedef typename CharAlloc::pointer CharPtr;
+            typedef typename char_alloc::pointer char_ptr;
 #endif
+
+            enum {
+                ptr_align = alignment_of<char_ptr>::value
+            };
 
         public:
 #if !defined(BOOST_NO_CXX11_ALLOCATOR)
-            typedef typename Traits::value_type value_type;
-            typedef typename Traits::size_type size_type;
+            typedef typename traits::value_type value_type;
+            typedef typename traits::size_type size_type;
 #else
             typedef typename Allocator::value_type value_type;
             typedef typename Allocator::size_type size_type;
@@ -68,15 +72,17 @@ namespace boost {
             typedef std::ptrdiff_t difference_type;
 
         private:
-            typedef detail::max_align<Alignment,
-                detail::max_align<alignment_of<value_type>::value,
-                    alignment_of<CharPtr>::value>::value> MaxAlign;
+            enum {
+                min_align = detail::max_align<Alignment,
+                    detail::max_align<alignment_of<value_type>::value,
+                        alignment_of<char_ptr>::value>::value>::value
+            };
 
         public:
             template<class U>
             struct rebind {
 #if !defined(BOOST_NO_CXX11_ALLOCATOR)
-                typedef aligned_allocator_adaptor<typename Traits::
+                typedef aligned_allocator_adaptor<typename traits::
                     template rebind_alloc<U>, Alignment> other;
 #else
                 typedef aligned_allocator_adaptor<typename Allocator::
@@ -125,44 +131,44 @@ namespace boost {
 
             pointer allocate(size_type size) {
                 std::size_t n1 = size * sizeof(value_type);
-                std::size_t n2 = n1 + MaxAlign::value - 1;
-                CharAlloc a(base());
-                CharPtr p1 = a.allocate(sizeof p1 + n2);
+                std::size_t n2 = n1 + min_align - ptr_align;
+                char_alloc a(base());
+                char_ptr p1 = a.allocate(sizeof p1 + n2);
                 void* p2 = detail::addressof(*p1) + sizeof p1;
-                (void)align(MaxAlign::value, n1, p2, n2);
-                void* p3 = static_cast<CharPtr*>(p2) - 1;
-                ::new(p3) CharPtr(p1);
+                (void)align(min_align, n1, p2, n2);
+                void* p3 = static_cast<char_ptr*>(p2) - 1;
+                ::new(p3) char_ptr(p1);
                 return static_cast<pointer>(p2);
             }
 
             pointer allocate(size_type size, const_void_pointer hint) {
                 std::size_t n1 = size * sizeof(value_type);
-                std::size_t n2 = n1 + MaxAlign::value - 1;
-                CharPtr h = CharPtr();
+                std::size_t n2 = n1 + min_align - ptr_align;
+                char_ptr h = char_ptr();
                 if (hint) {
-                    h = *(static_cast<const CharPtr*>(hint) - 1);
+                    h = *(static_cast<const char_ptr*>(hint) - 1);
                 }
-                CharAlloc a(base());
+                char_alloc a(base());
 #if !defined(BOOST_NO_CXX11_ALLOCATOR)
-                CharPtr p1 = CharTraits::allocate(a, sizeof p1 +
+                char_ptr p1 = char_traits::allocate(a, sizeof p1 +
                     n2, h);
 #else
-                CharPtr p1 = a.allocate(sizeof p1 + n2, h);
+                char_ptr p1 = a.allocate(sizeof p1 + n2, h);
 #endif
                 void* p2 = detail::addressof(*p1) + sizeof p1;
-                (void)align(MaxAlign::value, n1, p2, n2);
-                void* p3 = static_cast<CharPtr*>(p2) - 1;
-                ::new(p3) CharPtr(p1);
+                (void)align(min_align, n1, p2, n2);
+                void* p3 = static_cast<char_ptr*>(p2) - 1;
+                ::new(p3) char_ptr(p1);
                 return static_cast<pointer>(p2);
             }
 
             void deallocate(pointer ptr, size_type size) {
-                CharPtr* p1 = reinterpret_cast<CharPtr*>(ptr) - 1;
-                CharPtr p2 = *p1;
-                p1->~CharPtr();
-                CharAlloc a(base());
+                char_ptr* p1 = reinterpret_cast<char_ptr*>(ptr) - 1;
+                char_ptr p2 = *p1;
+                p1->~char_ptr();
+                char_alloc a(base());
                 a.deallocate(p2, size * sizeof(value_type) +
-                    MaxAlign::value + sizeof p2);
+                    min_align - ptr_align + sizeof p2);
             }
         };
 
