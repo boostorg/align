@@ -2,32 +2,26 @@
  (c) 2015 NumScale SAS
  (c) 2015 LRI UMR 8623 CNRS/University Paris Sud XI
 
+ (c) 2015 Glen Joseph Fernandes
+ glenjofe at gmail dot com
+
  Distributed under the Boost Software
  License, Version 1.0.
  http://boost.org/LICENSE_1_0.txt
 */
-#ifndef BOOST_ALIGN_ASSUME_ALIGNED_HPP_INCLUDED
-#define BOOST_ALIGN_ASSUME_ALIGNED_HPP_INCLUDED
+#ifndef BOOST_ALIGN_ASSUME_ALIGNED_HPP
+#define BOOST_ALIGN_ASSUME_ALIGNED_HPP
 
 #include <boost/config.hpp>
-#include <cstddef>
 
 #if defined(BOOST_MSVC)
-
-#define BOOST_ALIGN_ASSUME_ALIGNED(PTR,ALIGN) __assume((std::size_t)(PTR) % (ALIGN) == 0)
-
+#include <boost/align/detail/assume_aligned_msvc.hpp>
 #elif defined(__INTEL_COMPILER)
-
-#define BOOST_ALIGN_ASSUME_ALIGNED(PTR,ALIGN)  __assume_aligned((PTR), (ALIGN))
-
-#elif defined(BOOST_GCC_VERSION) && (BOOST_GCC_VERSION >= 40700)
-
-#define BOOST_ALIGN_ASSUME_ALIGNED(PTR,ALIGN) (PTR) = __builtin_assume_aligned((PTR), (ALIGN))
-
+#include <boost/align/detail/assume_aligned_intel.hpp>
+#elif BOOST_GCC_VERSION >= 40700
+#include <boost/align/detail/assume_aligned_gcc.hpp>
 #else
-
-#define BOOST_ALIGN_ASSUME_ALIGNED(PTR,ALIGN)
-
+#include <boost/align/detail/assume_aligned.hpp>
 #endif
 
 #endif

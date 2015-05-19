@@ -15,6 +15,7 @@
 #include <boost/align/aligned_allocator_adaptor.hpp>
 #include <boost/align/aligned_delete.hpp>
 #include <boost/align/alignment_of.hpp>
+#include <boost/align/assume_aligned.hpp>
 #include <boost/align/is_aligned.hpp>
 
 #endif
