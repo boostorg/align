@@ -13,4 +13,5 @@ run aligned_allocator_test.cpp ;
 run aligned_allocator_adaptor_test.cpp ;
 run aligned_delete_test.cpp ;
 run alignment_of_test.cpp ;
+run assume_aligned_test.cpp ;
 run is_aligned_test.cpp ;

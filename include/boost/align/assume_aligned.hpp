@@ -16,10 +16,12 @@
 
 #if defined(BOOST_MSVC)
 #include <boost/align/detail/assume_aligned_msvc.hpp>
-#elif defined(__INTEL_COMPILER)
-#include <boost/align/detail/assume_aligned_intel.hpp>
+#elif defined(BOOST_CLANG)
+#include <boost/align/detail/assume_aligned_clang.hpp>
 #elif BOOST_GCC_VERSION >= 40700
 #include <boost/align/detail/assume_aligned_gcc.hpp>
+#elif defined(__INTEL_COMPILER)
+#include <boost/align/detail/assume_aligned_intel.hpp>
 #else
 #include <boost/align/detail/assume_aligned.hpp>
 #endif

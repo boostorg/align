@@ -13,10 +13,10 @@
 #include <boost/align/alignment_of_forward.hpp>
 #include <boost/align/detail/remove_traits.hpp>
 
-#if !defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS)
-#include <boost/align/detail/alignment_of_cxx11.hpp>
-#elif defined(BOOST_MSVC)
+#if defined(BOOST_MSVC)
 #include <boost/align/detail/alignment_of_msvc.hpp>
+#elif !defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS)
+#include <boost/align/detail/alignment_of_cxx11.hpp>
 #elif defined(BOOST_CLANG)
 #include <boost/align/detail/alignment_of_clang.hpp>
 #elif defined(__ghs__) && (__GHS_VERSION_NUMBER >= 600)
