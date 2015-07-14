@@ -6,18 +6,14 @@
  License, Version 1.0.
  http://boost.org/LICENSE_1_0.txt
 */
-#include <boost/align/aligned_alloc.hpp>
 #include <boost/align/assume_aligned.hpp>
 #include <cstddef>
 
 template<std::size_t Alignment>
 void test()
 {
-    void* p = boost::alignment::aligned_alloc(1, Alignment);
-    if (p) {
-        BOOST_ALIGN_ASSUME_ALIGNED(p, Alignment);
-    }
-    boost::alignment::aligned_free(p);
+    void* p = 0;
+    BOOST_ALIGN_ASSUME_ALIGNED(p, Alignment);
 }
 
 int main()
