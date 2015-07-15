@@ -9,6 +9,8 @@
 #ifndef BOOST_ALIGN_DETAIL_ASSUME_ALIGNED_CLANG_HPP
 #define BOOST_ALIGN_DETAIL_ASSUME_ALIGNED_CLANG_HPP
 
+#include <stdint.h>
+
 #if defined(__has_builtin) && __has_builtin(__builtin_assume)
 #define BOOST_ALIGN_ASSUME_ALIGNED(ptr, alignment) \
 __builtin_assume((uintptr_t(ptr) & ((alignment) - 1)) == 0)
