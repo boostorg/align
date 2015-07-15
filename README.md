@@ -1,4 +1,4 @@
-#![Boost.Align](logo/align.png)
+# boost.align
 
 Boost.Align provides memory alignment functions, allocators, and adaptors.
 
