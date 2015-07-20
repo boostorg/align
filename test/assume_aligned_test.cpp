@@ -10,10 +10,10 @@
 #include <cstddef>
 
 template<std::size_t Alignment>
-void test()
+void test(void* p = 0)
 {
-    void* p = 0;
     BOOST_ALIGN_ASSUME_ALIGNED(p, Alignment);
+    (void)p;
 }
 
 int main()
