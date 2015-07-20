@@ -17,7 +17,7 @@
 #include <boost/align/detail/alignment_of_msvc.hpp>
 #elif !defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS)
 #include <boost/align/detail/alignment_of_cxx11.hpp>
-#elif defined(BOOST_CLANG)
+#elif defined(BOOST_CLANG) && !defined(__ANDROID__)
 #include <boost/align/detail/alignment_of_clang.hpp>
 #elif defined(__ghs__) && (__GHS_VERSION_NUMBER >= 600)
 #include <boost/align/detail/alignment_of_gcc.hpp>
