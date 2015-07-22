@@ -7,24 +7,22 @@
  http://boost.org/LICENSE_1_0.txt
 */
 #include <boost/align/assume_aligned.hpp>
-#include <cstddef>
 
-template<std::size_t Alignment>
 void test(void* p = 0)
 {
-    BOOST_ALIGN_ASSUME_ALIGNED(p, Alignment);
+    BOOST_ALIGN_ASSUME_ALIGNED(p, 1);
+    BOOST_ALIGN_ASSUME_ALIGNED(p, 2);
+    BOOST_ALIGN_ASSUME_ALIGNED(p, 4);
+    BOOST_ALIGN_ASSUME_ALIGNED(p, 8);
+    BOOST_ALIGN_ASSUME_ALIGNED(p, 16);
+    BOOST_ALIGN_ASSUME_ALIGNED(p, 32);
+    BOOST_ALIGN_ASSUME_ALIGNED(p, 64);
+    BOOST_ALIGN_ASSUME_ALIGNED(p, 128);
     (void)p;
 }
 
 int main()
 {
-    test<1>();
-    test<2>();
-    test<4>();
-    test<8>();
-    test<6>();
-    test<32>();
-    test<64>();
-    test<128>();
+    test();
     return 0;
 }
