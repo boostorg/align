@@ -1,10 +1,10 @@
 /*
- (c) 2015 Glen Joseph Fernandes
- glenjofe at gmail dot com
+(c) 2015 Glen Joseph Fernandes
+glenjofe at gmail dot com
 
- Distributed under the Boost Software
- License, Version 1.0.
- http://boost.org/LICENSE_1_0.txt
+Distributed under the Boost Software
+License, Version 1.0.
+http://boost.org/LICENSE_1_0.txt
 */
 #include <boost/align/assume_aligned.hpp>
 

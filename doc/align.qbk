@@ -1,10 +1,10 @@
 [/
-  (c) 2014 Glen Joseph Fernandes
-  glenjofe at gmail dot com
+(c) 2014-2015 Glen Joseph Fernandes
+glenjofe at gmail dot com
 
-  Distributed under the Boost Software
-  License, Version 1.0.
-  http://boost.org/LICENSE_1_0.txt
+Distributed under the Boost Software
+License, Version 1.0.
+http://boost.org/LICENSE_1_0.txt
 ]
 
 [library Boost.Align
@@ -103,8 +103,10 @@ C++11 provided the `std::alignment_of` trait in the standard library to
 query the alignment requirement of a type. Unfortunately some C++
 standard library vendors do not implement it in an entirely standard
 conforming manner, such as for array types (libc++ as far as clang 3.4).
-This library provides it for those implementations and also for C++03
-compilers where it is equally useful.
+Other vendor implementations report incorrect values for certain types,
+such as pointer to members (msvc 14.0). This library provides it for
+those implementations and also for C++03 compilers where it is equally
+useful.
 
 [heading Alignment hints]
 
@@ -1087,7 +1089,7 @@ namespace boost {
 ``
 template<class T>
 struct alignment_of
-  : integral_constant<std::size_t, unspecified> {
+  : integral_constant<std::size_t, alignof(T)> {
 };
 ``
 
@@ -1111,13 +1113,13 @@ specific alignment related optimizations.
 [heading:synopsis Header <boost/align/assume_aligned.hpp>]
 
 ``
-#define BOOST_ALIGN_ASSUME_ALIGNED(ptr, alignment) unspecified
+BOOST_ALIGN_ASSUME_ALIGNED(ptr, alignment)
 ``
 
 [heading:assume_aligned Macro BOOST_ALIGN_ASSUME_ALIGNED]
 
 ``
-#define BOOST_ALIGN_ASSUME_ALIGNED(ptr, alignment) unspecified
+BOOST_ALIGN_ASSUME_ALIGNED(ptr, alignment)
 ``
 
 [: [*Requires:]

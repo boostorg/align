@@ -1,10 +1,10 @@
 /*
- (c) 2014 Glen Joseph Fernandes
- glenjofe at gmail dot com
+(c) 2014-2015 Glen Joseph Fernandes
+glenjofe at gmail dot com
 
- Distributed under the Boost Software
- License, Version 1.0.
- http://boost.org/LICENSE_1_0.txt
+Distributed under the Boost Software
+License, Version 1.0.
+http://boost.org/LICENSE_1_0.txt
 */
 #ifndef BOOST_ALIGN_ALIGNMENT_OF_HPP
 #define BOOST_ALIGN_ALIGNMENT_OF_HPP
@@ -36,16 +36,18 @@
 #endif
 
 namespace boost {
-    namespace alignment {
-        template<class T>
-        struct alignment_of
-            : detail::alignment_of<typename
-                detail::remove_cv<typename
-                detail::remove_all_extents<typename
-                detail::remove_reference<T>::
-                type>::type>::type>::type {
-        };
-    }
-}
+namespace alignment {
+
+template<class T>
+struct alignment_of
+    : detail::alignment_of<typename
+        detail::remove_cv<typename
+        detail::remove_all_extents<typename
+        detail::remove_reference<T>::
+        type>::type>::type>::type {
+};
+
+} /* :alignment */
+} /* :boost */
 
 #endif
