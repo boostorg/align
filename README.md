@@ -1,6 +1,6 @@
-# boost.align
+# Boost.Align
 
-Boost.Align provides memory alignment functions, allocators, and adaptors.
+Boost.Align provides memory alignment functions, allocators, traits.
 
 ### Contents
 
