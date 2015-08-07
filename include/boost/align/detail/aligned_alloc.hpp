@@ -1,6 +1,6 @@
 /*
 (c) 2014-2015 Glen Joseph Fernandes
-glenjofe at gmail dot com
+<glenjofe -at- gmail.com>
 
 Distributed under the Boost Software
 License, Version 1.0.
@@ -23,11 +23,8 @@ inline void* aligned_alloc(std::size_t alignment, std::size_t size)
     BOOST_NOEXCEPT
 {
     BOOST_ASSERT(detail::is_alignment(alignment));
-    enum {
-        N = alignment_of<void*>::value
-    };
-    if (alignment < N) {
-        alignment = N;
+    if (alignment < alignment_of<void*>::value) {
+        alignment = alignment_of<void*>::value;
     }
     std::size_t n = size + alignment - N;
     void* p1 = 0;
@@ -48,7 +45,7 @@ inline void aligned_free(void* ptr) BOOST_NOEXCEPT
     }
 }
 
-} /* :alignment */
-} /* :boost */
+} /* .alignment */
+} /* .boost */
 
 #endif
