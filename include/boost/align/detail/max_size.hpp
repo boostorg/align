@@ -6,20 +6,19 @@ Distributed under the Boost Software
 License, Version 1.0.
 http://boost.org/LICENSE_1_0.txt
 */
-#ifndef BOOST_ALIGN_DETAIL_MAX_ALIGN_HPP
-#define BOOST_ALIGN_DETAIL_MAX_ALIGN_HPP
+#ifndef BOOST_ALIGN_DETAIL_MAX_SIZE_HPP
+#define BOOST_ALIGN_DETAIL_MAX_SIZE_HPP
 
-#include <boost/align/detail/max_size.hpp>
-#include <boost/align/alignment_of.hpp>
+#include <boost/align/detail/integral_constant.hpp>
 #include <cstddef>
 
 namespace boost {
 namespace alignment {
 namespace detail {
 
-template<class A, class B>
-struct max_align
-    : max_size<alignment_of<A>::value, alignment_of<B>::value>::type {
+template<std::size_t A, std::size_t B>
+struct max_size
+    : integral_constant<std::size_t, (A > B) ? A : B> {
 };
 
 } /* .detail */
