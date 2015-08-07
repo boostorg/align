@@ -1,6 +1,6 @@
 /*
 (c) 2014 Glen Joseph Fernandes
-glenjofe at gmail dot com
+<glenjofe -at- gmail.com>
 
 Distributed under the Boost Software
 License, Version 1.0.
@@ -70,25 +70,25 @@ struct remove_cv {
 };
 
 template<class T>
-struct padding {
-    char offset;
+struct alignof_helper {
+    char value;
     typename remove_cv<typename remove_all_extents<typename
         remove_reference<T>::type>::type>::type object;
 };
 
+#define OFFSET(t, m) ((std::size_t)(&((t*)0)->m))
+
 template<class T>
-std::size_t offset()
+std::size_t expect()
 {
-    static padding<T> p = padding<T>();
-    return (char*)&p.object - &p.offset;
+    return OFFSET(alignof_helper<T>, object);
 }
 
 template<class T>
 void test_type()
 {
-    std::size_t result = boost::alignment::
-        alignment_of<T>::value;
-    BOOST_TEST_EQ(result, offset<T>());
+    BOOST_TEST_EQ(boost::alignment::
+        alignment_of<T>::value, expect<T>());
 }
 
 template<class T>
