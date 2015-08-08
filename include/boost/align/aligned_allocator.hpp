@@ -78,15 +78,24 @@ public:
     }
 
     pointer allocate(size_type size, const_void_pointer = 0) {
-        void* p = aligned_alloc(min_align, sizeof(T) * size);
-        if (!p && size > 0) {
+        void* p;
+        if (size > 0) {
+            p = aligned_alloc(min_align, sizeof(T) * size);
+        } else {
+            p = ::operator new(size, std::nothrow);
+        }
+        if (!p) {
             boost::throw_exception(std::bad_alloc());
         }
         return static_cast<T*>(p);
     }
 
-    void deallocate(pointer ptr, size_type) {
-        alignment::aligned_free(ptr);
+    void deallocate(pointer ptr, size_type size) {
+        if (size > 0) {
+            boost::alignment::aligned_free(ptr);
+        } else {
+            ::operator delete(ptr, std::nothrow);
+        }
     }
 
     BOOST_CONSTEXPR size_type max_size() const BOOST_NOEXCEPT {
