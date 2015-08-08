@@ -9,7 +9,7 @@ http://boost.org/LICENSE_1_0.txt
 #ifndef BOOST_ALIGN_DETAIL_ASSUME_ALIGNED_CLANG_HPP
 #define BOOST_ALIGN_DETAIL_ASSUME_ALIGNED_CLANG_HPP
 
-#if defined(__has_builtin) && __has_builtin(__builtin_assume_aligned)
+#if __has_builtin(__builtin_assume_aligned)
 #define BOOST_ALIGN_ASSUME_ALIGNED(ptr, alignment) \
 (ptr) = __builtin_assume_aligned((ptr), (alignment))
 #else
