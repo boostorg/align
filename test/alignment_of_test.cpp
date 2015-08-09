@@ -11,6 +11,8 @@ http://boost.org/LICENSE_1_0.txt
 #include <boost/core/lightweight_test.hpp>
 #include <cstddef>
 
+#define OFFSET(t, m) ((std::size_t)(&((t*)0)->m))
+
 template<class T>
 struct remove_reference {
     typedef T type;
@@ -76,7 +78,11 @@ struct alignof_helper {
         remove_reference<T>::type>::type>::type object;
 };
 
-#define OFFSET(t, m) ((std::size_t)(&((t*)0)->m))
+template<class T>
+std::size_t result()
+{
+    return boost::alignment::alignment_of<T>::value;
+}
 
 template<class T>
 std::size_t expect()
@@ -87,8 +93,7 @@ std::size_t expect()
 template<class T>
 void test_type()
 {
-    BOOST_TEST_EQ(boost::alignment::
-        alignment_of<T>::value, expect<T>());
+    BOOST_TEST_EQ(result<T>(), expect<T>());
 }
 
 template<class T>
