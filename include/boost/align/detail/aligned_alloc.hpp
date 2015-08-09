@@ -23,8 +23,11 @@ inline void* aligned_alloc(std::size_t alignment, std::size_t size)
     BOOST_NOEXCEPT
 {
     BOOST_ASSERT(detail::is_alignment(alignment));
-    if (alignment < alignment_of<void*>::value) {
-        alignment = alignment_of<void*>::value;
+    enum {
+        N = alignment_of<void*>::value
+    };
+    if (alignment < N) {
+        alignment = N;
     }
     std::size_t n = size + alignment - N;
     void* p1 = 0;
