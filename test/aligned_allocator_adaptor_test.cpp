@@ -67,14 +67,14 @@ public:
 };
 
 template<class T1, class T2>
-bool operator==(const simple<T1>& a,
-    const simple<T2>& b) {
+bool operator==(const simple<T1>& a, const simple<T2>& b)
+{
     return a.state == b.state;
 }
 
 template<class T1, class T2>
-bool operator!=(const simple<T1>& a,
-    const simple<T2>& b) {
+bool operator!=(const simple<T1>& a, const simple<T2>& b)
+{
     return !(a == b);
 }
 

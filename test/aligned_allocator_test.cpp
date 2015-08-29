@@ -26,7 +26,6 @@ void test_allocate()
     {
         boost::alignment::aligned_allocator<int, Alignment> a;
         int* p = a.allocate(0);
-        BOOST_TEST(p != 0);
         a.deallocate(p, 0);
     }
 }

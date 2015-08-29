@@ -1,14 +1,14 @@
 {
-  "key" : "align",
-  "name" : "Align",
-  "description" : "Memory alignment functions, allocators, traits.",
-  "authors" : [
+  "key": "align",
+  "name": "Align",
+  "description": "Memory alignment functions, allocators, and traits.",
+  "authors": [
     "Glen Fernandes"
   ],
-  "maintainers" : [
+  "maintainers": [
     "Glen Fernandes <glenjofe -at- gmail.com>"
   ],
-  "category" : [
+  "category": [
     "Memory"
   ]
 }
