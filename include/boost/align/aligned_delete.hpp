@@ -23,7 +23,7 @@ public:
         BOOST_NOEXCEPT_IF(BOOST_NOEXCEPT_EXPR(ptr->~T())) {
         if (ptr) {
             ptr->~T();
-            boost::alignment::aligned_free(ptr);
+            ::boost::alignment::aligned_free(ptr);
         }
     }
 };
