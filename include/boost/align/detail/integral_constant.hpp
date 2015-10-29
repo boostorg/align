@@ -1,5 +1,5 @@
 /*
-(c) 2014 Glen Joseph Fernandes
+(c) 2014-2015 Glen Joseph Fernandes
 <glenjofe -at- gmail.com>
 
 Distributed under the Boost Software
@@ -25,19 +25,13 @@ using std::integral_constant;
 template<class T, T Value>
 struct integral_constant {
     typedef T value_type;
-    typedef integral_constant<T, Value> type;
+    typedef integral_constant type;
 
-#if !defined(BOOST_NO_CXX11_CONSTEXPR)
-    constexpr operator value_type() const {
+    BOOST_CONSTEXPR operator value_type() const {
         return Value;
     }
 
-    static constexpr T value = Value;
-#else
-    enum {
-        value = Value
-    };
-#endif
+    static BOOST_CONSTEXPR_OR_CONST T value = Value;
 };
 #endif
 
