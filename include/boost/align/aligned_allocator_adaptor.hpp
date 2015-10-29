@@ -130,7 +130,7 @@ public:
         std::size_t n1 = size * sizeof(value_type);
         std::size_t n2 = n1 + min_align - ptr_align;
         char_alloc a(base());
-        char_ptr p1(a.allocate(sizeof p1 + n2));
+        char_ptr p1 = a.allocate(sizeof p1 + n2);
         void* p2 = detail::addressof(*p1) + sizeof p1;
         (void)align(min_align, n1, p2, n2);
         void* p3 = static_cast<char_ptr*>(p2) - 1;
@@ -147,9 +147,9 @@ public:
         }
         char_alloc a(base());
 #if !defined(BOOST_NO_CXX11_ALLOCATOR)
-        char_ptr p1(char_traits::allocate(a, sizeof p1 + n2, h));
+        char_ptr p1 = char_traits::allocate(a, sizeof p1 + n2, h);
 #else
-        char_ptr p1(a.allocate(sizeof p1 + n2, h));
+        char_ptr p1 = a.allocate(sizeof p1 + n2, h);
 #endif
         void* p2 = detail::addressof(*p1) + sizeof p1;
         (void)align(min_align, n1, p2, n2);
@@ -160,7 +160,7 @@ public:
 
     void deallocate(pointer ptr, size_type size) {
         char_ptr* p1 = reinterpret_cast<char_ptr*>(ptr) - 1;
-        char_ptr p2(*p1);
+        char_ptr p2 = *p1;
         p1->~char_ptr();
         char_alloc a(base());
         a.deallocate(p2, size * sizeof(value_type) +
