@@ -9,6 +9,8 @@ http://boost.org/LICENSE_1_0.txt
 #ifndef BOOST_ALIGN_DETAIL_ALIGNMENT_OF_MSVC_HPP
 #define BOOST_ALIGN_DETAIL_ALIGNMENT_OF_MSVC_HPP
 
+#include <boost/align/detail/min_size.hpp>
+
 namespace boost {
 namespace alignment {
 namespace detail {
