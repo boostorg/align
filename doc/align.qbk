@@ -670,7 +670,7 @@ public:
         typedef aligned_allocator<U, Alignment> other;
     };
 
-    aligned_allocator() noexcept = default;
+    aligned_allocator() = default;
 
     template<class U>
     aligned_allocator(const aligned_allocator<U, Alignment>&) noexcept;
@@ -1309,8 +1309,8 @@ library collection.
 
 [heading Library Reviews]
 
-The following developers reviewed the design, code, examples, tests,
-and documentation.
+Thank you to the following developers who reviewed the design, code,
+examples, tests, or documentation.
 
 * Peter Dimov
 * Andrey Semashev
@@ -1323,8 +1323,8 @@ and documentation.
 
 [heading Review Manager]
 
-Ahmed Charles generously served as review manager for the formal review
-of the library.
+Thank you to Ahmed Charles who served as review manager for the formal
+review of the library.
 
 [endsect]
 

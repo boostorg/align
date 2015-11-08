@@ -57,7 +57,7 @@ public:
     };
 
 #if !defined(BOOST_NO_CXX11_DEFAULTED_FUNCTIONS)
-    aligned_allocator() BOOST_NOEXCEPT = default;
+    aligned_allocator() = default;
 #else
     aligned_allocator() BOOST_NOEXCEPT {
     }
