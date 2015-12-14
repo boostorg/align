@@ -12,9 +12,9 @@ http://boost.org/LICENSE_1_0.txt
 #ifndef BOOST_ALIGN_DETAIL_ASSUME_ALIGNED_MSVC_HPP
 #define BOOST_ALIGN_DETAIL_ASSUME_ALIGNED_MSVC_HPP
 
-#include <stddef.h>
+#include <cstddef>
 
 #define BOOST_ALIGN_ASSUME_ALIGNED(ptr, alignment) \
-__assume((uintptr_t(ptr) & ((alignment) - 1)) == 0)
+__assume((reinterpret_cast<std::size_t>(ptr) & ((alignment) - 1)) == 0)
 
 #endif

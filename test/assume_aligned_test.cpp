@@ -7,8 +7,8 @@ License, Version 1.0.
 http://boost.org/LICENSE_1_0.txt
 */
 #include <boost/align/assume_aligned.hpp>
-#include <boost/core/lightweight_test.hpp>
 #include <boost/align/is_aligned.hpp>
+#include <boost/core/lightweight_test.hpp>
 
 void test()
 {

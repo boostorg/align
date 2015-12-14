@@ -9,9 +9,9 @@ http://boost.org/LICENSE_1_0.txt
 #ifndef BOOST_ALIGN_ALIGNED_DELETE_HPP
 #define BOOST_ALIGN_ALIGNED_DELETE_HPP
 
-#include <boost/config.hpp>
 #include <boost/align/aligned_alloc.hpp>
 #include <boost/align/aligned_delete_forward.hpp>
+#include <boost/config.hpp>
 
 namespace boost {
 namespace alignment {

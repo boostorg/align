@@ -9,9 +9,9 @@ http://boost.org/LICENSE_1_0.txt
 #ifndef BOOST_ALIGN_ALIGNMENT_OF_HPP
 #define BOOST_ALIGN_ALIGNMENT_OF_HPP
 
-#include <boost/config.hpp>
-#include <boost/align/alignment_of_forward.hpp>
 #include <boost/align/detail/remove_traits.hpp>
+#include <boost/align/alignment_of_forward.hpp>
+#include <boost/config.hpp>
 
 #if defined(BOOST_MSVC)
 #include <boost/align/detail/alignment_of_msvc.hpp>

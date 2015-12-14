@@ -9,16 +9,16 @@ http://boost.org/LICENSE_1_0.txt
 #ifndef BOOST_ALIGN_ALIGNED_ALLOCATOR_HPP
 #define BOOST_ALIGN_ALIGNED_ALLOCATOR_HPP
 
-#include <boost/config.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/throw_exception.hpp>
-#include <boost/align/aligned_alloc.hpp>
-#include <boost/align/aligned_allocator_forward.hpp>
-#include <boost/align/alignment_of.hpp>
 #include <boost/align/detail/addressof.hpp>
 #include <boost/align/detail/is_alignment_constant.hpp>
 #include <boost/align/detail/max_objects.hpp>
 #include <boost/align/detail/max_size.hpp>
+#include <boost/align/aligned_alloc.hpp>
+#include <boost/align/aligned_allocator_forward.hpp>
+#include <boost/align/alignment_of.hpp>
+#include <boost/config.hpp>
+#include <boost/static_assert.hpp>
+#include <boost/throw_exception.hpp>
 #include <new>
 
 #if !defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
@@ -78,9 +78,12 @@ public:
     }
 
     pointer allocate(size_type size, const_void_pointer = 0) {
-        void* p = aligned_alloc(min_align, sizeof(T) * size);
-        if (size > 0 && !p) {
-            ::boost::throw_exception(std::bad_alloc());
+        void* p = 0;
+        if (size) {
+            p = aligned_alloc(min_align, sizeof(T) * size);
+            if (!p) {
+                ::boost::throw_exception(std::bad_alloc());
+            }
         }
         return static_cast<T*>(p);
     }
@@ -97,28 +100,24 @@ public:
 #if !defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES)
     template<class U, class... Args>
     void construct(U* ptr, Args&&... args) {
-        void* p = ptr;
-        ::new(p) U(std::forward<Args>(args)...);
+        ::new(static_cast<void*>(ptr)) U(std::forward<Args>(args)...);
     }
 #else
     template<class U, class V>
     void construct(U* ptr, V&& value) {
-        void* p = ptr;
-        ::new(p) U(std::forward<V>(value));
+        ::new(static_cast<void*>(ptr)) U(std::forward<V>(value));
     }
 #endif
 #else
     template<class U, class V>
     void construct(U* ptr, const V& value) {
-        void* p = ptr;
-        ::new(p) U(value);
+        ::new(static_cast<void*>(ptr)) U(value);
     }
 #endif
 
     template<class U>
     void construct(U* ptr) {
-        void* p = ptr;
-        ::new(p) U();
+        ::new(static_cast<void*>(ptr)) U();
     }
 
     template<class U>

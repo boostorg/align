@@ -9,9 +9,8 @@ http://boost.org/LICENSE_1_0.txt
 #ifndef BOOST_ALIGN_DETAIL_ALIGN_HPP
 #define BOOST_ALIGN_DETAIL_ALIGN_HPP
 
-#include <boost/assert.hpp>
-#include <boost/align/detail/address.hpp>
 #include <boost/align/detail/is_alignment.hpp>
+#include <boost/assert.hpp>
 #include <cstddef>
 
 namespace boost {
@@ -21,7 +20,8 @@ inline void* align(std::size_t alignment, std::size_t size,
     void*& ptr, std::size_t& space)
 {
     BOOST_ASSERT(detail::is_alignment(alignment));
-    std::size_t n = detail::address(ptr) & (alignment - 1);
+    std::size_t n = (alignment - 1) &
+        reinterpret_cast<std::size_t>(ptr);
     if (n != 0) {
         n = alignment - n;
     }
