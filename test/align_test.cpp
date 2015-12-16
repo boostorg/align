@@ -16,7 +16,7 @@ void test()
 {
     char s[Alignment << 1];
     char* b = s;
-    while (!boost::alignment::is_aligned(Alignment, b)) {
+    while (!boost::alignment::is_aligned(b, Alignment)) {
         b++;
     }
     {
@@ -25,7 +25,7 @@ void test()
         void* q = boost::alignment::align(Alignment, 1, p, n);
         BOOST_TEST(q == p);
         BOOST_TEST(q == b);
-        BOOST_TEST(boost::alignment::is_aligned(Alignment, q));
+        BOOST_TEST(boost::alignment::is_aligned(q, Alignment));
         BOOST_TEST(n == Alignment);
     }
     {
@@ -42,7 +42,7 @@ void test()
         void* q = boost::alignment::align(Alignment, 1, p, n);
         BOOST_TEST(q == p);
         BOOST_TEST(p == &b[Alignment]);
-        BOOST_TEST(boost::alignment::is_aligned(Alignment, q));
+        BOOST_TEST(boost::alignment::is_aligned(q, Alignment));
         BOOST_TEST(n == 1);
     }
 }

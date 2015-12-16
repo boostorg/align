@@ -16,17 +16,17 @@ void test()
 {
     char s[Alignment << 1];
     char* b = s;
-    while (!boost::alignment::is_aligned(Alignment, b)) {
+    while (!boost::alignment::is_aligned(b, Alignment)) {
         b++;
     }
     {
         void* p = b;
-        BOOST_TEST(boost::alignment::align_up(Alignment, p) == p);
+        BOOST_TEST(boost::alignment::align_up(p, Alignment) == p);
     }
     {
         void* p = &b[Alignment];
         void* q = &b[1];
-        BOOST_TEST(boost::alignment::align_up(Alignment, q) == p);
+        BOOST_TEST(boost::alignment::align_up(q, Alignment) == p);
     }
 }
 

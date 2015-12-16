@@ -15,17 +15,17 @@ void test()
 {
     char s[Alignment << 1];
     char* b = s;
-    while (!boost::alignment::is_aligned(Alignment, b)) {
+    while (!boost::alignment::is_aligned(b, Alignment)) {
         b++;
     }
     std::size_t n = Alignment;
     {
         void* p = &b[n];
-        BOOST_TEST(boost::alignment::is_aligned(n, p));
+        BOOST_TEST(boost::alignment::is_aligned(p, n));
     }
     if (n > 1) {
         void* p = &b[1];
-        BOOST_TEST(!boost::alignment::is_aligned(n, p));
+        BOOST_TEST(!boost::alignment::is_aligned(p, n));
     }
 }
 

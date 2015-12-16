@@ -84,7 +84,7 @@ void test_allocate()
             Alignment> a(5);
         int* p = a.allocate(1);
         BOOST_TEST(p != 0);
-        BOOST_TEST(boost::alignment::is_aligned(Alignment, p));
+        BOOST_TEST(boost::alignment::is_aligned(p, Alignment));
         std::memset(p, 0, 1);
         a.deallocate(p, 1);
     }
@@ -94,7 +94,7 @@ void test_allocate()
         int* p1 = a.allocate(1);
         int* p2 = a.allocate(1, p1);
         BOOST_TEST(p2 != 0);
-        BOOST_TEST(boost::alignment::is_aligned(Alignment, p2));
+        BOOST_TEST(boost::alignment::is_aligned(p2, Alignment));
         std::memset(p2, 0, 1);
         a.deallocate(p2, 1);
         a.deallocate(p1, 1);

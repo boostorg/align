@@ -14,7 +14,7 @@ void test()
 {
     char s[128];
     char* p = s;
-    while (!boost::alignment::is_aligned(128, p)) {
+    while (!boost::alignment::is_aligned(p, 128)) {
         p++;
     }
     void* q = p;
