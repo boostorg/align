@@ -17,11 +17,17 @@ http://boost.org/LICENSE_1_0.txt
 namespace boost {
 namespace alignment {
 
+BOOST_CONSTEXPR inline bool is_aligned(std::size_t alignment,
+    std::size_t value) BOOST_NOEXCEPT
+{
+    return (value & (alignment - 1)) == 0;
+}
+
 inline bool is_aligned(std::size_t alignment, const void* ptr)
     BOOST_NOEXCEPT
 {
     BOOST_ASSERT(detail::is_alignment(alignment));
-    return (reinterpret_cast<std::size_t>(ptr) & (alignment - 1)) == 0;
+    return is_aligned(alignment, reinterpret_cast<std::size_t>(ptr));
 }
 
 } /* .alignment */

@@ -20,8 +20,8 @@ inline void* align(std::size_t alignment, std::size_t size,
     void*& ptr, std::size_t& space)
 {
     BOOST_ASSERT(detail::is_alignment(alignment));
-    std::size_t n = (alignment - 1) &
-        reinterpret_cast<std::size_t>(ptr);
+    std::size_t n = reinterpret_cast<std::size_t>(ptr) &
+        (alignment - 1);
     if (n != 0) {
         n = alignment - n;
     }
