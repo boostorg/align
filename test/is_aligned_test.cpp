@@ -13,7 +13,23 @@ http://boost.org/LICENSE_1_0.txt
 #include <cstddef>
 
 template<std::size_t N>
-struct A { };
+struct A {
+};
+
+template<class T>
+class P {
+public:
+    P()
+        : p(new T) {
+    }
+    ~P() {
+        delete p;
+    }
+    T* p;
+private:
+    P(const P&);
+    P& operator=(const P&);
+};
 
 template<std::size_t N>
 void test(char* p, A<N>)
@@ -30,8 +46,8 @@ void test(char* p, A<1>)
 template<class T>
 void test()
 {
-    T o;
-    test(reinterpret_cast<char*>(&o),
+    P<T> o;
+    test(reinterpret_cast<char*>(o.p),
         A<boost::alignment::alignment_of<T>::value>());
 }
 
@@ -54,6 +70,9 @@ int main()
 #if !defined(BOOST_NO_LONG_LONG)
     test<long long>();
 #endif
+    test<float>();
+    test<double>();
+    test<long double>();
     test<void*>();
     test<char*>();
     test<int*>();
