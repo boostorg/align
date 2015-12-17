@@ -549,24 +549,11 @@ void* align(std::size_t alignment, std::size_t size, void*& ptr,
 
 [endsect]
 
-[section:align_up aligned_up and align_down]
+[section:align_down align_down]
 
 The directional alignment functions can be used with pointers or
-integral values to align up or down. This functionality is not yet
-provided by the C++ standard.
-
-[heading:synopsis Header <boost/align/align_up.hpp>]
-
-``
-namespace boost {
-  namespace alignment {
-    constexpr std::size_t align_up(std::size_t value, std::size_t
-      alignment) noexcept;
-
-    void* align_up(void* ptr, std::size_t alignment) noexcept;
-  }
-}
-``
+integral values to align down. This functionality is not yet provided by
+the C++ standard.
 
 [heading:synopsis Header <boost/align/align_down.hpp>]
 
@@ -577,6 +564,45 @@ namespace boost {
       alignment) noexcept;
 
     void* align_down(void* ptr, std::size_t alignment) noexcept;
+  }
+}
+``
+
+[heading:align_down Function align_down]
+
+``
+void* align_down(void* ptr, std::size_t alignment) noexcept;
+``
+
+[:
+  [*Requires:]
+  [itemized_list
+    [`ptr` shall point to contiguous storage with sufficient space
+      for alignment]
+    [`alignment` shall be a power of two]
+  ]
+
+  [*Returns:] A pointer value at or before `ptr` that is at least
+  `alignment` bytes aligned.
+]
+
+[endsect]
+
+[section:align_up align_up]
+
+The directional alignment functions can be used with pointers or
+integral values to align up. This functionality is not yet provided by
+the C++ standard.
+
+[heading:synopsis Header <boost/align/align_up.hpp>]
+
+``
+namespace boost {
+  namespace alignment {
+    constexpr std::size_t align_up(std::size_t value, std::size_t
+      alignment) noexcept;
+
+    void* align_up(void* ptr, std::size_t alignment) noexcept;
   }
 }
 ``
@@ -596,24 +622,6 @@ void* align_up(void* ptr, std::size_t alignment) noexcept;
   ]
 
   [*Returns:] A pointer value at or after `ptr` that is at least
-  `alignment` bytes aligned.
-]
-
-[heading:align_down Function align_down]
-
-``
-void* align_down(void* ptr, std::size_t alignment) noexcept;
-``
-
-[:
-  [*Requires:]
-  [itemized_list
-    [`ptr` shall point to contiguous storage with sufficient space
-      for alignment]
-    [`alignment` shall be a power of two]
-  ]
-
-  [*Returns:] A pointer value at or before `ptr` that is at least
   `alignment` bytes aligned.
 ]
 
@@ -1403,8 +1411,8 @@ review of the library.
 
 [heading Contributions]
 
-Thank you to Joel Falcou and Charly Chevalier for your contribution and
-patience.
+Thank you to Joel Falcou and Charly Chevalier for both your contribution
+and your patience.
 
 [endsect]
 
@@ -1412,11 +1420,13 @@ patience.
 
 [heading Boost 1.61]
 
-* Added pointer and integral functions for aligning up and down.
+* Added functions for aligning up and aligning down of pointer and
+  integral values.
 
 [heading Boost 1.59]
 
-* Joel Falcou contributed the alignment hint macros.
+* Joel Falcou and Charly Chevalier together contributed the alignment
+  hint macros.
 
 [heading Boost 1.56]
 

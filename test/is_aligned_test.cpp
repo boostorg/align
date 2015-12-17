@@ -17,8 +17,7 @@ struct A {
 };
 
 template<class T>
-class P {
-public:
+struct P {
     P()
         : p(new T) {
     }
@@ -26,9 +25,6 @@ public:
         delete p;
     }
     T* p;
-private:
-    P(const P&);
-    P& operator=(const P&);
 };
 
 template<std::size_t N>
