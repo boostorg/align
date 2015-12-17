@@ -207,11 +207,11 @@ void test_pointer()
 void test_member_pointer()
 {
     test<int X::*>();
-    test<int (X::*)()>();
+    test<int(X::*)()>();
 }
 
 enum E {
-    v = 1
+    V = 1
 };
 
 void test_enum()
