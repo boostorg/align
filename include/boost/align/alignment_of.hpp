@@ -47,6 +47,11 @@ struct alignment_of
         type>::type>::type>::type {
 };
 
+#if !defined(BOOST_NO_CXX14_VARIABLE_TEMPLATES)
+template<class T>
+constexpr std::size_t alignment_of_v = alignment_of<T>::value;
+#endif
+
 } /* .alignment */
 } /* .boost */
 

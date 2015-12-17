@@ -1160,6 +1160,9 @@ namespace boost {
   namespace alignment {
     template<class T>
     struct alignment_of;
+
+    template<class T>
+    constexpr std::size_t alignment_of_v = alignment_of<T>::value;
   }
 }
 ``
@@ -1168,9 +1171,7 @@ namespace boost {
 
 ``
 template<class T>
-struct alignment_of
-    : integral_constant<std::size_t, alignof(T)> {
-};
+struct alignment_of;
 ``
 
 [:
