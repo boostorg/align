@@ -78,12 +78,12 @@ public:
     }
 
     pointer allocate(size_type size, const_void_pointer = 0) {
-        void* p = 0;
-        if (size) {
-            p = aligned_alloc(min_align, sizeof(T) * size);
-            if (!p) {
-                ::boost::throw_exception(std::bad_alloc());
-            }
+        if (size < 1) {
+            return 0;
+        }
+        void* p = aligned_alloc(min_align, sizeof(T) * size);
+        if (!p) {
+            ::boost::throw_exception(std::bad_alloc());
         }
         return static_cast<T*>(p);
     }

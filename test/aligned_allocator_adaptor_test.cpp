@@ -25,42 +25,33 @@ public:
     typedef std::ptrdiff_t difference_type;
     typedef T& reference;
     typedef const T& const_reference;
-
     template<class U>
     struct rebind {
         typedef A<U> other;
     };
-
     A()
         : state() {
     }
-
     A(int value)
         : state(value) {
     }
-
     template<class U>
     A(const A<U>& other)
         : state(other.state) {
     }
-
     pointer allocate(size_type size, const_void_pointer = 0) {
         return static_cast<T*>(::operator new(sizeof(T) * size));
     }
-
     void deallocate(pointer ptr, size_type) {
         ::operator delete(ptr);
     }
-
     void construct(pointer ptr, const_reference value) {
         ::new(static_cast<void*>(ptr)) T(value);
     }
-
     void destroy(pointer ptr) {
         (void)ptr;
         ptr->~T();
     }
-
     int state;
 };
 

@@ -17,16 +17,13 @@ template<class T>
 class type {
 public:
     static int count;
-
     type()
         : value() {
         count++;
     }
-
     ~type() {
         count--;
     }
-
 private:
     T value;
 };
