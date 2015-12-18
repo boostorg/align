@@ -54,10 +54,6 @@ class aligned_allocator_adaptor
     typedef typename char_alloc::pointer char_ptr;
 #endif
 
-    enum {
-        ptr_align = alignment_of<char_ptr>::value
-    };
-
 public:
 #if !defined(BOOST_NO_CXX11_ALLOCATOR)
     typedef typename traits::value_type value_type;
@@ -128,7 +124,7 @@ public:
 
     pointer allocate(size_type size) {
         std::size_t n1 = size * sizeof(value_type);
-        std::size_t n2 = n1 + min_align - ptr_align;
+        std::size_t n2 = n1 + min_align - 1;
         char_alloc a(base());
         char_ptr p1 = a.allocate(sizeof p1 + n2);
         void* p2 = detail::addressof(*p1) + sizeof p1;
@@ -140,7 +136,7 @@ public:
 
     pointer allocate(size_type size, const_void_pointer hint) {
         std::size_t n1 = size * sizeof(value_type);
-        std::size_t n2 = n1 + min_align - ptr_align;
+        std::size_t n2 = n1 + min_align - 1;
         char_ptr h = char_ptr();
         if (hint) {
             h = *(static_cast<const char_ptr*>(hint) - 1);
@@ -164,7 +160,7 @@ public:
         p1->~char_ptr();
         char_alloc a(base());
         a.deallocate(p2, size * sizeof(value_type) +
-            min_align - ptr_align + sizeof p2);
+            min_align - 1 + sizeof p2);
     }
 };
 
