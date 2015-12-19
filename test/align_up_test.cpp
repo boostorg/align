@@ -9,7 +9,6 @@ http://boost.org/LICENSE_1_0.txt
 #include <boost/align/align_up.hpp>
 #include <boost/align/is_aligned.hpp>
 #include <boost/core/lightweight_test.hpp>
-#include <cstddef>
 
 template<std::size_t Alignment>
 void test()

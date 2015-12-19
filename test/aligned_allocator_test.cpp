@@ -9,7 +9,6 @@ http://boost.org/LICENSE_1_0.txt
 #include <boost/align/aligned_allocator.hpp>
 #include <boost/align/is_aligned.hpp>
 #include <boost/core/lightweight_test.hpp>
-#include <cstddef>
 #include <cstring>
 
 template<std::size_t Alignment>

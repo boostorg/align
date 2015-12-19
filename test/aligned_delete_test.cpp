@@ -11,7 +11,6 @@ http://boost.org/LICENSE_1_0.txt
 #include <boost/align/alignment_of.hpp>
 #include <boost/core/lightweight_test.hpp>
 #include <new>
-#include <cstddef>
 
 template<class T>
 class type {

@@ -12,7 +12,6 @@ http://boost.org/LICENSE_1_0.txt
 #include <boost/align/detail/is_alignment.hpp>
 #include <boost/assert.hpp>
 #include <boost/config.hpp>
-#include <cstddef>
 #include <stdlib.h>
 
 namespace boost {

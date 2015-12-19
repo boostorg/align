@@ -10,7 +10,6 @@ http://boost.org/LICENSE_1_0.txt
 #include <boost/align/is_aligned.hpp>
 #include <boost/core/lightweight_test.hpp>
 #include <new>
-#include <cstddef>
 #include <cstring>
 
 template<class T>
