@@ -9,7 +9,7 @@ http://boost.org/LICENSE_1_0.txt
 #ifndef BOOST_ALIGN_DETAIL_ALIGNED_ALLOC_HPP
 #define BOOST_ALIGN_DETAIL_ALIGNED_ALLOC_HPP
 
-#include <boost/align/detail/allocation.hpp>
+#include <boost/align/detail/allocate.hpp>
 #include <boost/align/detail/is_alignment.hpp>
 #include <boost/align/align.hpp>
 #include <boost/align/alignment_of.hpp>
@@ -24,20 +24,20 @@ inline void* aligned_alloc(std::size_t alignment, std::size_t size)
 {
     BOOST_ASSERT(detail::is_alignment(alignment));
     enum {
-        minimum = alignment_of<void*>::value
+        min_align = alignment_of<void*>::value
     };
-    if (alignment < minimum) {
-        alignment = minimum;
+    if (alignment < min_align) {
+        alignment = min_align;
     }
-    std::size_t n = size + alignment - minimum;
-    void* p1 = detail::allocate(sizeof(void*) + n);
-    if (!p1) {
-        return 0;
+    std::size_t n = size + alignment - min_align;
+    void* p1 = 0;
+    void* p2 = detail::allocate(sizeof(void*) + n);
+    if (p2) {
+        p1 = static_cast<char*>(p2) + sizeof p2;
+        (void)align(alignment, size, p1, n);
+        *(static_cast<void**>(p1) - 1) = p2;
     }
-    void* p2 = static_cast<char*>(p1) + sizeof p1;
-    (void)align(alignment, size, p2, n);
-    *(static_cast<void**>(p2) - 1) = p1;
-    return p2;
+    return p1;
 }
 
 inline void aligned_free(void* ptr) BOOST_NOEXCEPT
