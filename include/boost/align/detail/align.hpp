@@ -19,18 +19,17 @@ inline void* align(std::size_t alignment, std::size_t size,
     void*& ptr, std::size_t& space)
 {
     BOOST_ASSERT(detail::is_alignment(alignment));
-    std::size_t n = reinterpret_cast<std::size_t>(ptr) &
-        (alignment - 1);
-    if (n != 0) {
-        n = alignment - n;
+    if (size <= space) {
+        char* p = reinterpret_cast<char*>((reinterpret_cast<std::
+            size_t>(ptr) + alignment - 1) & ~(alignment - 1));
+        std::size_t n = space - (p - static_cast<char*>(ptr));
+        if (size <= n) {
+            ptr = p;
+            space = n;
+            return p;
+        }
     }
-    void* p = 0;
-    if (n <= space && size <= space - n) {
-        p = static_cast<char*>(ptr) + n;
-        ptr = p;
-        space -= n;
-    }
-    return p;
+    return 0;
 }
 
 } /* .alignment */

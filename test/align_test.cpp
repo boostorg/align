@@ -1,5 +1,5 @@
 /*
-(c) 2014 Glen Joseph Fernandes
+(c) 2014-2015 Glen Joseph Fernandes
 <glenjofe -at- gmail.com>
 
 Distributed under the Boost Software
@@ -26,6 +26,14 @@ void test()
         BOOST_TEST(q == b);
         BOOST_TEST(boost::alignment::is_aligned(q, Alignment));
         BOOST_TEST(n == Alignment);
+    }
+    {
+        std::size_t n = 0;
+        void* p = b;
+        void* q = boost::alignment::align(Alignment, 1, p, n);
+        BOOST_TEST(q == 0);
+        BOOST_TEST(p == b);
+        BOOST_TEST(n == 0);
     }
     {
         std::size_t n = Alignment - 1;
