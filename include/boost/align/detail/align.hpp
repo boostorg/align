@@ -22,10 +22,10 @@ inline void* align(std::size_t alignment, std::size_t size,
     if (size <= space) {
         char* p = reinterpret_cast<char*>((reinterpret_cast<std::
             size_t>(ptr) + alignment - 1) & ~(alignment - 1));
-        std::size_t n = space - (p - static_cast<char*>(ptr));
-        if (size <= n) {
+        std::ptrdiff_t n = p - static_cast<char*>(ptr);
+        if (size <= space - n) {
             ptr = p;
-            space = n;
+            space -= n;
             return p;
         }
     }

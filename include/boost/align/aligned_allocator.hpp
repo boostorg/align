@@ -72,18 +72,17 @@ public:
         return detail::addressof(value);
     }
 
-    const_pointer address(const_reference value) const
-        BOOST_NOEXCEPT {
+    const_pointer address(const_reference value) const BOOST_NOEXCEPT {
         return detail::addressof(value);
     }
 
     pointer allocate(size_type size, const_void_pointer = 0) {
-        if (size < 1) {
-            return 0;
-        }
-        void* p = aligned_alloc(min_align, sizeof(T) * size);
-        if (!p) {
-            ::boost::throw_exception(std::bad_alloc());
+        void* p = 0;
+        if (size > 0) {
+            p = aligned_alloc(min_align, sizeof(T) * size);
+            if (!p) {
+                ::boost::throw_exception(std::bad_alloc());
+            }
         }
         return static_cast<T*>(p);
     }
@@ -144,17 +143,15 @@ public:
 };
 
 template<class T1, class T2, std::size_t Alignment>
-inline bool operator==(const aligned_allocator<T1,
-    Alignment>&, const aligned_allocator<T2,
-    Alignment>&) BOOST_NOEXCEPT
+inline bool operator==(const aligned_allocator<T1, Alignment>&,
+    const aligned_allocator<T2, Alignment>&) BOOST_NOEXCEPT
 {
     return true;
 }
 
 template<class T1, class T2, std::size_t Alignment>
-inline bool operator!=(const aligned_allocator<T1,
-    Alignment>&, const aligned_allocator<T2,
-    Alignment>&) BOOST_NOEXCEPT
+inline bool operator!=(const aligned_allocator<T1, Alignment>&,
+    const aligned_allocator<T2, Alignment>&) BOOST_NOEXCEPT
 {
     return false;
 }

@@ -30,14 +30,14 @@ inline void* aligned_alloc(std::size_t alignment, std::size_t size)
         alignment = min_align;
     }
     std::size_t n = size + alignment - min_align;
-    void* p1 = 0;
-    void* p2 = detail::allocate(sizeof(void*) + n);
-    if (p2) {
-        p1 = static_cast<char*>(p2) + sizeof p2;
-        (void)align(alignment, size, p1, n);
-        *(static_cast<void**>(p1) - 1) = p2;
+    void* r = 0;
+    void* p = detail::allocate(sizeof(void*) + n);
+    if (p) {
+        r = static_cast<char*>(p) + sizeof p;
+        (void)align(alignment, size, r, n);
+        *(static_cast<void**>(r) - 1) = p;
     }
-    return p1;
+    return r;
 }
 
 inline void aligned_free(void* ptr) BOOST_NOEXCEPT

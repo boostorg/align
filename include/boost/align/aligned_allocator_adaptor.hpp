@@ -123,44 +123,44 @@ public:
     }
 
     pointer allocate(size_type size) {
-        std::size_t n1 = size * sizeof(value_type);
-        std::size_t n2 = n1 + min_align - 1;
+        std::size_t s = size * sizeof(value_type);
+        std::size_t n = s + min_align - 1;
         char_alloc a(base());
-        char_ptr p1 = a.allocate(sizeof p1 + n2);
-        void* p2 = detail::addressof(*p1) + sizeof p1;
-        (void)align(min_align, n1, p2, n2);
-        void* p3 = static_cast<char_ptr*>(p2) - 1;
-        ::new(p3) char_ptr(p1);
-        return static_cast<pointer>(p2);
+        char_ptr p = a.allocate(sizeof p + n);
+        void* r = detail::addressof(*p) + sizeof p;
+        (void)align(min_align, s, r, n);
+        ::new(static_cast<void*>(static_cast<char_ptr*>(r) -
+            1)) char_ptr(p);
+        return static_cast<pointer>(r);
     }
 
     pointer allocate(size_type size, const_void_pointer hint) {
-        std::size_t n1 = size * sizeof(value_type);
-        std::size_t n2 = n1 + min_align - 1;
+        std::size_t s = size * sizeof(value_type);
+        std::size_t n = s + min_align - 1;
         char_ptr h = char_ptr();
         if (hint) {
             h = *(static_cast<const char_ptr*>(hint) - 1);
         }
         char_alloc a(base());
 #if !defined(BOOST_NO_CXX11_ALLOCATOR)
-        char_ptr p1 = char_traits::allocate(a, sizeof p1 + n2, h);
+        char_ptr p = char_traits::allocate(a, sizeof p + n, h);
 #else
-        char_ptr p1 = a.allocate(sizeof p1 + n2, h);
+        char_ptr p = a.allocate(sizeof p + n, h);
 #endif
-        void* p2 = detail::addressof(*p1) + sizeof p1;
-        (void)align(min_align, n1, p2, n2);
-        void* p3 = static_cast<char_ptr*>(p2) - 1;
-        ::new(p3) char_ptr(p1);
-        return static_cast<pointer>(p2);
+        void* r = detail::addressof(*p) + sizeof p;
+        (void)align(min_align, s, r, n);
+        ::new(static_cast<void*>(static_cast<char_ptr*>(r) -
+            1)) char_ptr(p);
+        return static_cast<pointer>(r);
     }
 
     void deallocate(pointer ptr, size_type size) {
-        char_ptr* p1 = reinterpret_cast<char_ptr*>(ptr) - 1;
-        char_ptr p2 = *p1;
-        p1->~char_ptr();
+        char_ptr* p = reinterpret_cast<char_ptr*>(ptr) - 1;
+        char_ptr r = *p;
+        p->~char_ptr();
         char_alloc a(base());
-        a.deallocate(p2, size * sizeof(value_type) +
-            min_align - 1 + sizeof p2);
+        a.deallocate(r, sizeof r + size * sizeof(value_type) +
+            min_align - 1);
     }
 };
 
