@@ -8,52 +8,52 @@ http://boost.org/LICENSE_1_0.txt
 */
 #include <boost/align/assume_aligned.hpp>
 
-char test1(char* p)
+void* test1(void* p)
 {
     BOOST_ALIGN_ASSUME_ALIGNED(p, 1);
-    return *p;
+    return p;
 }
 
-char test2(char* p)
+void* test2(void* p)
 {
     BOOST_ALIGN_ASSUME_ALIGNED(p, 2);
-    return *p;
+    return p;
 }
 
-char test4(char* p)
+void* test4(void* p)
 {
     BOOST_ALIGN_ASSUME_ALIGNED(p, 4);
-    return *p;
+    return p;
 }
 
-char test8(char* p)
+void* test8(void* p)
 {
     BOOST_ALIGN_ASSUME_ALIGNED(p, 8);
-    return *p;
+    return p;
 }
 
-char test16(char* p)
+void* test16(void* p)
 {
     BOOST_ALIGN_ASSUME_ALIGNED(p, 16);
-    return *p;
+    return p;
 }
 
-char test32(char* p)
+void* test32(void* p)
 {
     BOOST_ALIGN_ASSUME_ALIGNED(p, 32);
-    return *p;
+    return p;
 }
 
-char test64(char* p)
+void* test64(void* p)
 {
     BOOST_ALIGN_ASSUME_ALIGNED(p, 64);
-    return *p;
+    return p;
 }
 
-char test128(char* p)
+void* test128(void* p)
 {
     BOOST_ALIGN_ASSUME_ALIGNED(p, 128);
-    return *p;
+    return p;
 }
 
 int main()
