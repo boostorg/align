@@ -11,7 +11,6 @@ http://boost.org/LICENSE_1_0.txt
 
 #include <boost/align/aligned_alloc.hpp>
 #include <boost/align/aligned_delete_forward.hpp>
-#include <boost/config.hpp>
 
 namespace boost {
 namespace alignment {

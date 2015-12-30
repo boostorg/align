@@ -16,7 +16,6 @@ http://boost.org/LICENSE_1_0.txt
 #include <boost/align/aligned_alloc.hpp>
 #include <boost/align/aligned_allocator_forward.hpp>
 #include <boost/align/alignment_of.hpp>
-#include <boost/config.hpp>
 #include <boost/static_assert.hpp>
 #include <boost/throw_exception.hpp>
 #include <new>

@@ -10,17 +10,11 @@ http://boost.org/LICENSE_1_0.txt
 #define BOOST_ALIGN_DETAIL_IS_ALIGNED_HPP
 
 #include <boost/align/detail/is_alignment.hpp>
+#include <boost/align/is_aligned_forward.hpp>
 #include <boost/assert.hpp>
-#include <boost/config.hpp>
 
 namespace boost {
 namespace alignment {
-
-BOOST_CONSTEXPR inline bool is_aligned(std::size_t value,
-    std::size_t alignment) BOOST_NOEXCEPT
-{
-    return (value & (alignment - 1)) == 0;
-}
 
 inline bool is_aligned(const void* ptr, std::size_t alignment)
     BOOST_NOEXCEPT

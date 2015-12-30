@@ -11,7 +11,6 @@ http://boost.org/LICENSE_1_0.txt
 
 #include <boost/align/detail/element_type.hpp>
 #include <boost/align/alignment_of_forward.hpp>
-#include <boost/config.hpp>
 
 #if defined(BOOST_MSVC)
 #include <boost/align/detail/alignment_of_msvc.hpp>
