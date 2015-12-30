@@ -22,29 +22,18 @@ namespace alignment {
 void* allocate(std::size_t size);
 
 void deallocate(void* ptr);
-#endif
-
-namespace detail {
-
+#else
 inline void* allocate(std::size_t size)
 {
-#if defined(BOOST_ALIGN_USE_ALLOCATE)
-    return ::boost::alignment::allocate(size);
-#else
     return std::malloc(size);
-#endif
 }
 
 inline void deallocate(void* ptr)
 {
-#if defined(BOOST_ALIGN_USE_ALLOCATE)
-    ::boost::alignment::deallocate(ptr);
-#else
     std::free(ptr);
-#endif
 }
+#endif
 
-} /* .detail */
 } /* .alignment */
 } /* .boost */
 

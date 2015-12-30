@@ -30,7 +30,7 @@ inline void* aligned_alloc(std::size_t alignment, std::size_t size)
     }
     std::size_t n = size + alignment - min_align;
     void* r = 0;
-    void* p = detail::allocate(sizeof(void*) + n);
+    void* p = allocate(sizeof(void*) + n);
     if (p) {
         r = static_cast<char*>(p) + sizeof p;
         (void)align(alignment, size, r, n);
@@ -42,7 +42,7 @@ inline void* aligned_alloc(std::size_t alignment, std::size_t size)
 inline void aligned_free(void* ptr) BOOST_NOEXCEPT
 {
     if (ptr) {
-        detail::deallocate(*(static_cast<void**>(ptr) - 1));
+        ::boost::alignment::deallocate(*(static_cast<void**>(ptr) - 1));
     }
 }
 
