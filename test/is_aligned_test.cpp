@@ -12,14 +12,12 @@ http://boost.org/LICENSE_1_0.txt
 #include <boost/config.hpp>
 
 template<std::size_t N>
-struct A {
-};
+struct A { };
 
 template<class T>
 struct P {
     P()
-        : p(new T) {
-    }
+        : p(new T) { }
     ~P() {
         delete p;
     }
