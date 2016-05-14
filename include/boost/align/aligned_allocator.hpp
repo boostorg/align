@@ -96,24 +96,24 @@ public:
 #if !defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES)
     template<class U, class... Args>
     void construct(U* ptr, Args&&... args) {
-        ::new(static_cast<void*>(ptr)) U(std::forward<Args>(args)...);
+        ::new(const_cast<void*>(static_cast<const void*>(ptr))) U(std::forward<Args>(args)...);
     }
 #else
     template<class U, class V>
     void construct(U* ptr, V&& value) {
-        ::new(static_cast<void*>(ptr)) U(std::forward<V>(value));
+        ::new(const_cast<void*>(static_cast<const void*>(ptr))) U(std::forward<V>(value));
     }
 #endif
 #else
     template<class U, class V>
     void construct(U* ptr, const V& value) {
-        ::new(static_cast<void*>(ptr)) U(value);
+        ::new(const_cast<void*>(static_cast<const void*>(ptr))) U(value);
     }
 #endif
 
     template<class U>
     void construct(U* ptr) {
-        ::new(static_cast<void*>(ptr)) U();
+        ::new(const_cast<void*>(static_cast<const void*>(ptr))) U();
     }
 
     template<class U>
