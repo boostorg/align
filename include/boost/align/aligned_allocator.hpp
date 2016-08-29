@@ -78,14 +78,14 @@ public:
         if (size > 0) {
             p = aligned_alloc(min_align, sizeof(T) * size);
             if (!p) {
-                ::boost::throw_exception(std::bad_alloc());
+                boost::throw_exception(std::bad_alloc());
             }
         }
         return static_cast<T*>(p);
     }
 
     void deallocate(pointer ptr, size_type) {
-        ::boost::alignment::aligned_free(ptr);
+        boost::alignment::aligned_free(ptr);
     }
 
     BOOST_CONSTEXPR size_type max_size() const BOOST_NOEXCEPT {
