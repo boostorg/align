@@ -15,3 +15,14 @@ boostbook standalone
   :
     <xsl:param>boost.root=../../../..
   ;
+
+###############################################################################
+alias boostdoc
+    : align
+    :
+    :
+    : ;
+explicit boostdoc ;
+alias boostrelease ;
+explicit boostrelease ;
+  
