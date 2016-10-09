@@ -9,20 +9,12 @@ import quickbook ;
 
 xml align : align.qbk ;
 
-boostbook standalone
-  :
-    align
-  :
-    <xsl:param>boost.root=../../../..
-  ;
+boostbook standalone : align : <xsl:param>boost.root=../../../..  ;
 
-###############################################################################
-alias boostdoc
-    : align
-    :
-    :
-    : ;
+alias boostdoc : align : : : ;
+
 explicit boostdoc ;
+
 alias boostrelease ;
+
 explicit boostrelease ;
-  
