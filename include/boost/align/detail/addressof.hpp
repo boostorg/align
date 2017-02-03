@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #if !defined(BOOST_NO_CXX11_ADDRESSOF)
 #include <memory>
 #else
-#include <boost/core/addressof.hpp>
+#include <boost/utility/addressof.hpp>
 #endif
 
 namespace boost {
