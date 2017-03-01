@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_ALIGN_IS_ALIGNED_HPP
 
 #include <boost/align/detail/is_aligned.hpp>
-#include <boost/align/is_aligned_forward.hpp>
 
 namespace boost {
 namespace alignment {

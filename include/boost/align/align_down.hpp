@@ -9,7 +9,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_ALIGN_ALIGN_DOWN_HPP
 
 #include <boost/align/detail/align_down.hpp>
-#include <boost/align/align_down_forward.hpp>
 
 namespace boost {
 namespace alignment {
