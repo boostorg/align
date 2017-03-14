@@ -16,7 +16,7 @@ namespace alignment {
 template<class T, std::size_t Alignment = 1>
 class aligned_allocator;
 
-} /* .alignment */
-} /* .boost */
+} /* alignment */
+} /* boost */
 
 #endif

@@ -15,7 +15,7 @@ void test()
     char s[Alignment << 1];
     char* b = s;
     while (!boost::alignment::is_aligned(b, Alignment)) {
-        b++;
+        ++b;
     }
     {
         void* p = b;

@@ -19,8 +19,8 @@ template<class A, class B>
 struct max_align
     : max_size<alignment_of<A>::value, alignment_of<B>::value> { };
 
-} /* .detail */
-} /* .alignment */
-} /* .boost */
+} /* detail */
+} /* alignment */
+} /* boost */
 
 #endif

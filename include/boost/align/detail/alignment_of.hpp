@@ -15,17 +15,17 @@ namespace alignment {
 namespace detail {
 
 template<class T>
-struct alignof_helper {
+struct offset_value {
     char value;
     T object;
 };
 
 template<class T>
 struct alignment_of
-    : min_size<sizeof(T), sizeof(alignof_helper<T>) - sizeof(T)> { };
+    : min_size<sizeof(T), sizeof(offset_value<T>) - sizeof(T)> { };
 
-} /* .detail */
-} /* .alignment */
-} /* .boost */
+} /* detail */
+} /* alignment */
+} /* boost */
 
 #endif

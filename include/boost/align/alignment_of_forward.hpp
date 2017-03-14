@@ -14,7 +14,7 @@ namespace alignment {
 template<class T>
 struct alignment_of;
 
-} /* .alignment */
-} /* .boost */
+} /* alignment */
+} /* boost */
 
 #endif

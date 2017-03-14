@@ -38,8 +38,8 @@ struct integral_constant {
 };
 #endif
 
-} /* .detail */
-} /* .alignment */
-} /* .boost */
+} /* detail */
+} /* alignment */
+} /* boost */
 
 #endif

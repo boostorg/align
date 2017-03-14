@@ -14,21 +14,21 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost {
 namespace alignment {
 
-inline bool is_aligned(const void* ptr, std::size_t alignment)
-    BOOST_NOEXCEPT
+inline bool
+is_aligned(const void* ptr, std::size_t alignment) BOOST_NOEXCEPT
 {
     BOOST_ASSERT(detail::is_alignment(alignment));
-    return ((std::size_t)ptr & (alignment - 1)) == 0;
+    return (reinterpret_cast<std::size_t>(ptr) & (alignment - 1)) == 0;
 }
 
-inline bool is_aligned(std::size_t alignment, const void* ptr)
-    BOOST_NOEXCEPT
+inline bool
+is_aligned(std::size_t alignment, const void* ptr) BOOST_NOEXCEPT
 {
     BOOST_ASSERT(detail::is_alignment(alignment));
-    return ((std::size_t)ptr & (alignment - 1)) == 0;
+    return (reinterpret_cast<std::size_t>(ptr) & (alignment - 1)) == 0;
 }
 
-} /* .alignment */
-} /* .boost */
+} /* alignment */
+} /* boost */
 
 #endif

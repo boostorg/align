@@ -14,28 +14,20 @@ void test(std::size_t alignment)
 {
     {
         void* p = boost::alignment::aligned_alloc(alignment,
-            alignment);
+            alignment + 1);
+        BOOST_TEST(p != 0);
+        BOOST_TEST(boost::alignment::is_aligned(p, alignment));
+        std::memset(p, 0, alignment);
+        boost::alignment::aligned_free(p);
+    }
+    {
+        void* p = boost::alignment::aligned_alloc(alignment, 1);
         BOOST_TEST(p != 0);
         BOOST_TEST(boost::alignment::is_aligned(p, alignment));
         std::memset(p, 0, 1);
         boost::alignment::aligned_free(p);
     }
     {
-        void* p = boost::alignment::aligned_alloc(alignment,
-            alignment + 1);
-        BOOST_TEST(p != 0);
-        BOOST_TEST(boost::alignment::is_aligned(p, alignment));
-        std::memset(p, 0, 1);
-        boost::alignment::aligned_free(p);
-    }
-    if (alignment > 1) {
-        void* p = boost::alignment::aligned_alloc(alignment,
-            alignment - 1);
-        BOOST_TEST(p != 0);
-        BOOST_TEST(boost::alignment::is_aligned(p, alignment));
-        std::memset(p, 0, 1);
-        boost::alignment::aligned_free(p);
-    } else {
         void* p = boost::alignment::aligned_alloc(alignment, 0);
         boost::alignment::aligned_free(p);
     }

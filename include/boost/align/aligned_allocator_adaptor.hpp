@@ -122,7 +122,8 @@ public:
         char_ptr p = a.allocate(sizeof p + n);
         void* r = detail::addressof(*p) + sizeof p;
         (void)align(min_align, s, r, n);
-        ::new((void*)(static_cast<char_ptr*>(r) - 1)) char_ptr(p);
+        ::new(static_cast<void*>(static_cast<char_ptr*>(r)
+            - 1)) char_ptr(p);
         return static_cast<pointer>(r);
     }
 
@@ -141,12 +142,13 @@ public:
 #endif
         void* r = detail::addressof(*p) + sizeof p;
         (void)align(min_align, s, r, n);
-        ::new((void*)(static_cast<char_ptr*>(r) - 1)) char_ptr(p);
+        ::new(static_cast<void*>(static_cast<char_ptr*>(r)
+            - 1)) char_ptr(p);
         return static_cast<pointer>(r);
     }
 
     void deallocate(pointer ptr, size_type size) {
-        char_ptr* p = (char_ptr*)ptr - 1;
+        char_ptr* p = reinterpret_cast<char_ptr*>(ptr) - 1;
         char_ptr r = *p;
         p->~char_ptr();
         char_alloc a(base());
@@ -155,23 +157,23 @@ public:
     }
 };
 
-template<class A1, class A2, std::size_t Alignment>
-inline bool operator==(const aligned_allocator_adaptor<A1,
-    Alignment>& a, const aligned_allocator_adaptor<A2,
-    Alignment>& b) BOOST_NOEXCEPT
+template<class A, class B, std::size_t Alignment>
+inline bool
+operator==(const aligned_allocator_adaptor<A, Alignment>& a,
+    const aligned_allocator_adaptor<B, Alignment>& b) BOOST_NOEXCEPT
 {
     return a.base() == b.base();
 }
 
-template<class A1, class A2, std::size_t Alignment>
-inline bool operator!=(const aligned_allocator_adaptor<A1,
-    Alignment>& a, const aligned_allocator_adaptor<A2,
-    Alignment>& b) BOOST_NOEXCEPT
+template<class A, class B, std::size_t Alignment>
+inline bool
+operator!=(const aligned_allocator_adaptor<A, Alignment>& a,
+    const aligned_allocator_adaptor<B, Alignment>& b) BOOST_NOEXCEPT
 {
     return !(a == b);
 }
 
-} /* .alignment */
-} /* .boost */
+} /* alignment */
+} /* boost */
 
 #endif

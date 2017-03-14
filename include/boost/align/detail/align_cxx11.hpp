@@ -15,7 +15,7 @@ namespace alignment {
 
 using std::align;
 
-} /* .alignment */
-} /* .boost */
+} /* alignment */
+} /* boost */
 
 #endif
