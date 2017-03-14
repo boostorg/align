@@ -16,14 +16,14 @@ namespace boost {
 namespace alignment {
 namespace detail {
 
-BOOST_CONSTEXPR inline bool is_alignment(std::size_t value)
-    BOOST_NOEXCEPT
+BOOST_CONSTEXPR inline bool
+is_alignment(std::size_t value) BOOST_NOEXCEPT
 {
     return (value > 0) && ((value & (value - 1)) == 0);
 }
 
-} /* .detail */
-} /* .alignment */
-} /* .boost */
+} /* detail */
+} /* alignment */
+} /* boost */
 
 #endif

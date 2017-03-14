@@ -11,6 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_ALIGN_DETAIL_ASSUME_ALIGNED_HPP
 #define BOOST_ALIGN_DETAIL_ASSUME_ALIGNED_HPP
 
-#define BOOST_ALIGN_ASSUME_ALIGNED(p, n)
+#define BOOST_ALIGN_ASSUME_ALIGNED(ptr, alignment)
 
 #endif

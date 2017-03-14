@@ -19,8 +19,8 @@ template<class T>
 struct alignment_of
     : integral_constant<std::size_t, alignof(T)> { };
 
-} /* .detail */
-} /* .alignment */
-} /* .boost */
+} /* detail */
+} /* alignment */
+} /* boost */
 
 #endif

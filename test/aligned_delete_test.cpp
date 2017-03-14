@@ -14,40 +14,35 @@ Distributed under the Boost Software License, Version 1.0.
 template<class T>
 class type {
 public:
-    static int count;
+    static unsigned count;
+
     type()
-        : value() {
-        count++;
+        : value_() {
+        ++count;
     }
+
     ~type() {
-        count--;
+        --count;
     }
+
 private:
-    T value;
+    T value_;
 };
 
 template<class T>
-int type<T>::count = 0;
-
-template<class T>
-T* aligned_new()
-{
-    void* p = boost::alignment::aligned_alloc(boost::
-        alignment::alignment_of<T>::value, sizeof(T));
-    if (p) {
-        return ::new(p) T();
-    } else {
-        return 0;
-    }
-}
+unsigned type<T>::count = 0;
 
 template<class T>
 void test()
 {
-    type<T>* p = aligned_new<type<T> >();
-    BOOST_TEST(type<T>::count == 1);
-    boost::alignment::aligned_delete()(p);
-    BOOST_TEST(type<T>::count == 0);
+    typedef type<T> E;
+    void* p = boost::alignment::aligned_alloc(boost::
+        alignment::alignment_of<E>::value, sizeof(E));
+    BOOST_TEST(p != 0);
+    E* q = ::new(p) E;
+    BOOST_TEST(E::count == 1);
+    boost::alignment::aligned_delete()(q);
+    BOOST_TEST(E::count == 0);
 }
 
 class C { };

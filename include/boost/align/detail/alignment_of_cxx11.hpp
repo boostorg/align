@@ -16,8 +16,8 @@ namespace detail {
 
 using std::alignment_of;
 
-} /* .detail */
-} /* .alignment */
-} /* .boost */
+} /* detail */
+} /* alignment */
+} /* boost */
 
 #endif

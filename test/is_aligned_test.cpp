@@ -13,15 +13,14 @@ Distributed under the Boost Software License, Version 1.0.
 template<std::size_t N>
 struct A { };
 
-template<class T, std::size_t N>
-void test(T* p, A<N>)
+template<std::size_t N>
+void test(char* p, A<N>)
 {
     BOOST_TEST(boost::alignment::is_aligned(p, N));
-    BOOST_TEST(!boost::alignment::is_aligned((char*)p + 1, N));
+    BOOST_TEST(!boost::alignment::is_aligned(p + 1, N));
 }
 
-template<class T>
-void test(T* p, A<1>)
+void test(char* p, A<1>)
 {
     BOOST_TEST(boost::alignment::is_aligned(p, 1));
 }
@@ -30,7 +29,8 @@ template<class T>
 void test()
 {
     T o;
-    test(&o, A<boost::alignment::alignment_of<T>::value>());
+    test(reinterpret_cast<char*>(&o),
+        A<boost::alignment::alignment_of<T>::value>());
 }
 
 class X;
@@ -53,7 +53,7 @@ int main()
     test<long long>();
 #endif
     test<float>();
-#if !defined(_MSC_VER)
+#if !defined(BOOST_MSVC)
     test<double>();
     test<long double>();
 #endif
@@ -62,7 +62,7 @@ int main()
     test<int*>();
     test<X*>();
     test<void(*)()>();
-#if !defined(_MSC_VER)
+#if !defined(BOOST_MSVC)
     test<int X::*>();
     test<int(X::*)()>();
 #endif

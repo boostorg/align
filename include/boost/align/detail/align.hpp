@@ -14,13 +14,14 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost {
 namespace alignment {
 
-inline void* align(std::size_t alignment, std::size_t size,
-    void*& ptr, std::size_t& space)
+inline void*
+align(std::size_t alignment, std::size_t size, void*& ptr,
+    std::size_t& space)
 {
     BOOST_ASSERT(detail::is_alignment(alignment));
     if (size <= space) {
-        char* p = (char*)(((std::size_t)ptr + alignment - 1) &
-            ~(alignment - 1));
+        char* p = reinterpret_cast<char*>((reinterpret_cast<std::
+            size_t>(ptr) + alignment - 1) & ~(alignment - 1));
         std::size_t n = space - (p - static_cast<char*>(ptr));
         if (size <= n) {
             ptr = p;
@@ -31,7 +32,7 @@ inline void* align(std::size_t alignment, std::size_t size,
     return 0;
 }
 
-} /* .alignment */
-} /* .boost */
+} /* alignment */
+} /* boost */
 
 #endif

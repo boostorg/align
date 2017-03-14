@@ -19,8 +19,8 @@ template<std::size_t A, std::size_t B>
 struct min_size
     : integral_constant<std::size_t, (A < B) ? A : B> { };
 
-} /* .detail */
-} /* .alignment */
-} /* .boost */
+} /* detail */
+} /* alignment */
+} /* boost */
 
 #endif

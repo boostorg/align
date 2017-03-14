@@ -14,14 +14,15 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost {
 namespace alignment {
 
-inline void* align_up(void* ptr, std::size_t alignment) BOOST_NOEXCEPT
+inline void*
+align_up(void* ptr, std::size_t alignment) BOOST_NOEXCEPT
 {
     BOOST_ASSERT(detail::is_alignment(alignment));
-    return (void*)(((std::size_t)ptr + alignment - 1) &
-        ~(alignment - 1));
+    return reinterpret_cast<void*>((reinterpret_cast<std::
+        size_t>(ptr) + alignment - 1) & ~(alignment - 1));
 }
 
-} /* .alignment */
-} /* .boost */
+} /* alignment */
+} /* boost */
 
 #endif

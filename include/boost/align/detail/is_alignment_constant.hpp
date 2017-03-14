@@ -19,8 +19,8 @@ template<std::size_t N>
 struct is_alignment_constant
     : integral_constant<bool, (N > 0) && ((N & (N - 1)) == 0)> { };
 
-} /* .detail */
-} /* .alignment */
-} /* .boost */
+} /* detail */
+} /* alignment */
+} /* boost */
 
 #endif

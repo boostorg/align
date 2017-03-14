@@ -13,7 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/align/alignment_of.hpp>
 
 template<class T, class... Args>
-inline aligned_ptr<T> make_aligned(Args&&... args)
+inline aligned_ptr<T>
+make_aligned(Args&&... args)
 {
     auto p = boost::alignment::aligned_alloc(boost::
         alignment::alignment_of<T>::value, sizeof(T));

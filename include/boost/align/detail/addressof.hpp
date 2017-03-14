@@ -26,8 +26,8 @@ using std::addressof;
 using boost::addressof;
 #endif
 
-} /* .detail */
-} /* .alignment */
-} /* .boost */
+} /* detail */
+} /* alignment */
+} /* boost */
 
 #endif

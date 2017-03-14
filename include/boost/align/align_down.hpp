@@ -13,13 +13,13 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost {
 namespace alignment {
 
-BOOST_CONSTEXPR inline std::size_t align_down(std::size_t value,
-    std::size_t alignment) BOOST_NOEXCEPT
+BOOST_CONSTEXPR inline std::size_t
+align_down(std::size_t value, std::size_t alignment) BOOST_NOEXCEPT
 {
     return value & ~(alignment - 1);
 }
 
-} /* .alignment */
-} /* .boost */
+} /* alignment */
+} /* boost */
 
 #endif

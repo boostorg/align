@@ -13,7 +13,7 @@ namespace alignment {
 
 struct aligned_delete;
 
-} /* .alignment */
-} /* .boost */
+} /* alignment */
+} /* boost */
 
 #endif

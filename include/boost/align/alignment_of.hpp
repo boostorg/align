@@ -38,14 +38,15 @@ namespace alignment {
 
 template<class T>
 struct alignment_of
-    : detail::alignment_of<typename detail::element_type<T>::type> { };
+    : detail::alignment_of<typename
+        detail::element_type<T>::type>::type { };
 
 #if !defined(BOOST_NO_CXX14_VARIABLE_TEMPLATES)
 template<class T>
 constexpr std::size_t alignment_of_v = alignment_of<T>::value;
 #endif
 
-} /* .alignment */
-} /* .boost */
+} /* alignment */
+} /* boost */
 
 #endif
