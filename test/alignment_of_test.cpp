@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/core/lightweight_test.hpp>
 #include <boost/config.hpp>
 
-#define OFFSETOF(t, m) ((std::size_t)(&((t*)0)->m))
+#define OFFSET(t, m) ((std::size_t)(&((t*)0)->m))
 
 template<class T>
 struct remove_reference {
@@ -73,8 +73,8 @@ struct offset_value {
 template<class T>
 void test_type()
 {
-    BOOST_TEST_EQ(boost::alignment::alignment_of<T>::value,
-        OFFSETOF(offset_value<T>, object));
+    BOOST_TEST_EQ(OFFSET(offset_value<T>, object),
+        boost::alignment::alignment_of<T>::value);
 }
 
 template<class T>
