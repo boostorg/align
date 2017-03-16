@@ -15,6 +15,9 @@ template<class T>
 class A {
 public:
     typedef T value_type;
+    typedef T* pointer;
+    typedef std::size_t size_type;
+    typedef std::ptrdiff_t difference_type;
 
     template<class U>
     struct rebind {
@@ -28,7 +31,7 @@ public:
     A(const A<U>& other)
         : state_(other.state()) { }
 
-    T* allocate(std::size_t size) {
+    T* allocate(std::size_t size, const void* = 0) {
         return static_cast<T*>(::operator new(sizeof(T) * size));
     }
 
