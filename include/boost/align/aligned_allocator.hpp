@@ -73,6 +73,9 @@ public:
     }
 
     pointer allocate(size_type size, const_void_pointer = 0) {
+        if (size == 0) {
+            return 0;
+        }
         void* p = aligned_alloc(min_align, sizeof(T) * size);
         if (!p) {
             boost::throw_exception(std::bad_alloc());
