@@ -8,8 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/align/alignment_of.hpp>
 #include <boost/core/lightweight_test.hpp>
 #include <boost/config.hpp>
-
-#define OFFSET(t, m) ((std::size_t)(&((t*)0)->m))
+#include <cstddef>
 
 template<class T>
 struct remove_reference {
@@ -73,7 +72,7 @@ struct offset_value {
 template<class T>
 void test_type()
 {
-    BOOST_TEST_EQ(OFFSET(offset_value<T>, object),
+    BOOST_TEST(offsetof(offset_value<T>, object) ==
         boost::alignment::alignment_of<T>::value);
 }
 
@@ -106,18 +105,12 @@ void test_cv()
 }
 
 template<class T>
-struct W1 {
+struct Struct {
     T t;
 };
 
 template<class T>
-class W2 {
-public:
-    T t;
-};
-
-template<class T>
-union W3 {
+union Union {
     T t;
 };
 
@@ -125,9 +118,8 @@ template<class T>
 void test()
 {
     test_cv<T>();
-    test_cv<W1<T> >();
-    test_cv<W2<T> >();
-    test_cv<W3<T> >();
+    test_cv<Struct<T> >();
+    test_cv<Union<T> >();
 }
 
 void test_integral()
