@@ -86,15 +86,21 @@ memory is correctly aligned.
 
 [heading Dynamic allocation]
 
+[*aligned_alloc]
+
 To dynamically allocate storage with desired alignment, you can use the
 `aligned_alloc` function:
 
 [:`void* storage = boost::alignment::aligned_alloc(alignment, size);`]
 
+[*aligned_free]
+
 To deallocate storage allocated with the `aligned_alloc` function, use
 the `aligned_free` function:
 
 [:`boost::alignment::aligned_free(storage);`]
+
+[*aligned_allocator]
 
 For C++ allocator aware code, you can use the `aligned_allocator` class
 template for an allocator that respects over-alignment:
@@ -108,19 +114,38 @@ allocations:
 [:`std::vector<double,
   boost::alignment::aligned_allocator<double, 64> > vector;`]
 
-To turn an allocator into an allocator that respects over-alignment you
+[*aligned_allocator_adaptor]
+
+To turn an allocator into an allocator that respects over-alignment, you
 can use the `aligned_allocator_adaptor` class template:
 
 [:`std::vector<int128_t,
-  boost::alignment::aligned_allocator_adaptor<std::allocator<int128_t>
-  > > vector;`]
+  boost::alignment::aligned_allocator_adaptor<Allocator<int128_t> > >
+  vector(allocator);`]
 
 This template allows specifying minimum alignment for all dynamic
 allocations:
 
 [:`std::vector<double,
-  boost::alignment::aligned_allocator_adaptor<std::allocator<double>,
-  64> > vector;`]
+  boost::alignment::aligned_allocator_adaptor<Allocator<double>,
+  64> > vector(allocator);`]
+
+[*aligned_delete]
+
+For a deleter that can be paired with `aligned_alloc`, you can use the
+`aligned_delete` class:
+
+[:`std::unique_ptr<double, boost::alignment::aligned_delete> pointer;`]
+
+[heading Pointer alignment]
+
+To advance a pointer to the next address with the desired alignment:
+
+[ordered_list
+  [`void* pointer = storage;`]
+  [`std::size_t space = size;`]
+  [`void* result = boost::alignment::align(64, sizeof(double), pointer,
+    space);`]]
 
 [heading Querying alignment]
 
