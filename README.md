@@ -1,8 +1,8 @@
 # Boost.Align
 
-C++ pointer alignment functions, aligned allocation functions, aligned
-allocators, aligned allocator adaptors, alignment type traits, alignment
-intrinsics.
+The Boost Align C++ library provides functions, classes, templates,
+traits, and macros, for the control, inspection, and diagnostic of
+memory alignment.
 
 ### License
 

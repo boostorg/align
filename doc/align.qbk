@@ -130,7 +130,7 @@ allocations:
 [ordered_list
   [`Allocator<double> first;`]
   [`boost::alignment::aligned_allocator_adaptor<Allocator<double>,
-    64> > second(first);`]]
+    64> second(first);`]]
 
 [heading Aligned deleter]
 
