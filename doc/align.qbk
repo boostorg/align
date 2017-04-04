@@ -36,15 +36,15 @@ over-aligned types.
 
 [variablelist
   [[`aligned_alloc(alignment, size)`]
-   [Replaces `::operator new(size, std::nothrow)`]]
+    [Replaces `::operator new(size, std::nothrow)`]]
   [[`aligned_free(pointer)`]
-   [Replaces `::operator delete(pointer, std::nothrow)`]]
+    [Replaces `::operator delete(pointer, std::nothrow)`]]
   [[`aligned_allocator<T>`]
-   [Replaces `std::allocator<T>`]]
+    [Replaces `std::allocator<T>`]]
   [[`aligned_allocator_adaptor<Allocator>`]
-   [Replaces use of Allocator]]
+    [Replaces use of Allocator]]
   [[`aligned_delete`]
-   [Replaces `std::default_delete<T>`]]]
+    [Replaces `std::default_delete<T>`]]]
 
 [heading Pointer alignment]
 
@@ -84,58 +84,62 @@ memory is correctly aligned.
 
 [section Examples]
 
-[heading Dynamic allocation]
-
-[*aligned_alloc]
+[heading Aligned allocation]
 
 To dynamically allocate storage with desired alignment, you can use the
 `aligned_alloc` function:
 
-[:`void* storage = boost::alignment::aligned_alloc(alignment, size);`]
-
-[*aligned_free]
+[ordered_list
+  [`void* storage = boost::alignment::aligned_alloc(alignment, size);`]]
 
 To deallocate storage allocated with the `aligned_alloc` function, use
 the `aligned_free` function:
 
-[:`boost::alignment::aligned_free(storage);`]
+[ordered_list
+  [`boost::alignment::aligned_free(storage);`]]
 
-[*aligned_allocator]
+[heading Aligned allocator]
 
 For C++ allocator aware code, you can use the `aligned_allocator` class
 template for an allocator that respects over-alignment:
 
-[:`std::vector<int128_t,
-  boost::alignment::aligned_allocator<int128_t> > vector;`]
+[ordered_list
+  [`std::vector<int128_t,
+    boost::alignment::aligned_allocator<int128_t> > vector;`]]
 
 This template allows specifying minimum alignment for all dynamic
 allocations:
 
-[:`std::vector<double,
-  boost::alignment::aligned_allocator<double, 64> > vector;`]
+[ordered_list
+  [`std::vector<double,
+    boost::alignment::aligned_allocator<double, 64> > vector;`]]
 
-[*aligned_allocator_adaptor]
+[heading Aligned allocator adaptor]
 
 To turn an allocator into an allocator that respects over-alignment, you
 can use the `aligned_allocator_adaptor` class template:
 
-[:`std::vector<int128_t,
-  boost::alignment::aligned_allocator_adaptor<Allocator<int128_t> > >
-  vector(allocator);`]
+[ordered_list
+  [`Allocator<int128_t> first;`]
+  [`boost::alignment::aligned_allocator_adaptor<Allocator<int128_t>
+    > second(first);`]]
 
 This template allows specifying minimum alignment for all dynamic
 allocations:
 
-[:`std::vector<double,
-  boost::alignment::aligned_allocator_adaptor<Allocator<double>,
-  64> > vector(allocator);`]
+[ordered_list
+  [`Allocator<double> first;`]
+  [`boost::alignment::aligned_allocator_adaptor<Allocator<double>,
+    64> > second(first);`]]
 
-[*aligned_delete]
+[heading Aligned deleter]
 
 For a deleter that can be paired with `aligned_alloc`, you can use the
 `aligned_delete` class:
 
-[:`std::unique_ptr<double, boost::alignment::aligned_delete> pointer;`]
+[ordered_list
+  [`std::unique_ptr<double,
+    boost::alignment::aligned_delete> pointer;`]]
 
 [heading Pointer alignment]
 
@@ -151,23 +155,23 @@ To advance a pointer to the next address with the desired alignment:
 
 To obtain the alignment of a given type at compie time, you can use:
 
-[:`boost::alignment::alignment_of<int128_t>::value`]
+[ordered_list [`boost::alignment::alignment_of<int128_t>::value`]]
 
 If your compiler supports C++14 variable templates, you can also use:
 
-[:`boost::alignment::alignment_of_v<int128_t>`]
+[ordered_list [`boost::alignment::alignment_of_v<int128_t>`]]
 
 [heading Hinting alignment]
 
 To inform the compiler about the alignment of a pointer, you can use:
 
-[:`BOOST_ALIGN_ASSUME_ALIGNED(pointer, 64)`]
+[ordered_list [`BOOST_ALIGN_ASSUME_ALIGNED(pointer, 64)`]]
 
 [heading Checking alignment]
 
 To check alignment of a pointer you can use the `is_aligned` function:
 
-[:`assert(boost::alignment::is_aligned(pointer, 64));`]
+[ordered_list [`assert(boost::alignment::is_aligned(pointer, 64));`]]
 
 [endsect]
 
