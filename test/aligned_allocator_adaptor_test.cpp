@@ -73,8 +73,7 @@ template<std::size_t Alignment>
 void test_allocate()
 {
     {
-        boost::alignment::aligned_allocator_adaptor<A<int>,
-            Alignment> a(5);
+        boost::alignment::aligned_allocator_adaptor<A<int>, Alignment> a(5);
         int* p = a.allocate(1);
         BOOST_TEST(p != 0);
         BOOST_TEST(boost::alignment::is_aligned(p, Alignment));
@@ -82,8 +81,7 @@ void test_allocate()
         a.deallocate(p, 1);
     }
     {
-        boost::alignment::aligned_allocator_adaptor<A<int>,
-            Alignment> a(5);
+        boost::alignment::aligned_allocator_adaptor<A<int>, Alignment> a(5);
         int* p = a.allocate(1);
         int* q = a.allocate(1, p);
         BOOST_TEST(q != 0);
@@ -93,8 +91,7 @@ void test_allocate()
         a.deallocate(p, 1);
     }
     {
-        boost::alignment::aligned_allocator_adaptor<A<int>,
-            Alignment> a(5);
+        boost::alignment::aligned_allocator_adaptor<A<int>, Alignment> a(5);
         int* p = a.allocate(0);
         a.deallocate(p, 0);
     }
@@ -103,8 +100,7 @@ void test_allocate()
 template<std::size_t Alignment>
 void test_construct()
 {
-    boost::alignment::aligned_allocator_adaptor<A<int>,
-        Alignment> a(5);
+    boost::alignment::aligned_allocator_adaptor<A<int>, Alignment> a(5);
     int* p = a.allocate(1);
     a.construct(p, 1);
     BOOST_TEST(*p == 1);
@@ -116,16 +112,13 @@ template<std::size_t Alignment>
 void test_constructor()
 {
     {
-        boost::alignment::aligned_allocator_adaptor<A<char>,
-            Alignment> a(5);
-        boost::alignment::aligned_allocator_adaptor<A<int>,
-            Alignment> b(a);
+        boost::alignment::aligned_allocator_adaptor<A<char>, Alignment> a(5);
+        boost::alignment::aligned_allocator_adaptor<A<int>, Alignment> b(a);
         BOOST_TEST(b == a);
     }
     {
         A<int> a(5);
-        boost::alignment::aligned_allocator_adaptor<A<int>,
-            Alignment> b(a);
+        boost::alignment::aligned_allocator_adaptor<A<int>, Alignment> b(a);
         BOOST_TEST(b.base() == a);
     }
 }
@@ -133,8 +126,7 @@ void test_constructor()
 template<std::size_t Alignment>
 void test_rebind()
 {
-    boost::alignment::aligned_allocator_adaptor<A<int>,
-        Alignment> a(5);
+    boost::alignment::aligned_allocator_adaptor<A<int>, Alignment> a(5);
     typename boost::alignment::aligned_allocator_adaptor<A<int>,
         Alignment>::template rebind<int>::other b(a);
     BOOST_TEST(b == a);

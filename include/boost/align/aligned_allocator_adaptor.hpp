@@ -32,39 +32,30 @@ namespace alignment {
 template<class Allocator, std::size_t Alignment>
 class aligned_allocator_adaptor
     : public Allocator {
-    BOOST_STATIC_ASSERT(detail::
-        is_alignment_constant<Alignment>::value);
+    BOOST_STATIC_ASSERT(detail::is_alignment_constant<Alignment>::value);
 
 #if !defined(BOOST_NO_CXX11_ALLOCATOR)
     typedef std::allocator_traits<Allocator> traits;
-
-    typedef typename traits::
-        template rebind_alloc<char> char_alloc;
-
-    typedef typename traits::
-        template rebind_traits<char> char_traits;
-
+    typedef typename traits::template rebind_alloc<char> char_alloc;
+    typedef typename traits::template rebind_traits<char> char_traits;
     typedef typename char_traits::pointer char_ptr;
 #else
-    typedef typename Allocator::
-        template rebind<char>::other char_alloc;
-
+    typedef typename Allocator::template rebind<char>::other char_alloc;
     typedef typename char_alloc::pointer char_ptr;
 #endif
 
 public:
 #if !defined(BOOST_NO_CXX11_ALLOCATOR)
     typedef typename traits::value_type value_type;
-    typedef typename traits::size_type size_type;
 #else
     typedef typename Allocator::value_type value_type;
-    typedef typename Allocator::size_type size_type;
 #endif
 
     typedef value_type* pointer;
     typedef const value_type* const_pointer;
     typedef void* void_pointer;
     typedef const void* const_void_pointer;
+    typedef std::size_t size_type;
     typedef std::ptrdiff_t difference_type;
 
 private:
@@ -77,11 +68,11 @@ public:
     template<class U>
     struct rebind {
 #if !defined(BOOST_NO_CXX11_ALLOCATOR)
-        typedef aligned_allocator_adaptor<typename traits::
-            template rebind_alloc<U>, Alignment> other;
+        typedef aligned_allocator_adaptor<typename traits::template
+            rebind_alloc<U>, Alignment> other;
 #else
-        typedef aligned_allocator_adaptor<typename Allocator::
-            template rebind<U>::other, Alignment> other;
+        typedef aligned_allocator_adaptor<typename Allocator::template
+            rebind<U>::other, Alignment> other;
 #endif
     };
 
@@ -122,8 +113,7 @@ public:
         char_ptr p = a.allocate(sizeof p + n);
         void* r = detail::addressof(*p) + sizeof p;
         (void)align(min_align, s, r, n);
-        ::new(static_cast<void*>(static_cast<char_ptr*>(r)
-            - 1)) char_ptr(p);
+        ::new(static_cast<void*>(static_cast<char_ptr*>(r) - 1)) char_ptr(p);
         return static_cast<pointer>(r);
     }
 
@@ -142,8 +132,7 @@ public:
 #endif
         void* r = detail::addressof(*p) + sizeof p;
         (void)align(min_align, s, r, n);
-        ::new(static_cast<void*>(static_cast<char_ptr*>(r)
-            - 1)) char_ptr(p);
+        ::new(static_cast<void*>(static_cast<char_ptr*>(r) - 1)) char_ptr(p);
         return static_cast<pointer>(r);
     }
 
@@ -152,8 +141,7 @@ public:
         char_ptr r = *p;
         p->~char_ptr();
         char_alloc a(base());
-        a.deallocate(r, sizeof r + size * sizeof(value_type) +
-            min_align - 1);
+        a.deallocate(r, sizeof r + size * sizeof(value_type) + min_align - 1);
     }
 };
 
