@@ -16,9 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 [section Introduction]
 
-The Boost Align C++ library provides functions, classes, templates,
-traits, and macros, for the control, inspection, and diagnostic of
-memory alignment.
+The Boost Align C++ library provides functions, classes, templates, traits,
+and macros, for the control, inspection, and diagnostic of memory alignment.
 
 [endsect]
 
@@ -26,59 +25,54 @@ memory alignment.
 
 [heading Dynamic allocation]
 
-C++11 added the ability to specify increased alignment (over-alignment)
-for class types. Unfortunately, `::operator new` allocation functions,
-`new` expressions and the Default Allocator, `std::allocator`, do not
-support dynamic memory allocation of over-aligned data. This library
-provides allocation functions and allocators that respect the alignment
-requirements of a type and so are suitable for allocating memory for
-over-aligned types.
+C++11 added the ability to specify increased alignment (over-alignment) for
+class types. Unfortunately, `::operator new` allocation functions, `new`
+expressions and the Default Allocator, `std::allocator`, do not support
+dynamic memory allocation of over-aligned data. This library provides
+allocation functions and allocators that respect the alignment requirements of
+a type and so are suitable for allocating memory for over-aligned types.
 
 [variablelist
   [[`aligned_alloc(alignment, size)`]
     [Replaces `::operator new(size, std::nothrow)`]]
   [[`aligned_free(pointer)`]
     [Replaces `::operator delete(pointer, std::nothrow)`]]
-  [[`aligned_allocator<T>`]
-    [Replaces `std::allocator<T>`]]
-  [[`aligned_allocator_adaptor<Allocator>`]
-    [Replaces use of Allocator]]
-  [[`aligned_delete`]
-    [Replaces `std::default_delete<T>`]]]
+  [[`aligned_allocator<T>`] [Replaces `std::allocator<T>`]]
+  [[`aligned_allocator_adaptor<Allocator>`] [Replaces use of Allocator]]
+  [[`aligned_delete`] [Replaces `std::default_delete<T>`]]]
 
 [heading Pointer alignment]
 
-C++11 provided `std::align` in the standard library to align a pointer
-value. Unfortunately some C++ standard library implementations do not
-support it yet (libstdc++ as far as gcc 4.8.0) and other standard
-library implementations implement it incorrectly (dinkumware in msvc
-11.0). This library provides it for those implementations and also for
-C++03 compilers where it is equally useful.
+C++11 provided `std::align` in the standard library to align a pointer value.
+Unfortunately some C++ standard library implementations do not support it yet
+(libstdc++ as far as gcc 4.8.0) and other standard library implementations
+implement it incorrectly (dinkumware in msvc11.0). This library provides it
+for those implementations and also for C++03 compilers where it is equally
+useful.
 
 [heading Querying alignment]
 
-C++11 provided the `std::alignment_of` trait in the standard library to
-query the alignment requirement of a type. Unfortunately some C++
-standard library vendors do not implement it in an entirely standard
-conforming manner, such as for array types (libc++ as far as clang
-3.4). Other vendor implementations report incorrect values for certain
-types, such as pointer to members (msvc 14.0). This library provides it
-for those implementations and also for C++03 compilers where it is
-equally useful.
+C++11 provided the `std::alignment_of` trait in the standard library to query
+the alignment requirement of a type. Unfortunately some C++ standard library
+vendors do not implement it in an entirely standard conforming manner, such as
+for array types (libc++ as far as clang 3.4). Other vendor implementations
+report incorrect values for certain types, such as pointer to members (msvc
+14.0). This library provides it for those implementations and also for C++03
+compilers where it is equally useful.
 
 [heading Hinting alignment]
 
-Allocating aligned memory is sometimes not enough to ensure that
-optimal code is generated. Developers use specific compiler intrinsics
-to notify the compiler of a given alignment property of a memory block.
-This library provides a macro, `BOOST_ALIGN_ASSUME_ALIGNED`, to abstract
-that functionality for compilers with the appropriate intrinsics.
+Allocating aligned memory is sometimes not enough to ensure that optimal code
+is generated. Developers use specific compiler intrinsics to notify the
+compiler of a given alignment property of a memory block. This library
+provides a macro, `BOOST_ALIGN_ASSUME_ALIGNED`, to abstract that functionality
+for compilers with the appropriate intrinsics.
 
 [heading Checking alignment]
 
-This library provides a function, `is_aligned` to test the alignment of
-a pointer value. It is generally useful in assertions to validate that
-memory is correctly aligned.
+This library provides a function, `is_aligned` to test the alignment of a
+pointer value. It is generally useful in assertions to validate that memory is
+correctly aligned.
 
 [endsect]
 
@@ -95,8 +89,7 @@ To dynamically allocate storage with desired alignment, you can use the
 To deallocate storage allocated with the `aligned_alloc` function, use
 the `aligned_free` function:
 
-[ordered_list
-  [`boost::alignment::aligned_free(storage);`]]
+[ordered_list [`boost::alignment::aligned_free(storage);`]]
 
 [heading Aligned allocator]
 
@@ -107,8 +100,7 @@ template for an allocator that respects over-alignment:
   [`std::vector<int128_t,
     boost::alignment::aligned_allocator<int128_t> > vector;`]]
 
-This template allows specifying minimum alignment for all dynamic
-allocations:
+This template allows specifying minimum alignment for all dynamic allocations:
 
 [ordered_list
   [`std::vector<double,
@@ -116,21 +108,17 @@ allocations:
 
 [heading Aligned allocator adaptor]
 
-To turn an allocator into an allocator that respects over-alignment, you
-can use the `aligned_allocator_adaptor` class template:
+To turn an allocator into an allocator that respects over-alignment, you can
+use the `aligned_allocator_adaptor` class template:
 
 [ordered_list
-  [`Allocator<int128_t> first;`]
-  [`boost::alignment::aligned_allocator_adaptor<Allocator<int128_t>
-    > second(first);`]]
+  [`boost::alignment::aligned_allocator_adaptor<First> second(first);`]]
 
 This template allows specifying minimum alignment for all dynamic
 allocations:
 
 [ordered_list
-  [`Allocator<double> first;`]
-  [`boost::alignment::aligned_allocator_adaptor<Allocator<double>,
-    64> second(first);`]]
+  [`boost::alignment::aligned_allocator_adaptor<First, 64> second(first);`]]
 
 [heading Aligned deleter]
 
@@ -138,8 +126,7 @@ For a deleter that can be paired with `aligned_alloc`, you can use the
 `aligned_delete` class:
 
 [ordered_list
-  [`std::unique_ptr<double,
-    boost::alignment::aligned_delete> pointer;`]]
+  [`std::unique_ptr<double, boost::alignment::aligned_delete> pointer;`]]
 
 [heading Pointer alignment]
 
@@ -187,31 +174,29 @@ std::size_t& space);`
 [variablelist
   [[Header] [`#include <boost/align/align.hpp>`]]
   [[Effects]
-    [If it is possible to fit `size` bytes of storage aligned by
-      `alignment` into the buffer pointed to by `ptr` with length
-      `space`, the function updates `ptr` to point to the first
-      possible address of such storage and decreases `space` by the
-      number of bytes used for alignment. Otherwise, the function does
-      nothing.]]
+    [If it is possible to fit `size` bytes of storage aligned by `alignment`
+      into the buffer pointed to by `ptr` with length `space`, the function
+      updates `ptr` to point to the first possible address of such storage and
+      decreases `space` by the number of bytes used for alignment. Otherwise,
+      the function does nothing.]]
   [[Requires]
     [[itemized_list
       [`alignment` shall be a power of two]
-      [`ptr` shall point to contiguous storage of at least `space`
-        bytes]]]]
+      [`ptr` shall point to contiguous storage of at least `space` bytes]]]]
   [[Returns]
-    [A null pointer if the requested aligned buffer would not fit into
-      the available space, otherwise the adjusted value of `ptr`.]]
+    [A null pointer if the requested aligned buffer would not fit into the
+      available space, otherwise the adjusted value of `ptr`.]]
   [[Note]
-    [The function updates its `ptr` and `space` arguments so that it can
-      be called repeatedly with possibly different `alignment` and
-      `size` arguments for the same buffer.]]]
+    [The function updates its `ptr` and `space` arguments so that it can be
+      called repeatedly with possibly different `alignment` and `size`
+      arguments for the same buffer.]]]
 
 [endsect]
 
 [section align_up]
 
-`constexpr std::size_t align_up(std::size_t value, std::size_t
-alignment) noexcept;`
+`constexpr std::size_t align_up(std::size_t value, std::size_t alignment)
+noexcept;`
 
 [variablelist
   [[Header] [`#include <boost/align/align_up.hpp>`]]
@@ -223,8 +208,8 @@ alignment) noexcept;`
 
 [section align_down]
 
-`constexpr std::size_t align_down(std::size_t value, std::size_t
-alignment) noexcept;`
+`constexpr std::size_t align_down(std::size_t value, std::size_t alignment)
+noexcept;`
 
 [variablelist
   [[Header] [`#include <boost/align/align_down.hpp>`]]
@@ -247,8 +232,8 @@ alignment) noexcept;`
   [[Requires] [`alignment` shall be a power of two.]]
   [[Returns] [A null pointer or a pointer to the allocated space.]]
   [[Note]
-    [On certain platforms, the space allocated may be slightly larger
-      than `size` bytes, to allow for alignment.]]]
+    [On certain platforms, the space allocated may be slightly larger than
+      `size` bytes, to allow for alignment.]]]
 
 [endsect]
 
@@ -259,16 +244,15 @@ alignment) noexcept;`
 [variablelist
   [[Header] [`#include <boost/align/aligned_alloc.hpp>`]]
   [[Effects]
-    [Causes the space pointed to by `ptr` to be deallocated, that is,
-      made available for further allocation. If `ptr` is a null pointer,
-      no action occurs. Otherwise, if the argument does not match a
-      pointer earlier returned by the `aligned_alloc()` function, or if
-      the space has been deallocated by a call to `aligned_free()`, the
-      behavior is undefined.]]
+    [Causes the space pointed to by `ptr` to be deallocated, that is, made
+      available for further allocation. If `ptr` is a null pointer, no action
+      occurs. Otherwise, if the argument does not match a pointer earlier
+      returned by the `aligned_alloc()` function, or if the space has been
+      deallocated by a call to `aligned_free()`, the behavior is undefined.]]
   [[Requires]
     [`ptr` is a null pointer or a pointer earlier returned by the
-      `aligned_alloc()` function that has not been deallocated by a call
-      to `aligned_free()`.]]
+      `aligned_alloc()` function that has not been deallocated by a call to
+      `aligned_free()`.]]
   [[Returns] [The `aligned_free()` function returns no value.]]]
 
 [endsect]
@@ -284,8 +268,8 @@ noexcept;`
   [[Header] [`#include <boost/align/is_aligned.hpp>`]]
   [[Requires] [`alignment` shall be a power of two.]]
   [[Returns]
-    [`true` if the value of the first argument is aligned on the
-      boundary specified by `alignment`, otherwise `false`.]]]
+    [`true` if the value of the first argument is aligned on the boundary
+      specified by `alignment`, otherwise `false`.]]]
 
 [endsect]
 
@@ -304,11 +288,10 @@ class aligned_allocator<void, Alignment>;`
 [variablelist
   [[Header] [`#include <boost/align/aligned_allocator.hpp>`]]
   [[Note]
-    [Using the aligned allocator with a minimum Alignment value is
-      generally only useful with containers that are not node-based such
-      as `vector`. With node-based containers, such as `list`, the node
-      object would have the minimum alignment instead of the value type
-      object.]]]
+    [Using the aligned allocator with a minimum Alignment value is generally
+      only useful with containers that are not node-based such as `vector`.
+      With node-based containers, such as `list`, the node object would have
+      the minimum alignment instead of the value type object.]]]
 
 [heading Member types]
 
@@ -336,31 +319,30 @@ class aligned_allocator<void, Alignment>;`
 
 [heading Member functions]
 
-Except for the destructor, member functions of the aligned allocator
-shall not introduce data races as a result of concurrent calls to those
-member functions from different threads. Calls to these functions that
-allocate or deallocate a particular unit of storage shall occur in a
-single total order, and each such deallocation call shall happen before
-the next allocation (if any) in this order.
+Except for the destructor, member functions of the aligned allocator shall not
+introduce data races as a result of concurrent calls to those member functions
+from different threads. Calls to these functions that allocate or deallocate a
+particular unit of storage shall occur in a single total order, and each such
+deallocation call shall happen before the next allocation (if any) in this
+order.
 
 [ordered_list
   [`pointer address(reference value) const noexcept;`
     [variablelist
       [[Returns]
-        [The actual address of the object referenced by `value`, even in
-          the presence of an overloaded `operator&`.]]]]
+        [The actual address of the object referenced by `value`, even in the
+          presence of an overloaded `operator&`.]]]]
   [`const_pointer address(const_reference value) const noexcept;`
     [variablelist
       [[Returns]
-        [The actual address of the object referenced by `value`, even in
-          the presence of an overloaded `operator&`.]]]]
+        [The actual address of the object referenced by `value`, even in the
+          presence of an overloaded `operator&`.]]]]
   [`pointer allocate(size_type size, const_void_pointer = 0);`
     [variablelist
       [[Returns]
         [A pointer to the initial element of an array of storage of size
-          `n * sizeof(T)`, aligned on the maximum of the minimum
-          alignment specified and the alignment of objects of type
-          `T`.]]
+          `n * sizeof(T)`, aligned on the maximum of the minimum alignment
+          specified and the alignment of objects of type `T`.]]
       [[Remark]
         [The storage is obtained by calling `aligned_alloc(std::size_t,
           std::size_t)`.]]
@@ -379,11 +361,9 @@ the next allocation (if any) in this order.
   [`template<class U, class... Args> void construct(U* ptr,
     Args&&... args);`
     [variablelist
-      [[Effects]
-        [`::new((void*)ptr) U(std::forward<Args>(args)...)`.]]]]
+      [[Effects] [`::new((void*)ptr) U(std::forward<Args>(args)...)`.]]]]
   [`template<class U> void destroy(U* ptr);`
-    [variablelist
-      [[Effects] [`ptr->~U()`.]]]]]
+    [variablelist [[Effects] [`ptr->~U()`.]]]]]
 
 [heading Global operators]
 
@@ -407,14 +387,14 @@ class aligned_allocator_adaptor;`
 [variablelist
   [[Header] [`#include <boost/align/aligned_allocator_adaptor.hpp>`]]
   [[Note]
-    [This adaptor can be used with a C++11 Allocator whose pointer type
-      is a smart pointer but the adaptor can choose to expose only raw
-      pointer types.]]]
+    [This adaptor can be used with a C++11 Allocator whose pointer type is a
+      smart pointer but the adaptor can choose to expose only raw pointer
+      types.]]]
 
 [heading Member types]
 
 [ordered_list
-  [`typedef Allocator::value_type value_type;`]
+  [`typedef typename Allocator::value_type value_type;`]
   [`typedef value_type* pointer;`]
   [`typedef const value_type* const_pointer;`]
   [`typedef void* void_pointer;`]
@@ -455,32 +435,31 @@ class aligned_allocator_adaptor;`
   [`pointer allocate(size_type size);`
     [variablelist
       [[Returns]
-        [A pointer to the initial element of an array of storage of
-          size `n * sizeof(value_type)`, aligned on the maximum of the
-          minimum alignment specified and the alignment of objects of
-          type `value_type`.]]
+        [A pointer to the initial element of an array of storage of size
+          `n * sizeof(value_type)`, aligned on the maximum of the minimum
+          alignment specified and the alignment of objects of type
+          `value_type`.]]
       [[Remark]
-        [The storage is obtained by calling `A2::allocate()` on an
-          object `a2`, where `a2` of type `A2` is a rebind copy of
-          `base()` where its `value_type` is implementation defined.]]
+        [The storage is obtained by calling `A2::allocate()` on an object
+          `a2`, where `a2` of type `A2` is a rebind copy of `base()` where its
+          `value_type` is implementation defined.]]
       [[Throws]
         [Throws an exception thrown from `A2::allocate()` if the storage
           cannot be obtained.]]]]
   [`pointer allocate(size_type size, const_void_pointer hint);`
     [variablelist
       [[Requires]
-        [`hint` is a value obtained by calling `allocate()` on any
-          equivalent allocator object, or else a null pointer.]]
+        [`hint` is a value obtained by calling `allocate()` on any equivalent
+          allocator object, or else a null pointer.]]
       [[Returns]
-        [A pointer to the initial element of an array of storage of
-          size `n * sizeof(value_type)`, aligned on the maximum of the
-          minimum alignment specified and the alignment of objects of
-          type `value_type`.]]
+        [A pointer to the initial element of an array of storage of size
+          `n * sizeof(value_type)`, aligned on the maximum of the minimum
+          alignment specified and the alignment of objects of type
+          `value_type`.]]
       [[Remark]
-        [The storage is obtained by calling `A2::allocate()` on an
-          object `a2`, where `a2` of type `A2` is a rebind copy of
-          `base()` where its `value_type` is an implementation
-          defined.]]
+        [The storage is obtained by calling `A2::allocate()` on an object
+          `a2`, where `a2` of type `A2` is a rebind copy of `base()` where its
+          `value_type` is an implementation defined.]]
       [[Throws]
         [Throws an exception thrown from `A2::allocate()` if the storage
           cannot be obtained.]]]]
@@ -489,13 +468,13 @@ class aligned_allocator_adaptor;`
       [[Requires]
         [[itemized_list
           [`ptr` shall be a pointer value obtained from `allocate()`]
-          [`size` shall equal the value passed as the first argument to
-            the invocation of `allocate()` which returned `ptr`.]]]]
+          [`size` shall equal the value passed as the first argument to the
+            invocation of `allocate()` which returned `ptr`.]]]]
       [[Effects] [Deallocates the storage referenced by `ptr`.]]
       [[Note]
-        [Uses `A2::deallocate()` on an object `a2`, where `a2` of type
-          `A2` is a rebound copy of `base()` where its `value_type` is
-          implementation defined.]]]]]
+        [Uses `A2::deallocate()` on an object `a2`, where `a2` of type `A2` is
+          a rebound copy of `base()` where its `value_type` is implementation
+          defined.]]]]]
 
 [heading Global operators]
 
@@ -526,8 +505,7 @@ class aligned_allocator_adaptor;`
       [[Effects]
         [Calls `~T()` on `ptr` to destroy the object and then calls
           `aligned_free()` on `ptr` to free the allocated memory.]]
-      [[Note]
-        [If `T` is an incomplete type, the program is ill-formed.]]]]]
+      [[Note] [If `T` is an incomplete type, the program is ill-formed.]]]]]
 
 [endsect]
 
@@ -542,14 +520,13 @@ class aligned_allocator_adaptor;`
 [variablelist
   [[Header] [`#include <boost/align/alignment_of.hpp>`]]
   [[Value]
-    [The alignment requirement of the type `T` as an integral constant
-      of type `std::size_t`. When `T` is a reference array type, the
-      value shall be the alignment of the referenced type. When `T` is
-      an array type, the value shall be the alignment of the element
-      type.]]
+    [The alignment requirement of the type `T` as an integral constant of type
+      `std::size_t`. When `T` is a reference array type, the value shall be
+      the alignment of the referenced type. When `T` is an array type, the
+      value shall be the alignment of the element type.]]
   [[Requires]
-    [`T` shall be a complete object type, or an array thereof, or a
-      reference to one of those types.]]]
+    [`T` shall be a complete object type, or an array thereof, or a reference
+      to one of those types.]]]
 
 [endsect]
 
@@ -568,8 +545,8 @@ class aligned_allocator_adaptor;`
       [`alignment` shall be a power of two]
       [`ptr` shall be mutable]]]]
   [[Effects]
-    [`ptr` may be modified in an implementation specific way to inform
-      the compiler of its alignment.]]]
+    [`ptr` may be modified in an implementation specific way to inform the
+      compiler of its alignment.]]]
 
 [endsect]
 
@@ -581,55 +558,53 @@ class aligned_allocator_adaptor;`
 
 [heading \[basic.align\]]
 
-Object types have /alignment requirements/ which place restrictions on
-the addresses at which an object of that type may be allocated. An
-/alignment/ is an implementation-defined integer value representing the
-number of bytes between successive addresses at which a given object can
-be allocated. An object type imposes an alignment requirement on every
-object of that type; stricter alignment can be requested using the
-alignment specifier.
+Object types have /alignment requirements/ which place restrictions on the
+addresses at which an object of that type may be allocated. An /alignment/ is
+an implementation-defined integer value representing the number of bytes
+between successive addresses at which a given object can be allocated. An
+object type imposes an alignment requirement on every object of that type;
+stricter alignment can be requested using the alignment specifier.
 
-A /fundamental alignment/ is represented by an alignment less than or
-equal to the greatest alignment supported by the implementation in all
-contexts, which is equal to `alignof(std::max_align_t)`. The alignment
-required for a type might be different when it is used as the type of a
-complete object and when it is used as the type of a subobject.
+A /fundamental alignment/ is represented by an alignment less than or equal to
+the greatest alignment supported by the implementation in all contexts, which
+is equal to `alignof(std::max_align_t)`. The alignment required for a type
+might be different when it is used as the type of a complete object and when
+it is used as the type of a subobject.
 \[['Example:]
 [ordered_list
   [`struct B { long double d; };`]
   [`struct D : virtual B { char c; };`]]
-When `D` is the type of a complete object, it will have a subobject of
-type `B`, so it must be aligned appropriately for a `long double`. If
-`D` appears as a subobject of another object that also has `B` as a
-virtual base class, the `B` subobject might be part of a different
-subobject, reducing the alignment requirements on the `D` subobject.
-\u2014['end example]\] The result of the `alignof` operator reflects the
-alignment requirement of the type in the complete-object case.
+When `D` is the type of a complete object, it will have a subobject of type
+`B`, so it must be aligned appropriately for a `long double`. If `D` appears
+as a subobject of another object that also has `B` as a virtual base class,
+the `B` subobject might be part of a different subobject, reducing the
+alignment requirements on the `D` subobject. \u2014['end example]\] The result
+of the `alignof` operator reflects the alignment requirement of the type in
+the complete-object case.
 
 An /extended alignment/ is represented by an alignment greater than
-`alignof(std::max_align_t)`. It is implementation-defined whether any
-extended alignments are supported and the contexts in which they are
-supported. A type having an extended alignment requirement is an
-/over-aligned type/. \[['Note:] Every over-aligned type is or contains a
-class type to which extended alignment applies (possibly through a
-non-static data member). \u2014['end note]\]
+`alignof(std::max_align_t)`. It is implementation-defined whether any extended
+alignments are supported and the contexts in which they are supported. A type
+having an extended alignment requirement is an /over-aligned type/. \[['Note:]
+Every over-aligned type is or contains a class type to which extended
+alignment applies (possibly through a non-static data member). \u2014['end
+note]\]
 
 Alignments are represented as values of the type `std::size_t`. Valid
-alignments include only those values returned by an `alignof`
-expression for the fundamental types plus an additional
-implementation-defined set of values, which may be empty. Every
-alignment value shall be a non-negative integral power of two.
+alignments include only those values returned by an `alignof` expression for
+the fundamental types plus an additional implementation-defined set of values,
+which may be empty. Every alignment value shall be a non-negative integral
+power of two.
 
-Alignments have an order from /weaker/ to /stronger/ or /stricter/
-alignments. Stricter alignments have larger alignment values. An
-address that satisfies an alignment requirement also satisfies any
-weaker valid alignment requirement.
+Alignments have an order from /weaker/ to /stronger/ or /stricter/ alignments.
+Stricter alignments have larger alignment values. An address that satisfies an
+alignment requirement also satisfies any weaker valid alignment requirement.
 
-The alignment requirement of a complete type can be queried using an
-`alignof` expression. Furthermore, the types `char`, `signed char`,
-and `unsigned char` shall have the weakest alignment requirement.
-\[['Note:] This enables the character types to be used as the underlying
-type for an aligned memory area. \u2014['end note]\]
+The alignment requirement of a complete type can be queried using an `alignof`
+expression. Furthermore, the types `char`, `signed char`, and `unsigned char`
+shall have the weakest alignment requirement. \[['Note:] This enables the
+character types to be used as the underlying type for an aligned memory area.
+\u2014['end note]\]
 
 Comparing alignments is meaningful and provides the obvious results:
 
@@ -638,15 +613,14 @@ Comparing alignments is meaningful and provides the obvious results:
 * When an alignment is larger than another it represents a stricter
   alignment.
 
-\[['Note:] The runtime pointer alignment function can be used to obtain
-an aligned pointer within a buffer; the aligned-storage templates in the
-library can be used to obtain aligned storage. \u2014['end note]\]
+\[['Note:] The runtime pointer alignment function can be used to obtain an
+aligned pointer within a buffer; the aligned-storage templates in the library
+can be used to obtain aligned storage. \u2014['end note]\]
 
-If a request for a specific extended alignment in a specific context is
-not supported by an implementation, the program is ill-formed.
-Additionally, a request for runtime allocation of dynamic storage for
-which the requested alignment cannot be honored shall be treated as an
-allocation failure.
+If a request for a specific extended alignment in a specific context is not
+supported by an implementation, the program is ill-formed. Additionally, a
+request for runtime allocation of dynamic storage for which the requested
+alignment cannot be honored shall be treated as an allocation failure.
 
 [endsect]
 
@@ -677,14 +651,14 @@ documentation, including:
 * Michael Spencer
 * Paul A. Bristow
 
-Thank you to everyone who contributed a feature to the library, with
-code, tests, or documentation:
+Thank you to everyone who contributed a feature to the library, with code,
+tests, or documentation:
 
 * Joel Falcou
 * Charly Chevalier
 
-Thank you to Ahmed Charles for serving as the review manager for the
-formal review of the library.
+Thank you to Ahmed Charles for serving as the review manager for the formal
+review of the library.
 
 [endsect]
 
@@ -695,10 +669,8 @@ formal review of the library.
     [Functions for aligning up, down, and testing alignment of integral
       values.]]
   [[Boost 1.59]
-    [Joel Falcou and Charly Chevalier contributed the alignment hint
-      macro.]]
+    [Joel Falcou and Charly Chevalier contributed the alignment hint macro.]]
   [[Boost 1.56]
-    [Glen Fernandes implemented and contributed the Align library to
-      Boost.]]]
+    [Glen Fernandes implemented and contributed the Align library to Boost.]]]
 
 [endsect]

@@ -45,12 +45,7 @@ class aligned_allocator_adaptor
 #endif
 
 public:
-#if !defined(BOOST_NO_CXX11_ALLOCATOR)
-    typedef typename traits::value_type value_type;
-#else
     typedef typename Allocator::value_type value_type;
-#endif
-
     typedef value_type* pointer;
     typedef const value_type* const_pointer;
     typedef void* void_pointer;

@@ -13,8 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 void test(std::size_t alignment)
 {
     {
-        void* p = boost::alignment::aligned_alloc(alignment,
-            alignment + 1);
+        void* p = boost::alignment::aligned_alloc(alignment, alignment + 1);
         BOOST_TEST(p != 0);
         BOOST_TEST(boost::alignment::is_aligned(p, alignment));
         std::memset(p, 0, alignment);
