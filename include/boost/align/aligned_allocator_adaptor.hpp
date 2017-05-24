@@ -11,10 +11,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/align/detail/is_alignment_constant.hpp>
 #include <boost/align/detail/max_align.hpp>
 #include <boost/align/detail/max_size.hpp>
-#include <boost/align/detail/to_address.hpp>
 #include <boost/align/align.hpp>
 #include <boost/align/aligned_allocator_adaptor_forward.hpp>
 #include <boost/align/alignment_of.hpp>
+#include <boost/core/pointer_traits.hpp>
 #include <boost/static_assert.hpp>
 #include <new>
 
@@ -106,7 +106,7 @@ public:
         std::size_t n = s + min_align - 1;
         char_alloc a(base());
         char_ptr p = a.allocate(sizeof p + n);
-        void* r = detail::to_address(p) + sizeof p;
+        void* r = boost::pointer_traits<char_ptr>::to_address(p) + sizeof p;
         (void)align(min_align, s, r, n);
         ::new(static_cast<void*>(static_cast<char_ptr*>(r) - 1)) char_ptr(p);
         return static_cast<pointer>(r);
@@ -125,7 +125,7 @@ public:
 #else
         char_ptr p = a.allocate(sizeof p + n, h);
 #endif
-        void* r = detail::to_address(p) + sizeof p;
+        void* r = boost::pointer_traits<char_ptr>::to_address(p) + sizeof p;
         (void)align(min_align, s, r, n);
         ::new(static_cast<void*>(static_cast<char_ptr*>(r) - 1)) char_ptr(p);
         return static_cast<pointer>(r);
