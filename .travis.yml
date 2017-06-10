@@ -1,0 +1,268 @@
+# Copyright 2017 Glen Joseph Fernandes
+# (glenjofe@gmail.com)
+#
+# Distributed under the Boost Software License, Version 1.0.
+# (http://www.boost.org/LICENSE_1_0.txt)
+
+language: cpp
+
+sudo: false
+
+os:
+  - linux
+  - osx
+
+branches:
+  only:
+    - master
+    - develop
+
+env:
+  matrix:
+    - EMPTY=true
+
+matrix:
+
+  exclude:
+    - env: EMPTY=true
+
+  include:
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++ STANDARD=c++03
+
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++-4.7 STANDARD=c++03
+      addons:
+        apt:
+          packages:
+            - g++-4.7
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++-4.7 STANDARD=c++11
+      addons:
+        apt:
+          packages:
+            - g++-4.7
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++-4.8 STANDARD=c++03
+      addons:
+        apt:
+          packages:
+            - g++-4.8
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++-4.8 STANDARD=c++11
+      addons:
+        apt:
+          packages:
+            - g++-4.8
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++-4.9 STANDARD=c++03
+      addons:
+        apt:
+          packages:
+            - g++-4.9
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++-4.9 STANDARD=c++11
+      addons:
+        apt:
+          packages:
+            - g++-4.9
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++-5 STANDARD=c++03
+      addons:
+        apt:
+          packages:
+            - g++-5
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++-5 STANDARD=c++11
+      addons:
+        apt:
+          packages:
+            - g++-5
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++-5 STANDARD=c++14
+      addons:
+        apt:
+          packages:
+            - g++-5
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++-6 STANDARD=c++03
+      addons:
+        apt:
+          packages:
+            - g++-6
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++-6 STANDARD=c++11
+      addons:
+        apt:
+          packages:
+            - g++-6
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++-6 STANDARD=c++14
+      addons:
+        apt:
+          packages:
+            - g++-6
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++-6 STANDARD=c++1z
+      addons:
+        apt:
+          packages:
+            - g++-6
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      env: TOOLSET=clang COMPILER=clang++ STANDARD=c++03
+
+    - os: linux
+      env: TOOLSET=clang COMPILER=clang++ STANDARD=c++11
+
+    - os: linux
+      env: TOOLSET=clang COMPILER=clang++-3.6 STANDARD=c++03
+      addons:
+        apt:
+          packages:
+            - clang-3.6
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.6
+
+    - os: linux
+      env: TOOLSET=clang COMPILER=clang++-3.6 STANDARD=c++11
+      addons:
+        apt:
+          packages:
+            - clang-3.6
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.6
+
+    - os: linux
+      env: TOOLSET=clang COMPILER=clang++-3.7 STANDARD=c++03
+      addons:
+        apt:
+          packages:
+            - clang-3.7
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.7
+
+    - os: linux
+      env: TOOLSET=clang COMPILER=clang++-3.7 STANDARD=c++11
+      addons:
+        apt:
+          packages:
+            - clang-3.7
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.7
+
+    - os: linux
+      env: TOOLSET=clang COMPILER=clang++-3.8 STANDARD=c++03
+      addons:
+        apt:
+          packages:
+            - clang-3.8
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.8
+
+    - os: linux
+      env: TOOLSET=clang COMPILER=clang++-3.8 STANDARD=c++11
+      addons:
+        apt:
+          packages:
+            - clang-3.8
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.8
+
+    - os: linux
+      env: TOOLSET=clang COMPILER=clang++-3.8 STANDARD=c++14
+      addons:
+        apt:
+          packages:
+            - clang-3.8
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.8
+
+    - os: linux
+      env: TOOLSET=clang COMPILER=clang++-3.8 STANDARD=c++1z
+      addons:
+        apt:
+          packages:
+            - clang-3.8
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.8
+
+    - os: osx
+      env: TOOLSET=clang COMPILER=clang++ STANDARD=c++03
+
+    - os: osx
+      env: TOOLSET=clang COMPILER=clang++ STANDARD=c++11
+
+    - os: osx
+      env: TOOLSET=clang COMPILER=clang++ STANDARD=c++14
+
+install:
+  - git clone -b $TRAVIS_BRANCH https://github.com/boostorg/boost build
+  - cd build
+  - git submodule init libs/assert
+  - git submodule init libs/config
+  - git submodule init libs/core
+  - git submodule init libs/static_assert
+  - git submodule init libs/throw_exception
+  - git submodule init tools/build
+  - git submodule update
+  - cp -R ../include libs/align/
+  - cp -R ../test libs/align/
+  - ./bootstrap.sh
+  - ./b2 headers
+
+script:
+  - |-
+    echo "using $TOOLSET : : $COMPILER : <cxxflags>-std=$STANDARD ;" \
+    > ../../user-config.jam
+  - ./b2 libs/align/test toolset=$TOOLSET
+
+notifications:
+  email:
+    on_success: always
