@@ -197,7 +197,7 @@ install:
 script:
   - |-
     echo "using $TOOLSET : : $COMPILER ;" > ../../user-config.jam
-  - ./b2 libs/align/test toolset=$TOOLSET
+  - ./b2 libs/align/test toolset=$TOOLSET cxxstd=$STANDARD
 
 notifications:
   email:
