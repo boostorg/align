@@ -180,8 +180,9 @@ matrix:
       env: TOOLSET=clang COMPILER=clang++ STANDARD=03,11,14,1z
 
 install:
-  - git clone -b $TRAVIS_BRANCH https://github.com/boostorg/boost build
-  - cd build
+  - cd ..
+  - git clone -b $TRAVIS_BRANCH https://github.com/boostorg/boost
+  - cd boost
   - git submodule init libs/assert
   - git submodule init libs/config
   - git submodule init libs/core
@@ -189,14 +190,13 @@ install:
   - git submodule init libs/throw_exception
   - git submodule init tools/build
   - git submodule update
-  - cp -R ../include libs/align/
-  - cp -R ../test libs/align/
+  - cp -R $TRAVIS_BUILD_DIR/* libs/align
   - ./bootstrap.sh
   - ./b2 headers
 
 script:
   - |-
-    echo "using $TOOLSET : : $COMPILER ;" > ../../user-config.jam
+    echo "using $TOOLSET : : $COMPILER ;" > ~/user-config.jam
   - ./b2 libs/align/test toolset=$TOOLSET cxxstd=$STANDARD
 
 notifications:
