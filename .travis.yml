@@ -32,6 +32,26 @@ matrix:
       env: TOOLSET=gcc COMPILER=g++ STANDARD=03,11
 
     - os: linux
+      compiler: g++-4.4
+      env: TOOLSET=gcc COMPILER=g++-4.4 STANDARD=98,0x
+      addons:
+        apt:
+          packages:
+            - g++-4.4
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      compiler: g++-4.6
+      env: TOOLSET=gcc COMPILER=g++-4.6 STANDARD=03,0x
+      addons:
+        apt:
+          packages:
+            - g++-4.6
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
       compiler: g++-4.7
       env: TOOLSET=gcc COMPILER=g++-4.7 STANDARD=03,11
       addons:
@@ -93,6 +113,16 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
+      compiler: g++-8
+      env: TOOLSET=gcc COMPILER=g++-8 STANDARD=03,11,14,17
+      addons:
+        apt:
+          packages:
+            - g++-8
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
       compiler: clang++
       env: TOOLSET=clang COMPILER=clang++ STANDARD=03,11
 
@@ -103,9 +133,9 @@ matrix:
         apt:
           packages:
             - clang-3.5
+            - libstdc++-4.9-dev
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.5
 
     - os: linux
       compiler: clang++-3.6
@@ -114,20 +144,9 @@ matrix:
         apt:
           packages:
             - clang-3.6
+            - libstdc++-4.9-dev
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
-
-    - os: linux
-      compiler: clang++-3.7
-      env: TOOLSET=clang COMPILER=clang++-3.7 STANDARD=03,11,14,1z
-      addons:
-        apt:
-          packages:
-            - clang-3.7
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.7
 
     - os: linux
       compiler: clang++-3.8
@@ -139,7 +158,6 @@ matrix:
             - libstdc++-4.9-dev
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.8
 
     - os: linux
       compiler: clang++-3.9
@@ -151,7 +169,6 @@ matrix:
             - libstdc++-4.9-dev
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.9
 
     - os: linux
       compiler: clang++-4.0
@@ -174,6 +191,25 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-trusty-5.0
+
+    - os: linux
+      compiler: clang++-6.0
+      env: TOOLSET=clang COMPILER=clang++-6.0 STANDARD=03,11,14,17
+      addons:
+        apt:
+          packages:
+            - clang-6.0
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-6.0
+
+    - os: linux
+      compiler: clang++-libc++
+      env: TOOLSET=clang COMPILER=clang++-libc++ STANDARD=03,11,14,1z
+      addons:
+        apt:
+          packages:
+            - libc++-dev
 
     - os: osx
       compiler: clang++
