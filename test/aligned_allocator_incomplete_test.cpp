@@ -8,6 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/align/aligned_allocator.hpp>
 
 struct S;
+struct V { };
 
 void value_test()
 {
@@ -17,6 +18,7 @@ void value_test()
 
 void rebind_test()
 {
-    boost::alignment::aligned_allocator<int>::rebind<S>::other a;
-    (void)a;
+    boost::alignment::aligned_allocator<V> a;
+    boost::alignment::aligned_allocator<V>::rebind<S>::other r(a);
+    (void)r;
 }
