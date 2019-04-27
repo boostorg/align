@@ -12,11 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/align/detail/is_alignment_constant.hpp>
 #include <boost/align/detail/max_objects.hpp>
 #include <boost/align/detail/max_size.hpp>
+#include <boost/align/detail/throw_exception.hpp>
 #include <boost/align/aligned_alloc.hpp>
 #include <boost/align/aligned_allocator_forward.hpp>
 #include <boost/align/alignment_of.hpp>
 #include <boost/static_assert.hpp>
-#include <boost/throw_exception.hpp>
 #include <new>
 
 #if !defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
@@ -40,6 +40,8 @@ public:
     typedef std::ptrdiff_t difference_type;
     typedef T& reference;
     typedef const T& const_reference;
+    typedef detail::true_type propagate_on_container_move_assignment;
+    typedef detail::true_type is_always_equal;
 
     template<class U>
     struct rebind {
@@ -74,7 +76,7 @@ public:
         }
         void* p = boost::alignment::aligned_alloc(m, sizeof(T) * size);
         if (!p) {
-            boost::throw_exception(std::bad_alloc());
+            detail::throw_exception(std::bad_alloc());
         }
         return static_cast<T*>(p);
     }
