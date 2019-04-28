@@ -9,7 +9,9 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_ALIGN_DETAIL_THROW_EXCEPTION_HPP
 
 #include <boost/config.hpp>
+#if defined(BOOST_NO_EXCEPTIONS)
 #include <exception>
+#endif
 
 namespace boost {
 
@@ -21,13 +23,14 @@ namespace alignment {
 namespace detail {
 
 #if !defined(BOOST_NO_EXCEPTIONS)
-inline void
-throw_exception(const std::exception& error)
+template<class E>
+BOOST_NORETURN inline void
+throw_exception(const E& error)
 {
     throw error;
 }
 #else
-inline void
+BOOST_NORETURN inline void
 throw_exception(const std::exception& error)
 {
     boost::throw_exception(error);
