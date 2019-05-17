@@ -195,7 +195,7 @@ std::size_t& space);`
 
 [section align_up]
 
-`constexpr std::size_t align_up(std::size_t value, std::size_t alignment)
+`template<class T> constexpr T align_up(T value, std::size_t alignment)
 noexcept;`
 
 [variablelist
@@ -208,7 +208,7 @@ noexcept;`
 
 [section align_down]
 
-`constexpr std::size_t align_down(std::size_t value, std::size_t alignment)
+`template<class T> constexpr T align_down(T value, std::size_t alignment)
 noexcept;`
 
 [variablelist
@@ -259,9 +259,9 @@ noexcept;`
 
 [section is_aligned]
 
-`bool is_aligned(const void* ptr, std::size_t alignment) noexcept;`
+`bool is_aligned(const volatile void* ptr, std::size_t alignment) noexcept;`
 
-`constexpr bool is_aligned(std::size_t value, std::size_t alignment)
+`template<class T> constexpr bool is_aligned(T value, std::size_t alignment)
 noexcept;`
 
 [variablelist
