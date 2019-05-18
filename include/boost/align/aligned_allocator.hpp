@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_ALIGN_ALIGNED_ALLOCATOR_HPP
 #define BOOST_ALIGN_ALIGNED_ALLOCATOR_HPP
 
-#include <boost/align/detail/addressof.hpp>
+#include <boost/align/detail/add_reference.hpp>
 #include <boost/align/detail/is_alignment_constant.hpp>
 #include <boost/align/detail/max_objects.hpp>
 #include <boost/align/detail/max_size.hpp>
@@ -36,10 +36,11 @@ public:
     typedef const T* const_pointer;
     typedef void* void_pointer;
     typedef const void* const_void_pointer;
+    typedef typename detail::add_lvalue_reference<T>::type reference;
+    typedef typename detail::add_lvalue_reference<const
+        T>::type const_reference;
     typedef std::size_t size_type;
     typedef std::ptrdiff_t difference_type;
-    typedef T& reference;
-    typedef const T& const_reference;
     typedef detail::true_type propagate_on_container_move_assignment;
     typedef detail::true_type is_always_equal;
 
@@ -57,14 +58,6 @@ public:
     template<class U>
     aligned_allocator(const aligned_allocator<U, Alignment>&)
         BOOST_NOEXCEPT { }
-
-    pointer address(reference value) const BOOST_NOEXCEPT {
-        return detail::addressof(value);
-    }
-
-    const_pointer address(const_reference value) const BOOST_NOEXCEPT {
-        return detail::addressof(value);
-    }
 
     pointer allocate(size_type size, const_void_pointer = 0) {
         enum {
@@ -118,21 +111,6 @@ public:
         (void)ptr;
         ptr->~U();
     }
-};
-
-template<std::size_t Alignment>
-class aligned_allocator<void, Alignment> {
-    BOOST_STATIC_ASSERT(detail::is_alignment_constant<Alignment>::value);
-
-public:
-    typedef void value_type;
-    typedef void* pointer;
-    typedef const void* const_pointer;
-
-    template<class U>
-    struct rebind {
-        typedef aligned_allocator<U, Alignment> other;
-    };
 };
 
 template<class T, class U, std::size_t Alignment>
