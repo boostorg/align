@@ -19,7 +19,7 @@ template<class T>
 BOOST_CONSTEXPR inline typename detail::not_pointer<T, bool>::type
 is_aligned(T value, std::size_t alignment) BOOST_NOEXCEPT
 {
-    return (value & (alignment - 1)) == 0;
+    return (value & (T(alignment) - 1)) == 0;
 }
 
 } /* alignment */

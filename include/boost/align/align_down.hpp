@@ -18,7 +18,7 @@ template<class T>
 BOOST_CONSTEXPR inline typename detail::not_pointer<T, T>::type
 align_down(T value, std::size_t alignment) BOOST_NOEXCEPT
 {
-    return value & -alignment;
+    return T(value & ~T(alignment - 1));
 }
 
 } /* alignment */
