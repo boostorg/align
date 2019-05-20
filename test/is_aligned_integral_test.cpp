@@ -28,7 +28,7 @@ template<class T>
 void test(A<1>)
 {
     T v = 1;
-    BOOST_TEST(boost::alignment::is_aligned(v, 1) == v);
+    BOOST_TEST(boost::alignment::is_aligned(v, 1));
 }
 
 template<class T>
