@@ -99,6 +99,11 @@ public:
     void construct(U* ptr, const V& value) {
         ::new((void*)ptr) U(value);
     }
+
+    template<class U, class V>
+    void construct(U* ptr, V& value) {
+        ::new((void*)ptr) U(value);
+    }
 #endif
 
     template<class U>
