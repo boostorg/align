@@ -31,6 +31,10 @@ environment:
       TOOLSET: msvc-14.1
       TARGET: 32,64
       STANDARD: 14,17
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      TOOLSET: msvc-14.2
+      TARGET: 32,64
+      STANDARD: 14,17
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       TOOLSET: clang-win
       TARGET: 32,64
