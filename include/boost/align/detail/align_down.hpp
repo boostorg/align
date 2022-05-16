@@ -8,6 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_ALIGN_DETAIL_ALIGN_DOWN_HPP
 #define BOOST_ALIGN_DETAIL_ALIGN_DOWN_HPP
 
+#include <cstddef>
 #include <boost/align/detail/is_alignment.hpp>
 #include <boost/assert.hpp>
 
