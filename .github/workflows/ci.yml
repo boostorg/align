@@ -69,30 +69,30 @@ jobs:
           #   os: ubuntu-18.04
           #   install: clang-7
           - toolset: clang
-            compiler: clang++-8
+            compiler: clang++-15
             standard: "03,11,14,17"
-            os: ubuntu-20.04
-            install: clang-8
+            os: ubuntu-24.04
+            install: clang-15
           - toolset: clang
-            compiler: clang++-9
+            compiler: clang++-16
             standard: "03,11,14,17,2a"
-            os: ubuntu-20.04
-            install: clang-9
+            os: ubuntu-24.04
+            install: clang-16
           - toolset: clang
-            compiler: clang++-10
+            compiler: clang++-17
             standard: "03,11,14,17,2a"
-            os: ubuntu-20.04
-            install: clang-10
+            os: ubuntu-24.04
+            install: clang-17
           - toolset: clang
-            compiler: clang++-11
+            compiler: clang++-18
             cxxstd: "03,11,14,17,2a"
-            os: ubuntu-20.04
-            install: clang-11
+            os: ubuntu-24.04
+            install: clang-18
           - toolset: clang
-            compiler: clang++-12
+            compiler: clang++-19
             cxxstd: "03,11,14,17,2a"
-            os: ubuntu-20.04
-            install: clang-12
+            os: ubuntu-24.04
+            install: clang-19
           - toolset: clang
             standard: "03,11,14,17,2a"
             os: macos-latest
