@@ -41,7 +41,7 @@ jobs:
             install: g++-10
           - toolset: gcc-11
             standard: "03,11,14,17,2a"
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             install: g++-11
           - toolset: clang
             compiler: clang++-3.9
