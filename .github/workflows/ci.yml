@@ -43,31 +43,31 @@ jobs:
             standard: "03,11,14,17,2a"
             os: ubuntu-24.04
             install: g++-11
-          - toolset: clang
-            compiler: clang++-3.9
-            standard: "03,11,14"
-            os: ubuntu-18.04
-            install: clang-3.9
-          - toolset: clang
-            compiler: clang++-4.0
-            standard: "03,11,14"
-            os: ubuntu-18.04
-            install: clang-4.0
-          - toolset: clang
-            compiler: clang++-5.0
-            standard: "03,11,14,1z"
-            os: ubuntu-18.04
-            install: clang-5.0
-          - toolset: clang
-            compiler: clang++-6.0
-            standard: "03,11,14,17"
-            os: ubuntu-18.04
-            install: clang-6.0
-          - toolset: clang
-            compiler: clang++-7
-            standard: "03,11,14,17"
-            os: ubuntu-18.04
-            install: clang-7
+          # - toolset: clang
+          #   compiler: clang++-3.9
+          #   standard: "03,11,14"
+          #   os: ubuntu-18.04
+          #   install: clang-3.9
+          # - toolset: clang
+          #   compiler: clang++-4.0
+          #   standard: "03,11,14"
+          #   os: ubuntu-18.04
+          #   install: clang-4.0
+          # - toolset: clang
+          #   compiler: clang++-5.0
+          #   standard: "03,11,14,1z"
+          #   os: ubuntu-18.04
+          #   install: clang-5.0
+          # - toolset: clang
+          #   compiler: clang++-6.0
+          #   standard: "03,11,14,17"
+          #   os: ubuntu-18.04
+          #   install: clang-6.0
+          # - toolset: clang
+          #   compiler: clang++-7
+          #   standard: "03,11,14,17"
+          #   os: ubuntu-18.04
+          #   install: clang-7
           - toolset: clang
             compiler: clang++-8
             standard: "03,11,14,17"
