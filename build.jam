@@ -12,12 +12,11 @@ constant boost_dependencies :
     /boost/static_assert//boost_static_assert ;
 
 project /boost/align
-    : common-requirements
-        <include>include
     ;
 
 explicit
-    [ alias boost_align : : : : <library>$(boost_dependencies) ]
+    [ alias boost_align : : :
+        : <include>include <library>$(boost_dependencies) ]
     [ alias all : boost_align test ]
     ;
 
