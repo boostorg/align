@@ -13,152 +13,107 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - toolset: gcc
-            compiler: g++-4.8
-            standard: "11"
-            os: ubuntu-latest
+          - toolset: gcc-4.8
+            cxxstd: "03,11"
             container: ubuntu:18.04
+            os: ubuntu-latest
             install: g++-4.8
-          - toolset: gcc
-            compiler: g++-5
-            standard: "11,14,1z"
-            os: ubuntu-latest
+          - toolset: gcc-5
+            cxxstd: "03,11,14,1z"
             container: ubuntu:18.04
+            os: ubuntu-latest
             install: g++-5
-          - toolset: gcc
-            compiler: g++-6
-            standard: "11,14,1z"
-            os: ubuntu-latest
+          - toolset: gcc-6
+            cxxstd: "03,11,14,1z"
             container: ubuntu:18.04
+            os: ubuntu-latest
             install: g++-6
-          - toolset: gcc
-            compiler: g++-7
-            standard: "11,14,17"
-            os: ubuntu-latest
+          - toolset: gcc-7
+            cxxstd: "03,11,14,17"
             container: ubuntu:20.04
+            os: ubuntu-latest
             install: g++-7
-          - toolset: gcc
-            compiler: g++-8
-            standard: "11,14,17,2a"
-            os: ubuntu-latest
+          - toolset: gcc-8
+            cxxstd: "03,11,14,17,2a"
             container: ubuntu:20.04
+            os: ubuntu-latest
             install: g++-8
-          - toolset: gcc
-            compiler: g++-9
-            standard: "11,14,17,2a"
-            os: ubuntu-latest
+          - toolset: gcc-9
+            cxxstd: "03,11,14,17,2a"
             container: ubuntu:20.04
-          - toolset: gcc
-            compiler: g++-10
-            standard: "11,14,17,2a"
             os: ubuntu-latest
+          - toolset: gcc-10
+            cxxstd: "03,11,14,17,2a"
             container: ubuntu:20.04
+            os: ubuntu-latest
             install: g++-10
-          - toolset: gcc
-            compiler: g++-11
-            standard: "11,14,17,2a"
-            os: ubuntu-latest
+          - toolset: gcc-11
+            cxxstd: "03,11,14,17,2a"
             container: ubuntu:24.04
+            os: ubuntu-latest
             install: g++-11
-          - toolset: gcc
-            compiler: g++-12
-            standard: "11,14,17,20,2b"
-            os: ubuntu-22.04
-            install: g++-12
-          - toolset: gcc
-            compiler: g++-13
-            standard: "11,14,17,20,2b"
-            os: ubuntu-latest
-            container: ubuntu:24.04
-            install: g++-13
           - toolset: clang
             compiler: clang++-3.9
-            standard: "11,14"
-            os: ubuntu-latest
+            cxxstd: "03,11,14"
             container: ubuntu:18.04
+            os: ubuntu-latest
             install: clang-3.9
           - toolset: clang
             compiler: clang++-4.0
-            standard: "11,14"
-            os: ubuntu-latest
+            cxxstd: "03,11,14"
             container: ubuntu:18.04
+            os: ubuntu-latest
             install: clang-4.0
           - toolset: clang
             compiler: clang++-5.0
-            standard: "11,14,1z"
-            os: ubuntu-latest
+            cxxstd: "03,11,14,1z"
             container: ubuntu:18.04
+            os: ubuntu-latest
             install: clang-5.0
           - toolset: clang
             compiler: clang++-6.0
-            standard: "11,14,17"
-            os: ubuntu-latest
+            cxxstd: "03,11,14,17"
             container: ubuntu:20.04
+            os: ubuntu-latest
             install: clang-6.0
           - toolset: clang
             compiler: clang++-7
-            standard: "11,14,17"
-            os: ubuntu-latest
+            cxxstd: "03,11,14,17"
             container: ubuntu:20.04
+            os: ubuntu-latest
             install: clang-7
           - toolset: clang
             compiler: clang++-8
-            standard: "11,14,17"
-            os: ubuntu-latest
+            cxxstd: "03,11,14,17"
             container: ubuntu:20.04
+            os: ubuntu-latest
             install: clang-8
           - toolset: clang
             compiler: clang++-9
-            standard: "11,14,17"
-            os: ubuntu-latest
+            cxxstd: "03,11,14,17"
             container: ubuntu:20.04
+            os: ubuntu-latest
             install: clang-9
           - toolset: clang
             compiler: clang++-10
-            standard: "11,14,17,2a"
-            os: ubuntu-latest
+            cxxstd: "03,11,14,17,2a"
             container: ubuntu:20.04
+            os: ubuntu-latest
             install: clang-10
           - toolset: clang
             compiler: clang++-11
-            standard: "11,14,17,2a"
-            os: ubuntu-latest
+            cxxstd: "03,11,14,17,2a"
             container: ubuntu:20.04
+            os: ubuntu-latest
             install: clang-11
           - toolset: clang
             compiler: clang++-12
-            standard: "11,14,17,2a"
-            os: ubuntu-latest
+            cxxstd: "03,11,14,17,2a"
             container: ubuntu:20.04
+            os: ubuntu-latest
             install: clang-12
           - toolset: clang
-            compiler: clang++-13
-            standard: "11,14,17,20,2b"
-            os: ubuntu-22.04
-            install: clang-13
-          - toolset: clang
-            compiler: clang++-14
-            standard: "11,14,17,20,2b"
-            os: ubuntu-22.04
-            install: clang-14
-          - toolset: clang
-            compiler: clang++-15
-            standard: "11,14,17,20,2b"
-            os: ubuntu-22.04
-            install: clang-15
-          - toolset: clang
-            compiler: clang++-16
-            standard: "11,14,17,20,2b"
-            os: ubuntu-24.04
-            install: clang-16
-          - toolset: clang
-            standard: "11,14,17,20,2b"
-            os: macos-13
-          - toolset: clang
-            standard: "11,14,17,20,2b"
-            os: macos-14
-          - toolset: clang
-            standard: "11,14,17,20,2b"
+            cxxstd: "03,11,14,17,20,2b"
             os: macos-15
 
     runs-on: ${{matrix.os}}
@@ -214,27 +169,23 @@ jobs:
       - name: Run tests
         run: |
           cd ../boost
-          ./b2 -j3 libs/align/test toolset=${{matrix.toolset}} cxxstd=${{matrix.standard}} variant=debug,release
+          ./b2 -j3 libs/align/test toolset=${{matrix.toolset}} cxxstd=${{matrix.cxxstd}} variant=debug,release
 
   windows:
     strategy:
       fail-fast: false
       matrix:
         include:
-          # - toolset: msvc-14.1
-          #   standard: "14,17,latest"
-          #   target: 32,64
-          #   os: windows-2016
           - toolset: msvc-14.2
-            standard: "14,17,latest"
+            cxxstd: "14,17,latest"
             target: 32,64
             os: windows-2019
           - toolset: msvc-14.3
-            standard: "14,17,latest"
+            cxxstd: "14,17,latest"
             addrmd: 32,64
             os: windows-2022
           - toolset: gcc
-            standard: "03,11,14,17,2a"
+            cxxstd: "03,11,14,17,2a"
             target: 64
             os: windows-2019
 
@@ -266,4 +217,4 @@ jobs:
         shell: cmd
         run: |
           cd ../boost
-          b2 -j3 libs/align/test toolset=${{matrix.toolset}} cxxstd=${{matrix.standard}} address-model=${{matrix.target}} variant=debug,release
+          b2 -j3 libs/align/test toolset=${{matrix.toolset}} cxxstd=${{matrix.cxxstd}} address-model=${{matrix.target}} variant=debug,release
