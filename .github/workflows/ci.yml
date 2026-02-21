@@ -6,6 +6,10 @@ on:
     branches:
       - master
       - develop
+      - feature/**
+
+env:
+  UBSAN_OPTIONS: print_stacktrace=1
 
 jobs:
   posix:
@@ -48,10 +52,25 @@ jobs:
             os: ubuntu-latest
             install: g++-10
           - toolset: gcc-11
-            cxxstd: "03,11,14,17,2a"
-            container: ubuntu:24.04
+            cxxstd: "03,11,14,17,20,2b"
+            container: ubuntu:22.04
             os: ubuntu-latest
             install: g++-11
+          - toolset: gcc-12
+            cxxstd: "03,11,14,17,20,2b"
+            container: ubuntu:22.04
+            os: ubuntu-latest
+            install: g++-12
+          - toolset: gcc-13
+            cxxstd: "03,11,14,17,20,2b"
+            container: ubuntu:24.04
+            os: ubuntu-latest
+            install: g++-13
+          - toolset: gcc-14
+            cxxstd: "03,11,14,17,20,2b"
+            container: ubuntu:24.04
+            os: ubuntu-latest
+            install: g++-14
           - toolset: clang
             compiler: clang++-3.9
             cxxstd: "03,11,14"
@@ -113,8 +132,62 @@ jobs:
             os: ubuntu-latest
             install: clang-12
           - toolset: clang
+            compiler: clang++-13
+            cxxstd: "03,11,14,17,20"
+            container: ubuntu:22.04
+            os: ubuntu-latest
+            install: clang-13
+          - toolset: clang
+            compiler: clang++-14
+            cxxstd: "03,11,14,17,20,2b"
+            container: ubuntu:22.04
+            os: ubuntu-latest
+            install: clang-14
+          - toolset: clang
+            compiler: clang++-15
+            cxxstd: "03,11,14,17,20,2b"
+            container: ubuntu:22.04
+            os: ubuntu-latest
+            install: clang-15
+          - toolset: clang
+            compiler: clang++-16
+            cxxstd: "03,11,14,17,20,2b"
+            container: ubuntu:24.04
+            os: ubuntu-latest
+            install: clang-16
+          - toolset: clang
+            compiler: clang++-17
+            cxxstd: "03,11,14,17,20,2b"
+            container: ubuntu:24.04
+            os: ubuntu-latest
+            install: clang-17
+          - toolset: clang
+            compiler: clang++-18
+            cxxstd: "03,11,14,17,20,2b"
+            container: ubuntu:24.04
+            os: ubuntu-latest
+            install: clang-18
+          - toolset: clang
+            compiler: clang++-19
+            cxxstd: "03,11,14,17,20,2b"
+            container: ubuntu:24.04
+            os: ubuntu-latest
+            install: clang-19
+          - toolset: clang
+            compiler: clang++-20
+            cxxstd: "03,11,14,17,20,23,2c"
+            container: ubuntu:24.04
+            os: ubuntu-latest
+            install: clang-20
+          - toolset: clang
+            cxxstd: "03,11,14,17,20,2b"
+            os: macos-14
+          - toolset: clang
             cxxstd: "03,11,14,17,20,2b"
             os: macos-15
+          - toolset: clang
+            cxxstd: "03,11,14,17,20,23,2c"
+            os: macos-26
 
     runs-on: ${{matrix.os}}
     container:
@@ -141,7 +214,7 @@ jobs:
         if: matrix.install
         run: sudo apt-get -y install ${{matrix.install}}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Setup Boost
         run: |
@@ -175,23 +248,23 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - toolset: msvc-14.2
-            cxxstd: "14,17,latest"
-            target: 32,64
-            os: windows-2019
           - toolset: msvc-14.3
-            cxxstd: "14,17,latest"
+            cxxstd: "14,17,20,latest"
+            addrmd: 32,64
+            os: windows-2022
+          - toolset: clang-win
+            cxxstd: "14,17,20,latest"
             addrmd: 32,64
             os: windows-2022
           - toolset: gcc
             cxxstd: "03,11,14,17,2a"
-            target: 64
-            os: windows-2019
+            addrmd: 64
+            os: windows-2022
 
     runs-on: ${{matrix.os}}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Setup Boost
         shell: cmd
@@ -215,4 +288,4 @@ jobs:
         shell: cmd
         run: |
           cd ../boost
-          b2 -j3 libs/align/test toolset=${{matrix.toolset}} cxxstd=${{matrix.cxxstd}} address-model=${{matrix.target}} variant=debug,release
+          b2 -j3 libs/align/test toolset=${{matrix.toolset}} cxxstd=${{matrix.cxxstd}} address-model=${{matrix.addrmd}} variant=debug,release
